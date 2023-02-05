@@ -34,17 +34,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
+    {
         final LocalDate date = days.get(position);
-        if (date==null)
+        if(date == null)
             holder.dayOfMonth.setText("");
-        else {
+        else
+        {
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
             if(date.equals(CalendarUtils.selectedDate))
                 holder.parentView.setBackgroundColor(Color.LTGRAY);
         }
-        holder.dayOfMonth.setText(date.getDayOfMonth());
     }
+
 
     @Override
     public int getItemCount() {
