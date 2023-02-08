@@ -1,5 +1,9 @@
 package com.example.tfg;
 
+import android.media.Image;
+import android.provider.MediaStore;
+import android.widget.ImageView;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -18,7 +22,10 @@ public class Event {
     private LocalDate date;
     private LocalTime time;
 
-    public Event(String name, LocalDate date, LocalTime time) {
+    private ImageView image;
+
+    public Event(String name, LocalDate date, LocalTime time, ImageView image) {
+        this.image=image;
         this.name = name;
         this.date = date;
         this.time = time;
