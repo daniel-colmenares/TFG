@@ -54,4 +54,12 @@ public class Event {
     public void setTime(LocalTime time) {
         this.time = time;
     }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
+    }
 }

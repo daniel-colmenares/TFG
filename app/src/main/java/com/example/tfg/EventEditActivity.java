@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,7 +54,7 @@ public class EventEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean pick=true;
-                if(pick){
+                if(pick==true){
                     if(!checkCameraPermission()){
                         requestCameraPermission();
                     }else PickImage();
@@ -121,9 +122,9 @@ public class EventEditActivity extends AppCompatActivity {
         return res1 && res2;
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
