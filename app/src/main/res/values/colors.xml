@@ -5,4 +5,9 @@
     <color name="red">#FF0000</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#008000</color>
+    <color name="purple">#800080</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="pink"> #FF7987</color>
+    <color name="turquesa">#5dc1b9</color>
 </resources>
