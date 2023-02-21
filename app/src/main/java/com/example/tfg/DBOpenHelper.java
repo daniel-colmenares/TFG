@@ -29,9 +29,10 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void SaveEvent(String event, String date, String month, String year, SQLiteDatabase database){
+    public void SaveEvent(String event, String imagen, String date, String month, String year, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.EVENT,event);
+        //contentValues.put(DBStructure.IMAGEN,imagen);
         contentValues.put(DBStructure.DATE,date);
         contentValues.put(DBStructure.MONTH,month);
         contentValues.put(DBStructure.YEAR,year);

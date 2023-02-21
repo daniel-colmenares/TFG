@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ public class CustomCalendarView extends LinearLayout {
     SimpleDateFormat eventDateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.forLanguageTag("es-ES"));
     MyGridAdapter myGridAdapter;
     AlertDialog alertDialog;
+    ImageView image;
     public CustomCalendarView(Context context) {
         super(context);
     }
@@ -72,7 +75,8 @@ public class CustomCalendarView extends LinearLayout {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
-                EditText EventName = addView.findViewById(R.id.eventname); //eventsid
+                EditText EventName = addView.findViewById(R.id.eventname);//eventsid
+                image = addView.findViewById(R.id.image);
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 final String date = eventDateFormat.format(dates.get(position));
                 final String month = monthFormat.format(dates.get(position));
@@ -80,7 +84,7 @@ public class CustomCalendarView extends LinearLayout {
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(EventName.getText().toString(),date,month,year);
+                        SaveEvent(EventName.getText().toString(), String.valueOf(image),date,month,year);
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -115,6 +119,7 @@ public class CustomCalendarView extends LinearLayout {
             }
         });
 
+
     }
     private ArrayList<Events> CollectEventByDate(String date){
         ArrayList<Events> arrayList = new ArrayList<>();
@@ -126,6 +131,7 @@ public class CustomCalendarView extends LinearLayout {
              String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
              String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
              String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
+             //String Image = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
             Events events = new Events(event,Date,Month, Year);
             arrayList.add(events);
 
@@ -136,10 +142,10 @@ public class CustomCalendarView extends LinearLayout {
         return arrayList;
     }
 
-    private void SaveEvent(String event, String date, String month, String year){
+    private void SaveEvent(String event, String imagen, String date, String month, String year){
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-        dbOpenHelper.SaveEvent(event, date, month, year, database);
+        dbOpenHelper.SaveEvent(event, imagen, date, month, year, database);
         dbOpenHelper.close();
         Toast.makeText(context, "Evento Guardado", Toast.LENGTH_SHORT).show();
     }
@@ -186,6 +192,7 @@ public class CustomCalendarView extends LinearLayout {
             String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
             String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
             String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
+            //String Image = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
             Events events = new Events(event, date, Month, Year);
             eventsList.add(events);
 
