@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -71,6 +72,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         Events events = arrayList.get(position);
         holder.Event.setText(events.getEVENT());
         holder.DateText.setText(events.getDATE());
+        Glide.with(context).load(events.getIMAGEN()).into(holder.Imagen);
 
     }
 
@@ -87,67 +89,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             super(itemView);
             DateText = itemView.findViewById(R.id.evendate);
             Event = itemView.findViewById(R.id.eventname);
-            /*Imagen = itemView.findViewById(R.id.image);
-            Imagen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    boolean pick=true;
-                    if(pick){
-                        if(!checkCameraPermission()){
-                            requestCameraPermission();
-                        }else PickImage();
-                    }else {
-                        if(!checkStoragePermission()){
-                            requestStoragePermission();
-                        }else PickImage();
-                    }
-                }
-            });
-             */
-        }
-        /*
-        private void PickImage() {
-            CropImage.activity().start(this);
-        }
-
-        private void requestStoragePermission() {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
+            Imagen = itemView.findViewById(R.id.imagenEvento);
 
         }
-
-        private void requestCameraPermission() {
-            requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
-        }
-
-        private boolean checkStoragePermission() {
-            boolean res2=ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED;
-            return res2;
-        }
-
-        private boolean checkCameraPermission() {
-            boolean res1= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED;
-            boolean res2=ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED;
-            return res1 && res2;
-        }
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
-                    try{
-                        InputStream stream=getContentResolver().openInputStream(resultUri);
-                        Bitmap bitmap= BitmapFactory.decodeStream(stream);
-                        Imagen.setImageBitmap(bitmap);
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Exception error = result.getError();
-                }
-            }
-        }
-        */
 
     }
 }

@@ -1,6 +1,7 @@
 package com.example.tfg;
 
 import android.media.Image;
+import android.net.Uri;
 
 public class DBStructure {
     public static final String DB_NAME="EVENTS_DB";
@@ -11,5 +12,5 @@ public class DBStructure {
     public static final String MONTH="month";
     public static final String YEAR="year";
 
-    //public static final String IMAGEN = "imagen";
+    public static final String IMAGEN = "imagen";
 }

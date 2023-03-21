@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +53,8 @@ public class CustomCalendarView extends LinearLayout {
     MyGridAdapter myGridAdapter;
     AlertDialog alertDialog;
     ImageView image;
+
+    Uri uriImagen;
     public CustomCalendarView(Context context) {
         super(context);
     }
@@ -55,6 +63,17 @@ public class CustomCalendarView extends LinearLayout {
         super(context, attrs);
         this.context = context;
         InitializeLayout();
+
+        MainActivity activity = (MainActivity)context;
+        ActivityResultLauncher<PickVisualMediaRequest> pickMedia = activity.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+            if (uri!=null) {
+                Glide.with(context).load(uri).into(image);
+                uriImagen = uri;
+            }else {
+                Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         prevBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,10 +100,16 @@ public class CustomCalendarView extends LinearLayout {
                 final String date = eventDateFormat.format(dates.get(position));
                 final String month = monthFormat.format(dates.get(position));
                 final String year= yearFormat.format(dates.get(position));
+                image.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
+                    }
+                });
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(EventName.getText().toString(), String.valueOf(image),date,month,year);
+                        SaveEvent(EventName.getText().toString(),uriImagen,date,month,year);
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -131,8 +156,8 @@ public class CustomCalendarView extends LinearLayout {
              String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
              String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
              String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
-             //String Image = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
-            Events events = new Events(event,Date,Month, Year);
+             Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
+            Events events = new Events(event,Date,Month, Year, Image);
             arrayList.add(events);
 
         }
@@ -142,10 +167,10 @@ public class CustomCalendarView extends LinearLayout {
         return arrayList;
     }
 
-    private void SaveEvent(String event, String imagen, String date, String month, String year){
+    private void SaveEvent(String event, Uri uri, String date, String month, String year){
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-        dbOpenHelper.SaveEvent(event, imagen, date, month, year, database);
+        dbOpenHelper.SaveEvent(event, uri, date, month, year, database);
         dbOpenHelper.close();
         Toast.makeText(context, "Evento Guardado", Toast.LENGTH_SHORT).show();
     }

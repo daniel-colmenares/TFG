@@ -1,27 +1,29 @@
 package com.example.tfg;
 
 import android.media.Image;
+import android.net.Uri;
 
 public class Events {
     String EVENT,DATE,MONTHS,YEAR;
+    Uri IMAGEN;
     //String IMAGEN;
 
-    public Events(String EVENT, String DATE, String MONTHS, String YEAR) {
+    public Events(String EVENT, String DATE, String MONTHS, String YEAR, Uri IMAGEN) {
         this.EVENT = EVENT;
         this.DATE = DATE;
         this.MONTHS = MONTHS;
         this.YEAR = YEAR;
-        //this.IMAGEN = IMAGEN;
+        this.IMAGEN = IMAGEN;
     }
 
-   /* public String getIMAGEN() {
+    public Uri getIMAGEN() {
         return IMAGEN;
     }
 
-    public void setIMAGEN(String IMAGEN) {
+    public void setIMAGEN(Uri IMAGEN) {
         this.IMAGEN = IMAGEN;
     }
-*/
+
     public String getEVENT() {
         return EVENT;
     }
