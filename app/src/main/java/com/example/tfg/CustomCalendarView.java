@@ -217,8 +217,8 @@ public class CustomCalendarView extends LinearLayout {
             String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
             String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
             String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
-            //String Image = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
-            Events events = new Events(event, date, Month, Year);
+            Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
+            Events events = new Events(event, date, Month, Year, Image);
             eventsList.add(events);
 
         }
