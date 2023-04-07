@@ -17,6 +17,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private final static String CREATE_CALENDAR_TABLE= "create table " +DBStructure.CALENDAR_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             +DBStructure.NAME+ " TEXT, " + DBStructure.EMAIL+" TEXT)";
 
+    private final static String USER_CALENDARS =  "SELECT * FROM " + DBStructure.CALENDAR_TABLE_NAME + "WHERE " + DBStructure.EMAIL + " = ?";
+
     private static final String DROP_EVENTS_TABLE="DROP TABLE IF EXISTS "+DBStructure.EVENT_TABLE_NAME;
 
     private static final String DROP_CALENDAR_TABLE="DROP TABLE IF EXISTS "+DBStructure.CALENDAR_TABLE_NAME;
@@ -76,6 +78,23 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 
     }
+
+    public Cursor getCalendarsByUser(String email, SQLiteDatabase database) {
+        String[] Projections = {
+                DBStructure.NAME,
+                DBStructure.EMAIL
+        };
+        String Selection = DBStructure.EMAIL + " = ?";
+        String[] SelectionArgs = { email };
+
+        return database.query(DBStructure.CALENDAR_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
+
+    }
+
+
+
+
+
 
 
 }
