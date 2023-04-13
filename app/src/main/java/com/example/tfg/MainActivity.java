@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,11 +16,14 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     CustomCalendarView customCalendarView;
+    DBOpenHelper dbOpenHelper;
+    Calendars calendars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         customCalendarView = (CustomCalendarView)findViewById(R.id.custom_calendar_view);
         getIntent().getExtras().getString("email");
+        getIntent().getExtras().getInt("ID");
         //glide
     }
 

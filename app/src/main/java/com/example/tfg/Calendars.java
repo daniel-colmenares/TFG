@@ -26,4 +26,12 @@ public class Calendars {
     public void setNAME(String NAME) {
         this.NAME = NAME;
     }
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
 }

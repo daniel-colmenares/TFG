@@ -54,6 +54,8 @@ public class CustomCalendarView extends LinearLayout {
     AlertDialog alertDialog;
     ImageView image;
 
+    Calendars calendars;
+
     Uri uriImagen;
     public CustomCalendarView(Context context) {
         super(context);
@@ -73,6 +75,10 @@ public class CustomCalendarView extends LinearLayout {
                 Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //DUDAAAAAAAAAAAA
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        activity.dbOpenHelper.getCalendarsByID(calendars.getID(),database);
 
         prevBtn.setOnClickListener(new OnClickListener() {
             @Override

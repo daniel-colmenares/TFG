@@ -79,6 +79,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         database.insert(DBStructure.CALENDAR_TABLE_NAME,null,contentValues);
 
     }
+
+    public void deleteCalendar(int id, SQLiteDatabase database) {
+        String selection =  "ID = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+        database.delete(DBStructure.CALENDAR_TABLE_NAME, selection, selectionArgs);
+    }
     public Cursor getCalendarsByUser(String email, SQLiteDatabase database) {
         String[] Projections = {
                 DBStructure.NAME,
@@ -89,6 +95,16 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         String[] SelectionArgs = { email };
 
         return database.query(DBStructure.CALENDAR_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
+
+    }
+    public Cursor getCalendarsByID(int id, SQLiteDatabase database) {
+        String[] Projections = {
+                "ID"
+        };
+        String Selection = "ID = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+
+        return database.query(DBStructure.CALENDAR_TABLE_NAME,Projections,Selection,selectionArgs,null,null,null);
 
     }
 

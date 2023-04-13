@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -54,6 +57,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
 
     Context context;
     ArrayList<Calendars> arrayList;
+    DBOpenHelper dbOpenHelper;
 
     public CalendarRecyclerAdapter(Context context, ArrayList<Calendars> arrayList) {
         this.context = context;
@@ -71,6 +75,46 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Calendars calendars = arrayList.get(position);
         holder.Calendar.setText(calendars.getNAME());
+        holder.verCalendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("email",calendars.getEMAIL());
+                intent.putExtra("ID",calendars.getID());
+                context.startActivity(intent);
+
+            }
+        });
+        holder.eliminarCalendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Borrar calendario " + calendars.getNAME());
+                builder.setMessage("Seguro?");
+
+// Botón "OK"
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dbOpenHelper = new DBOpenHelper(context);
+                        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+                        Integer Id = calendars.getID();
+                        dbOpenHelper.deleteCalendar(Id,database);
+// Acciones a realizar al hacer clic en el botón "OK"
+                    }
+                });
+// Botón "Cancelar"
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+// Acciones a realizar al hacer clic en el botón "Cancelar"
+                    }
+                });
+
+// Crear y mostrar el AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
     }
 
@@ -81,11 +125,13 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView Calendar;
-
+        Button verCalendario;
+        Button eliminarCalendario;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             Calendar = itemView.findViewById(R.id.calendarname);
-
+            verCalendario = itemView.findViewById(R.id.vercalendario);
+            eliminarCalendario = itemView.findViewById(R.id.eliminarcalendario);
         }
 
     }
