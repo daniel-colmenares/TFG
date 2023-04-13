@@ -3,10 +3,12 @@ package com.example.tfg;
 public class Calendars {
     String NAME;
     String EMAIL;
+    Integer ID;
 
-    public Calendars(String NAME, String EMAIL) {
+    public Calendars(String NAME, String EMAIL, Integer ID) {
         this.NAME = NAME;
         this.EMAIL = EMAIL;
+        this.ID= ID;
     }
 
     public String getEMAIL() {

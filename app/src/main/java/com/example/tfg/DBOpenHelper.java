@@ -82,7 +82,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public Cursor getCalendarsByUser(String email, SQLiteDatabase database) {
         String[] Projections = {
                 DBStructure.NAME,
-                DBStructure.EMAIL
+                DBStructure.EMAIL,
+                "ID"
         };
         String Selection = DBStructure.EMAIL + " = ?";
         String[] SelectionArgs = { email };
