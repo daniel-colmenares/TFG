@@ -41,13 +41,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void SaveCalendar(String name, String email, SQLiteDatabase database){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBStructure.NAME,name);
-        contentValues.put(DBStructure.EMAIL,email);
-        database.insert(DBStructure.CALENDAR_TABLE_NAME,null,contentValues);
-
-    }
     public void SaveEvent(String event, Uri uri, String date, String month, String year, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.EVENT,event);
@@ -79,6 +72,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public void SaveCalendar(String name, String email,  SQLiteDatabase database){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBStructure.NAME,name);
+        contentValues.put(DBStructure.EMAIL,email);
+        database.insert(DBStructure.CALENDAR_TABLE_NAME,null,contentValues);
+
+    }
     public Cursor getCalendarsByUser(String email, SQLiteDatabase database) {
         String[] Projections = {
                 DBStructure.NAME,

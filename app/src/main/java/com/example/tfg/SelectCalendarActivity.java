@@ -1,14 +1,20 @@
 package com.example.tfg;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +23,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     RecyclerView show_calendarlist;
     DBOpenHelper dbOpenHelper;
+    Button crearcalendario;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,6 +49,43 @@ public class SelectCalendarActivity extends AppCompatActivity {
         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this,arrayList);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+
+        crearcalendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Crea un AlertDialog.Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Introduce el nombre del calendario");
+
+// Crea un EditText y lo agrega al AlertDialog
+                final EditText input = new EditText(view.getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+// Agrega los botones "OK" y "Cancelar"
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nombreCalendario = input.getText().toString();
+                        String email = getIntent().getStringExtra("email");
+                        // Haz algo con el nombre introducido por el usuario
+                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+                        dbOpenHelper.SaveCalendar(nombreCalendario, email, database);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+// Crea y muestra el AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
 

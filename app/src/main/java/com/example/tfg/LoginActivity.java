@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void realizarLogin(FirebaseUser currentUser) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SelectCalendarActivity.class);
         intent.putExtra("email",currentUser.getEmail());
         startActivity(intent);
         finish();
