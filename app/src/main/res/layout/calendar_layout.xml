@@ -139,5 +139,11 @@
         android:text="ELEGIR CALENDARIO"
         android:layout_gravity="center"/>
 
+    <Button
+        android:id="@+id/color_calendario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CAMBIAR DE COLOR" />
+
 
 </LinearLayout>

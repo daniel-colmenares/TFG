@@ -59,6 +59,8 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     ArrayList<Calendars> arrayList;
     DBOpenHelper dbOpenHelper;
 
+
+
     public CalendarRecyclerAdapter(Context context, ArrayList<Calendars> arrayList) {
         this.context = context;
         this.arrayList = arrayList;

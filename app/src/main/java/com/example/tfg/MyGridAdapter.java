@@ -1,7 +1,9 @@
 package com.example.tfg;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ public class MyGridAdapter extends ArrayAdapter {
     Calendar currentDate;
     List<Events> events;
     LayoutInflater inflater;
+
+
 
     public MyGridAdapter(@NonNull Context context,  List<Date> dates, Calendar currentDate, List<Events> events) {
         super(context, R.layout.single_cell_layout);
@@ -50,6 +54,9 @@ public class MyGridAdapter extends ArrayAdapter {
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
         if(displayMonth==currentMonth && displayYear==currentYear) {
+            //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            //int cellColor = prefs.getInt("color_calendario", Color.parseColor("#cccccc"));
+            //view.setBackgroundColor(cellColor);
             view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         }
         else {

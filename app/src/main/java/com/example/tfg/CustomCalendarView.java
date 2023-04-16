@@ -57,6 +57,8 @@ public class CustomCalendarView extends LinearLayout {
     Calendars calendars;
 
     Uri uriImagen;
+
+    //Button changeColorButton = findViewById(R.id.color_calendario);
     public CustomCalendarView(Context context) {
         super(context);
     }
@@ -149,7 +151,14 @@ public class CustomCalendarView extends LinearLayout {
                 return true;
             }
         });
-
+        /*changeColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Abre un cuadro de diálogo que permite al usuario seleccionar un color
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+                colorPickerDialog.show(getSupportFragmentManager(), "colorPicker");
+            }
+        });*/
 
     }
     private ArrayList<Events> CollectEventByDate(String date){
