@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +26,18 @@ public class MainActivity extends AppCompatActivity {
 
     CustomCalendarView customCalendarView;
     DBOpenHelper dbOpenHelper;
-    Calendars calendars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("email", getIntent().getExtras().getString("email"));
+        editor.putInt("ID", getIntent().getExtras().getInt("ID"));
+        editor.apply();
         customCalendarView = (CustomCalendarView)findViewById(R.id.custom_calendar_view);
-        getIntent().getExtras().getString("email");
-        getIntent().getExtras().getInt("ID");
         //glide
     }
 

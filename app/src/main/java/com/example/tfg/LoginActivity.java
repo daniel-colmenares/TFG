@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             realizarLogin(user);
                                         } else {
-                                            Toast.makeText(LoginActivity.this, "Registro fallido", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                                         }
                                         dialog.dismiss();
                                     }

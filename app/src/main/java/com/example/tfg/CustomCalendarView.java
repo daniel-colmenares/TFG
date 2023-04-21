@@ -1,8 +1,11 @@
 package com.example.tfg;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
@@ -19,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -38,12 +42,14 @@ import java.util.Locale;
 
 public class CustomCalendarView extends LinearLayout {
     DBOpenHelper dbOpenHelper;
-    Button nextBtn, prevBtn;
+    Button nextBtn, prevBtn, elegirCalendario, color_calendario;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
+
+    Calendars calendars;
     List<Date> dates= new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
     SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy",Locale.forLanguageTag("es-ES"));
@@ -53,8 +59,6 @@ public class CustomCalendarView extends LinearLayout {
     MyGridAdapter myGridAdapter;
     AlertDialog alertDialog;
     ImageView image;
-
-    Calendars calendars;
 
     Uri uriImagen;
 
@@ -79,9 +83,22 @@ public class CustomCalendarView extends LinearLayout {
         });
 
         //DUDAAAAAAAAAAAA
-        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-        activity.dbOpenHelper.getCalendarsByID(calendars.getID(),database);
 
+        SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        String email = prefs.getString("email", "");
+        Integer id = prefs.getInt("ID", 0);
+        calendars = new Calendars("", email, id);
+        dbOpenHelper = new DBOpenHelper(context);
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        dbOpenHelper.getCalendarsByID(calendars.getID(),database);
+
+
+        elegirCalendario.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.onBackPressed();
+            }
+        });
         prevBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,14 +168,14 @@ public class CustomCalendarView extends LinearLayout {
                 return true;
             }
         });
-        /*changeColorButton.setOnClickListener(new View.OnClickListener() {
+        color_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Abre un cuadro de diálogo que permite al usuario seleccionar un color
                 ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
                 colorPickerDialog.show(getSupportFragmentManager(), "colorPicker");
             }
-        });*/
+        });
 
     }
     private ArrayList<Events> CollectEventByDate(String date){
@@ -201,6 +218,8 @@ public class CustomCalendarView extends LinearLayout {
         prevBtn = view.findViewById(R.id.previousBtn);
         CurrentDate=view.findViewById(R.id.current_Date);
         gridView = view.findViewById(R.id.gridView);
+        elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
+        color_calendario = view.findViewById(R.id.color_calendario);
 
     }
 

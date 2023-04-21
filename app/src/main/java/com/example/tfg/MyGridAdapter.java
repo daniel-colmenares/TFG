@@ -54,10 +54,10 @@ public class MyGridAdapter extends ArrayAdapter {
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
         if(displayMonth==currentMonth && displayYear==currentYear) {
-            //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            //int cellColor = prefs.getInt("color_calendario", Color.parseColor("#cccccc"));
-            //view.setBackgroundColor(cellColor);
-            view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String cellColor = prefs.getString("color_calendario", "#cccccc");
+            view.setBackgroundColor(Color.parseColor(cellColor));
+            //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         }
         else {
             view.setBackgroundColor(Color.parseColor("#cccccc"));
