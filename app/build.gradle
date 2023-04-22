@@ -50,4 +50,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    //implementation 'com.flask:colorpicker:0.5.2'
+    //implementation 'com.github.yukuku:ambilwarna:2.0.1'
 }

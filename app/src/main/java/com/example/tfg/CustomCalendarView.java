@@ -3,11 +3,13 @@ package com.example.tfg;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.util.AttributeSet;
@@ -28,6 +30,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +45,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CustomCalendarView extends LinearLayout {
+//import yuku.ambilwarna.AmbilWarnaDialog;
+//import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
+
+public class CustomCalendarView extends LinearLayout{
     DBOpenHelper dbOpenHelper;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario;
     TextView CurrentDate;
@@ -171,13 +179,37 @@ public class CustomCalendarView extends LinearLayout {
         color_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Abre un cuadro de diálogo que permite al usuario seleccionar un color
+                //Abre un cuadro de diálogo que permite al usuario seleccionar un color
                 ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-                colorPickerDialog.show(getSupportFragmentManager(), "colorPicker");
+                colorPickerDialog.show(activity.getSupportFragmentManager(), "colorPicker");
+                //openColorPicker();
             }
         });
 
     }
+
+
+    /*public void setGridAdapter(List<Date> dayValueInCells, Calendar mCal, List<Events> mEvents, FragmentActivity activity) {
+        MyGridAdapter myGridAdapter = new MyGridAdapter(getContext(), dayValueInCells, mCal, mEvents, activity);
+        gridView.setAdapter(myGridAdapter);
+    }*/
+    //int defaultColor;
+
+    /*private void openColorPicker() {
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(context, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+            defaultColor=color;
+            }
+        });
+        colorPicker.show();
+    }*/
+
     private ArrayList<Events> CollectEventByDate(String date){
         ArrayList<Events> arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(context);
@@ -220,7 +252,7 @@ public class CustomCalendarView extends LinearLayout {
         gridView = view.findViewById(R.id.gridView);
         elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
         color_calendario = view.findViewById(R.id.color_calendario);
-
+        //defaultColor = ContextCompat.getColor(context, droidninja.filepicker.R.color.colorPrimary);
     }
 
     private void SetUpCalendar(){
@@ -238,6 +270,7 @@ public class CustomCalendarView extends LinearLayout {
             monthCalendar.add(Calendar.DAY_OF_MONTH,1);
         }
         myGridAdapter = new MyGridAdapter(context,dates,calendar,eventsList);
+        //CUIDADO ARRIBA
         gridView.setAdapter(myGridAdapter);
     }
 

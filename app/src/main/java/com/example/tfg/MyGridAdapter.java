@@ -12,7 +12,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,8 +30,18 @@ public class MyGridAdapter extends ArrayAdapter {
     Calendar currentDate;
     List<Events> events;
     LayoutInflater inflater;
+    private FragmentActivity mActivity;
 
 
+
+    /*public MyGridAdapter(@NonNull Context context,  List<Date> dates, Calendar currentDate, List<Events> events, FragmentActivity activity) {
+        super(context, R.layout.single_cell_layout);
+        this.dates=dates;
+        this.currentDate=currentDate;
+        this.events=events;
+        this.mActivity = activity;
+        inflater = LayoutInflater.from(context);
+    }*/
 
     public MyGridAdapter(@NonNull Context context,  List<Date> dates, Calendar currentDate, List<Events> events) {
         super(context, R.layout.single_cell_layout);
@@ -36,6 +50,8 @@ public class MyGridAdapter extends ArrayAdapter {
         this.events=events;
         inflater = LayoutInflater.from(context);
     }
+
+
 
     @NonNull
     @Override
@@ -54,7 +70,7 @@ public class MyGridAdapter extends ArrayAdapter {
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
         if(displayMonth==currentMonth && displayYear==currentYear) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences prefs = getContext().getSharedPreferences("CalendarioUsuario", Context.MODE_PRIVATE);
             String cellColor = prefs.getString("color_calendario", "#cccccc");
             view.setBackgroundColor(Color.parseColor(cellColor));
             //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));

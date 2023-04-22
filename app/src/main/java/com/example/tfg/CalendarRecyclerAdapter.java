@@ -101,6 +101,8 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
                         Integer Id = calendars.getID();
                         dbOpenHelper.deleteCalendar(Id,database);
+                        //DUDA
+                        dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
 // Acciones a realizar al hacer clic en el botón "OK"
                     }
                 });

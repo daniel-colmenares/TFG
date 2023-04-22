@@ -1,6 +1,7 @@
 package com.example.tfg;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +23,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ColorPickerDialogListener {
 
     CustomCalendarView customCalendarView;
     DBOpenHelper dbOpenHelper;
+    FragmentManager color;
+
+    MyGridAdapter myGridAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
         customCalendarView = (CustomCalendarView)findViewById(R.id.custom_calendar_view);
         //glide
+    }
+
+    @Override
+    public void onColorSelected(int color) {
+        // Save the selected color to SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("color_calendario", "#" + Integer.toHexString(color));
+        editor.apply();
+
+        // Update the grid cells with the selected color
+        myGridAdapter.notifyDataSetChanged();
     }
 
 }
