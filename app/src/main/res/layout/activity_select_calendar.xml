@@ -28,4 +28,15 @@
         android:text="CREAR CALENDARIO"
         tools:layout_editor_absoluteX="163dp"
         tools:layout_editor_absoluteY="519dp" />
+
+    <Button
+        android:id="@+id/botoncerrarsesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="Cerrar Sesión"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_crearcalendario" />
 </androidx.constraintlayout.widget.ConstraintLayout>

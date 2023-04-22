@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -16,14 +17,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
     RecyclerView show_calendarlist;
+    private FirebaseAuth mAuth;
     DBOpenHelper dbOpenHelper;
-    Button crearcalendario;
+    Button crearcalendario, cerrarsesion;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -32,6 +36,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_calendar);
         crearcalendario = findViewById(R.id.button_crearcalendario);
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
+        cerrarsesion = findViewById(R.id.botoncerrarsesion);
+        mAuth = FirebaseAuth.getInstance();
 
         ArrayList<Calendars> arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(this);
@@ -73,6 +79,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
                         dbOpenHelper.SaveCalendar(nombreCalendario, email, database);
+                        dbOpenHelper.getCalendarsByID()
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -85,6 +92,21 @@ public class SelectCalendarActivity extends AppCompatActivity {
 // Crea y muestra el AlertDialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        cerrarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Realiza las acciones necesarias para cerrar sesión
+                // Ejemplo: cierra la sesión del usuario actual y elimina información de sesión
+                mAuth.signOut();
+
+                // Redirige al usuario a la pantalla de inicio de sesión
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }
