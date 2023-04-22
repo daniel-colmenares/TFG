@@ -79,7 +79,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
                         dbOpenHelper.SaveCalendar(nombreCalendario, email, database);
-                        dbOpenHelper.getCalendarsByID()
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
