@@ -3,7 +3,6 @@ package com.example.tfg;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.preference.PreferenceManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +25,7 @@ public class MyGridAdapter extends ArrayAdapter {
     List<Date> dates;
     Calendar currentDate;
     List<Events> events;
+    String cellColor;
     LayoutInflater inflater;
     private FragmentActivity mActivity;
 
@@ -43,11 +40,12 @@ public class MyGridAdapter extends ArrayAdapter {
         inflater = LayoutInflater.from(context);
     }*/
 
-    public MyGridAdapter(@NonNull Context context,  List<Date> dates, Calendar currentDate, List<Events> events) {
+    public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<Events> events, String cellColor) {
         super(context, R.layout.single_cell_layout);
         this.dates=dates;
         this.currentDate=currentDate;
         this.events=events;
+        this.cellColor=cellColor;
         inflater = LayoutInflater.from(context);
     }
 
@@ -69,15 +67,8 @@ public class MyGridAdapter extends ArrayAdapter {
         if (view==null){
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
-        if(displayMonth==currentMonth && displayYear==currentYear) {
-            SharedPreferences prefs = getContext().getSharedPreferences("CalendarioUsuario", Context.MODE_PRIVATE);
-            String cellColor = prefs.getString("color_calendario", "#cccccc");
-            view.setBackgroundColor(Color.parseColor(cellColor));
-            //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
-        }
-        else {
-            view.setBackgroundColor(Color.parseColor("#cccccc"));
-        }
+        view.setBackgroundColor(Color.parseColor(cellColor));
+        //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         TextView Day_Number = view.findViewById(R.id.calendar_day);
         TextView EventNumber = view.findViewById(R.id.events_id);
         Day_Number.setText(String.valueOf(DayNo));
@@ -93,6 +84,8 @@ public class MyGridAdapter extends ArrayAdapter {
         }
         return view;
     }
+
+
 
     private Date ConvertStringToDate(String eventDate){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("es-ES"));

@@ -56,7 +56,7 @@ public class CustomCalendarView extends LinearLayout{
     private static final int MAX_CALENDARDAYS=42;
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
-
+    String cellColor;
     Calendars calendars;
     List<Date> dates= new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -95,10 +95,13 @@ public class CustomCalendarView extends LinearLayout{
         SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         String email = prefs.getString("email", "");
         Integer id = prefs.getInt("ID", 0);
+        cellColor = prefs.getString("cellColor", "#cccccc");
         calendars = new Calendars("", email, id);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
+
+
 
 
         elegirCalendario.setOnClickListener(new OnClickListener() {
@@ -179,9 +182,41 @@ public class CustomCalendarView extends LinearLayout{
         color_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setCancelable(true);
+                View addView = LayoutInflater.from(context).inflate(R.layout.listacolores_calendario,null);
+                Button azul = addView.findViewById(R.id.button_azul);
+                Button rojo = addView.findViewById(R.id.button_rojo);
+                azul.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#0000ff";
+                        SetUpCalendar();
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                rojo.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#ff0000";
+                        SetUpCalendar();
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                builder.setView(addView);
+                alertDialog = builder.create();
+                alertDialog.show();
                 //Abre un cuadro de diálogo que permite al usuario seleccionar un color
-                ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-                colorPickerDialog.show(activity.getSupportFragmentManager(), "colorPicker");
+                //ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+                //colorPickerDialog.show(activity.getSupportFragmentManager(), "colorPicker");
                 //openColorPicker();
             }
         });
@@ -269,7 +304,7 @@ public class CustomCalendarView extends LinearLayout{
             dates.add(monthCalendar.getTime());
             monthCalendar.add(Calendar.DAY_OF_MONTH,1);
         }
-        myGridAdapter = new MyGridAdapter(context,dates,calendar,eventsList);
+        myGridAdapter = new MyGridAdapter(context,dates,calendar,eventsList, cellColor);
         //CUIDADO ARRIBA
         gridView.setAdapter(myGridAdapter);
     }

@@ -8,26 +8,34 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/recycled_selectcalendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recycled_selectcalendar"
-        tools:listitem="@layout/show_calendarlist"
-        tools:itemCount="3"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/show_calendarlist" />
 
     <Button
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/button_crearcalendario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CREAR CALENDARIO"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="519dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
+
+    <Button
+        android:id="@+id/cambiarRol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CAMBIAR ROL"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_crearcalendario" />
 
     <Button
         android:id="@+id/botoncerrarsesion"
@@ -38,5 +46,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_crearcalendario" />
+        app:layout_constraintTop_toBottomOf="@+id/cambiarRol" />
+
+    <TextView
+        android:id="@+id/textView_Admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/cambiarRol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

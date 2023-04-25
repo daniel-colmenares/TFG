@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.Observable;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -27,19 +31,24 @@ public class SelectCalendarActivity extends AppCompatActivity {
     RecyclerView show_calendarlist;
     private FirebaseAuth mAuth;
     DBOpenHelper dbOpenHelper;
-    Button crearcalendario, cerrarsesion;
+    Boolean esAdmin;
+    TextView textViewAdmin;
+    ArrayList<Calendars> arrayList;
+    Button crearcalendario, cerrarsesion, cambiarRol;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
+        cambiarRol = findViewById(R.id.cambiarRol);
+        textViewAdmin = findViewById(R.id.textView_Admin);
         crearcalendario = findViewById(R.id.button_crearcalendario);
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
         cerrarsesion = findViewById(R.id.botoncerrarsesion);
         mAuth = FirebaseAuth.getInstance();
 
-        ArrayList<Calendars> arrayList = new ArrayList<>();
+        arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(this);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"),database);
@@ -53,10 +62,18 @@ public class SelectCalendarActivity extends AppCompatActivity {
         }
         cursor.close();
         dbOpenHelper.close();
+        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        esAdmin  = prefs.getBoolean("esAdmin", false);
         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this,arrayList);
+        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this,arrayList, esAdmin);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
 
+        if(esAdmin) {
+            textViewAdmin.setText("TERAPEUTA");
+
+        }else {
+            textViewAdmin.setText("USUARIO");
+        }
         crearcalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +96,26 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
                         dbOpenHelper.SaveCalendar(nombreCalendario, email, database);
+
+                        arrayList = new ArrayList<>();
+                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                        SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
+                        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"),database1);
+                        while ( cursor.moveToNext()){
+                            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME)+0);
+                            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL)+0);
+                            Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
+                            Calendars calendar = new Calendars(Name,Email,Id);
+                            arrayList.add(calendar);
+
+                        }
+                        cursor.close();
+                        dbOpenHelper.close();
+                        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        esAdmin  = prefs.getBoolean("esAdmin", false);
+                        show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(),arrayList, esAdmin);
+                        show_calendarlist.setAdapter(calendarRecyclerAdapter);
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -106,6 +143,25 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
+            }
+        });
+        cambiarRol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                esAdmin = !esAdmin;
+                SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("esAdmin", esAdmin);
+                if (esAdmin) {
+                    Toast.makeText(SelectCalendarActivity.this, "Eres Admin", Toast.LENGTH_SHORT).show();
+                    crearcalendario.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(SelectCalendarActivity.this, "Eres Usuario", Toast.LENGTH_SHORT).show();
+                    crearcalendario.setVisibility(View.INVISIBLE);
+                }
+                editor.apply();
+                CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(),arrayList, esAdmin);
+                show_calendarlist.setAdapter(calendarRecyclerAdapter);
             }
         });
     }
