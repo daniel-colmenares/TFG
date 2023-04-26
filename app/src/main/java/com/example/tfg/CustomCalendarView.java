@@ -9,9 +9,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.media.Image;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfWriter;
+import android.view.Window;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +43,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +61,7 @@ import java.util.Locale;
 
 public class CustomCalendarView extends LinearLayout{
     DBOpenHelper dbOpenHelper;
-    Button nextBtn, prevBtn, elegirCalendario, color_calendario;
+    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
@@ -220,7 +231,47 @@ public class CustomCalendarView extends LinearLayout{
                 //openColorPicker();
             }
         });
+        pdf.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                guardarComoPDF(view);
+            }
+        });
 
+    }
+    public void guardarComoPDF(View view) {
+        // Captura la pantalla actual
+        View rootView = findViewById(android.R.id.content);
+        Bitmap bitmap = getBitmapFromView(rootView);
+
+        // Crea un archivo PDF y escribe la imagen en él
+        try {
+            File pdfFile = new File(Environment.getExternalStorageDirectory(), "captura.pdf");
+            FileOutputStream outputStream = new FileOutputStream(pdfFile);
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            Image image = Image.getInstance(byteArray);
+            image.scaleToFit(document.getPageSize());
+            document.add(image);
+            document.close();
+
+            outputStream.flush();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Bitmap getBitmapFromView(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
     }
 
 
@@ -287,6 +338,7 @@ public class CustomCalendarView extends LinearLayout{
         gridView = view.findViewById(R.id.gridView);
         elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
         color_calendario = view.findViewById(R.id.color_calendario);
+        pdf = view.findViewById(R.id.pdf);
         //defaultColor = ContextCompat.getColor(context, droidninja.filepicker.R.color.colorPrimary);
     }
 

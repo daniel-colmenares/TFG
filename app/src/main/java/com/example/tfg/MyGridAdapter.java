@@ -3,6 +3,7 @@ package com.example.tfg;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,10 @@ public class MyGridAdapter extends ArrayAdapter {
     List<Events> events;
     String cellColor;
     LayoutInflater inflater;
+    TextView lunes, martes, miercoles, jueves, viernes, sabado, domingo;
     private FragmentActivity mActivity;
+
+
 
 
 
@@ -62,6 +66,8 @@ public class MyGridAdapter extends ArrayAdapter {
         int displayYear = dateCalendar.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH)+1;
         int currentYear = currentDate.get(Calendar.YEAR);
+        //int currentDay = currentDate.get(Calendar.DAY_OF_WEEK);
+
 
         View view = convertView;
         if (view==null){
@@ -69,6 +75,42 @@ public class MyGridAdapter extends ArrayAdapter {
         }
         view.setBackgroundColor(Color.parseColor(cellColor));
         //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+        /*lunes = view.findViewById(R.id.lunes);
+        martes = view.findViewById(R.id.martes);
+        miercoles = view.findViewById(R.id.miercoles);
+        jueves = view.findViewById(R.id.jueves);
+        viernes = view.findViewById(R.id.viernes);
+        sabado = view.findViewById(R.id.sabado);
+        domingo = view.findViewById(R.id.domingo);
+
+        if (currentDay==Calendar.MONDAY){
+            lunes.setTypeface(null, Typeface.BOLD);
+
+        }
+        else if (currentDay==Calendar.TUESDAY){
+            martes.setTypeface(null, Typeface.BOLD);
+
+        }
+        if (currentDay==Calendar.WEDNESDAY){
+            miercoles.setTypeface(null, Typeface.BOLD);
+
+        }
+        if (currentDay==Calendar.THURSDAY){
+            jueves.setTypeface(null, Typeface.BOLD);
+
+        }
+        if (currentDay==Calendar.FRIDAY){
+            viernes.setTypeface(null, Typeface.BOLD);
+
+        }
+        if (currentDay==Calendar.SATURDAY){
+            sabado.setTypeface(null, Typeface.BOLD);
+
+        }
+        if (currentDay==Calendar.SUNDAY){
+            domingo.setTypeface(null, Typeface.BOLD);
+
+        }*/
         TextView Day_Number = view.findViewById(R.id.calendar_day);
         TextView EventNumber = view.findViewById(R.id.events_id);
         Day_Number.setText(String.valueOf(DayNo));
