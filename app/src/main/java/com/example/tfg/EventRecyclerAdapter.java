@@ -73,6 +73,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.Event.setText(events.getEVENT());
         holder.DateText.setText(events.getDATE());
         Glide.with(context).load(events.getIMAGEN()).into(holder.Imagen);
+        holder.Video.setText(events.getVIDEO());
 
     }
 
@@ -82,7 +83,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView DateText, Event;
+        TextView DateText, Event, Video;
         ImageView Imagen;
 
         public MyViewHolder(@NonNull View itemView){
@@ -90,6 +91,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             DateText = itemView.findViewById(R.id.evendate);
             Event = itemView.findViewById(R.id.eventname);
             Imagen = itemView.findViewById(R.id.imagenEvento);
+            Video = itemView.findViewById(R.id.videourl);
 
         }
 

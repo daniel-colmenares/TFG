@@ -17,6 +17,7 @@ public class DBStructure {
     public static final String CALENDAR_TABLE_NAME="calendartable";
 
     public static final String EMAIL="email";
+    public static final String VIDEO="video";
 
     public static final String NAME="name";
 

@@ -4,16 +4,24 @@ import android.media.Image;
 import android.net.Uri;
 
 public class Events {
-    String EVENT,DATE,MONTHS,YEAR;
+    String EVENT,DATE,MONTHS,YEAR, VIDEO;
     Uri IMAGEN;
     //String IMAGEN;
 
-    public Events(String EVENT, String DATE, String MONTHS, String YEAR, Uri IMAGEN) {
+    public Events(String EVENT, String DATE, String MONTHS, String YEAR, Uri IMAGEN, String VIDEO) {
         this.EVENT = EVENT;
         this.DATE = DATE;
         this.MONTHS = MONTHS;
         this.YEAR = YEAR;
         this.IMAGEN = IMAGEN;
+    }
+
+    public String getVIDEO() {
+        return VIDEO;
+    }
+
+    public void setVIDEO(String VIDEO) {
+        this.VIDEO = VIDEO;
     }
 
     public Uri getIMAGEN() {

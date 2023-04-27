@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
     CustomCalendarView customCalendarView;
     DBOpenHelper dbOpenHelper;
-    FragmentManager color;
+    //FragmentManager color;
 
     MyGridAdapter myGridAdapter;
 

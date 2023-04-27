@@ -39,6 +39,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/holo_blue_bright"
+                android:id="@+id/videourl"
+                android:textStyle="bold"
+                android:text="Video/multimedia"
+                android:textSize="40sp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

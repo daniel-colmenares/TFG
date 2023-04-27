@@ -26,6 +26,17 @@
         android:src="@mipmap/ic_launcher"
         android:layout_gravity="center" />
 
+    <EditText
+        android:hint="Añadir url de video"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:inputType="text"
+        android:id="@+id/eventvideo"/>
+
+
     <Button
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"

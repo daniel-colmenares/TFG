@@ -56,8 +56,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//import yuku.ambilwarna.AmbilWarnaDialog;
-//import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 
 public class CustomCalendarView extends LinearLayout{
     DBOpenHelper dbOpenHelper;
@@ -142,6 +140,7 @@ public class CustomCalendarView extends LinearLayout{
                 builder.setCancelable(true);
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
                 EditText EventName = addView.findViewById(R.id.eventname);//eventsid
+                EditText EventVideo = addView.findViewById(R.id.eventvideo);
                 image = addView.findViewById(R.id.image);
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 final String date = eventDateFormat.format(dates.get(position));
@@ -156,7 +155,7 @@ public class CustomCalendarView extends LinearLayout{
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(EventName.getText().toString(),uriImagen,date,month,year);
+                        SaveEvent(EventName.getText().toString(),uriImagen,date,month,year,EventVideo.getText().toString());
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -225,10 +224,6 @@ public class CustomCalendarView extends LinearLayout{
                 builder.setView(addView);
                 alertDialog = builder.create();
                 alertDialog.show();
-                //Abre un cuadro de diálogo que permite al usuario seleccionar un color
-                //ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-                //colorPickerDialog.show(activity.getSupportFragmentManager(), "colorPicker");
-                //openColorPicker();
             }
         });
         pdf.setOnClickListener(new OnClickListener() {
@@ -275,26 +270,6 @@ public class CustomCalendarView extends LinearLayout{
     }
 
 
-    /*public void setGridAdapter(List<Date> dayValueInCells, Calendar mCal, List<Events> mEvents, FragmentActivity activity) {
-        MyGridAdapter myGridAdapter = new MyGridAdapter(getContext(), dayValueInCells, mCal, mEvents, activity);
-        gridView.setAdapter(myGridAdapter);
-    }*/
-    //int defaultColor;
-
-    /*private void openColorPicker() {
-        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(context, new AmbilWarnaDialog.OnAmbilWarnaListener() {
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
-
-            }
-
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-            defaultColor=color;
-            }
-        });
-        colorPicker.show();
-    }*/
 
     private ArrayList<Events> CollectEventByDate(String date){
         ArrayList<Events> arrayList = new ArrayList<>();
@@ -306,8 +281,14 @@ public class CustomCalendarView extends LinearLayout{
              String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
              String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
              String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
-             Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
-            Events events = new Events(event,Date,Month, Year, Image);
+             //Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
+            String imageString = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
+            Uri Image = null;
+            if (imageString != null) {
+                Image = Uri.parse(imageString);
+            }
+             String Video = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+            Events events = new Events(event,Date,Month, Year, Image, Video);
             arrayList.add(events);
 
         }
@@ -317,10 +298,10 @@ public class CustomCalendarView extends LinearLayout{
         return arrayList;
     }
 
-    private void SaveEvent(String event, Uri uri, String date, String month, String year){
+    private void SaveEvent(String event, Uri uri, String date, String month, String year, String video){
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-        dbOpenHelper.SaveEvent(event, uri, date, month, year, database);
+        dbOpenHelper.SaveEvent(event, uri, date, month, year, video, database);
         dbOpenHelper.close();
         Toast.makeText(context, "Evento Guardado", Toast.LENGTH_SHORT).show();
     }
@@ -342,6 +323,8 @@ public class CustomCalendarView extends LinearLayout{
         //defaultColor = ContextCompat.getColor(context, droidninja.filepicker.R.color.colorPrimary);
     }
 
+
+
     private void SetUpCalendar(){
         String currentDate= dateFormat.format(calendar.getTime());
         CurrentDate.setText(currentDate);
@@ -355,11 +338,59 @@ public class CustomCalendarView extends LinearLayout{
         while(dates.size() < MAX_CALENDARDAYS){
             dates.add(monthCalendar.getTime());
             monthCalendar.add(Calendar.DAY_OF_MONTH,1);
+            myGridAdapter = new MyGridAdapter(context,dates,calendar,eventsList, cellColor);
         }
-        myGridAdapter = new MyGridAdapter(context,dates,calendar,eventsList, cellColor);
+
         //CUIDADO ARRIBA
         gridView.setAdapter(myGridAdapter);
     }
+
+
+    /*
+    private void SetUpCalendar() {
+        String currentDate = dateFormat.format(calendar.getTime());
+        CurrentDate.setText(currentDate);
+        dates.clear();
+
+        // Obtener el primer día del mes actual y el número total de días del mes
+        Calendar monthCalendar = (Calendar) calendar.clone();
+        monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        int daysInMonth = monthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        // Obtener el día de la semana en que comienza el mes actual
+        int firstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+        // Añadir fechas del mes anterior si el primer día del mes no es domingo
+        if (firstDayOfMonth > 0) {
+            monthCalendar.add(Calendar.DAY_OF_MONTH, -firstDayOfMonth);
+            for (int i = 0; i < firstDayOfMonth; i++) {
+                dates.add(null); // Agregar valores nulos
+            }
+        }
+
+        // Añadir fechas del mes actual
+        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()));
+        for (int i = 1; i <= daysInMonth; i++) {
+            dates.add(monthCalendar.getTime());
+            monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        // Añadir fechas del mes siguiente si el último día del mes no es sábado
+        int lastDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK);
+        if (lastDayOfMonth != 1) {
+            for (int i = lastDayOfMonth; i <= 7; i++) {
+                dates.add(null); // Agregar valores nulos
+            }
+        }
+
+        // Asegurar que el número total de elementos en la lista sea igual a MAX_CALENDAR_DAYS
+        while (dates.size() < MAX_CALENDARDAYS) {
+            dates.add(null); // Agregar valores nulos
+        }
+
+        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor);
+        gridView.setAdapter(myGridAdapter);
+    }*/
 
     private void CollectEventsPerMonth ( String month, String year) {
         eventsList.clear();
@@ -371,8 +402,14 @@ public class CustomCalendarView extends LinearLayout{
             String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
             String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
             String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
-            Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
-            Events events = new Events(event, date, Month, Year, Image);
+            Uri Image = null;
+            String imagenString = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
+            if (imagenString != null) {
+                Image = Uri.parse(imagenString);
+            }
+            //Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
+            String Video = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+            Events events = new Events(event, date, Month, Year, Image, Video);
             eventsList.add(events);
 
         }
