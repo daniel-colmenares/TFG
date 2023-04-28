@@ -7,6 +7,16 @@
     android:orientation="vertical"
     android:background="@android:color/holo_orange_light">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/holo_blue_dark"
+        android:id="@+id/mostrarfecha"
+        android:textStyle="bold"
+        android:text="Fecha"
+        android:textSize="15sp"/>
+
     <EditText
         android:hint="Escribe evento"
         android:background="@android:color/white"

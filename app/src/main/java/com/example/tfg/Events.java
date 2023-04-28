@@ -6,6 +6,7 @@ import android.net.Uri;
 public class Events {
     String EVENT,DATE,MONTHS,YEAR, VIDEO;
     Uri IMAGEN;
+    Integer ID;
     //String IMAGEN;
 
     public Events(String EVENT, String DATE, String MONTHS, String YEAR, Uri IMAGEN, String VIDEO) {
@@ -14,6 +15,16 @@ public class Events {
         this.MONTHS = MONTHS;
         this.YEAR = YEAR;
         this.IMAGEN = IMAGEN;
+        this.VIDEO = VIDEO;
+        //this.ID = ID;
+    }
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getVIDEO() {

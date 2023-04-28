@@ -10,4 +10,14 @@
     <color name="yellow">#FFFF00</color>
     <color name="pink"> #FF7987</color>
     <color name="turquesa">#5dc1b9</color>
+    <color name="lightblue">#58ACFA</color>
+    <color name="lightred">#FE2E64</color>
+    <color name="lightgreen">#00FF40</color>
+
+    <color name="calendargreen">#58FA58</color>
+    <color name="calendarblue">#8181F7</color>
+    <color name="calendarred">#FA5858</color>
+    <color name="calendarpurple">#D358F7</color>
+    <color name="calendarpink">#F5A9D0</color>
+    <color name="calendaryellow">#F4FA58</color>
 </resources>

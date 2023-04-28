@@ -48,6 +48,15 @@
                 android:textStyle="bold"
                 android:text="Video/multimedia"
                 android:textSize="40sp"/>
+
+            <Button
+                android:id="@+id/borrarevento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/red"
+                android:textColor="@color/white"
+                android:text="BORRAR EVENTO" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

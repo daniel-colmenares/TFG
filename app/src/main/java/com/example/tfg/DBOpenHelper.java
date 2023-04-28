@@ -73,8 +73,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
 
-
     }
+
+    public void deleteEvent(int id, SQLiteDatabase database) {
+        String selection =  "ID = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+        database.delete(DBStructure.EVENT_TABLE_NAME, selection, selectionArgs);
+    }
+
+
 
     public void SaveCalendar(String name, String email,  SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();

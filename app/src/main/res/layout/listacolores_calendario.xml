@@ -9,8 +9,11 @@
         android:id="@+id/button_azul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="109dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/calendarblue"
         android:text="AZUL"
+        app:layout_constraintBottom_toTopOf="@+id/button_rojo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,9 +22,64 @@
         android:id="@+id/button_rojo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="97dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/calendarred"
         android:text="ROJO"
-        app:layout_constraintEnd_toEndOf="@+id/button_azul"
+        app:layout_constraintBottom_toTopOf="@+id/button_morado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_azul" />
+
+    <Button
+        android:id="@+id/button_morado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/calendarpurple"
+        android:text="MORADO"
+        app:layout_constraintBottom_toTopOf="@+id/button_rosa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_rojo" />
+
+    <Button
+        android:id="@+id/button_rosa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/calendarpink"
+        android:text="ROSA"
+        app:layout_constraintBottom_toTopOf="@+id/button_verde"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_morado" />
+
+    <Button
+        android:id="@+id/button_verde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/calendargreen"
+        android:text="VERDE"
+        app:layout_constraintBottom_toTopOf="@+id/button_amarillo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_rosa" />
+
+    <Button
+        android:id="@+id/button_amarillo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/calendaryellow"
+        android:text="AMARILLO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_verde" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -59,6 +60,7 @@ import java.util.Locale;
 
 public class CustomCalendarView extends LinearLayout{
     DBOpenHelper dbOpenHelper;
+    Events events;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf;
     TextView CurrentDate;
     GridView gridView;
@@ -146,6 +148,8 @@ public class CustomCalendarView extends LinearLayout{
                 final String date = eventDateFormat.format(dates.get(position));
                 final String month = monthFormat.format(dates.get(position));
                 final String year= yearFormat.format(dates.get(position));
+                TextView fecha = addView.findViewById(R.id.mostrarfecha);
+                fecha.setText(date);
                 image.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -173,6 +177,8 @@ public class CustomCalendarView extends LinearLayout{
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View showView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_layout,null);
+                View borrarView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_rowlayout,null);
+                Button borrarevento = borrarView.findViewById(R.id.borrarevento);
                 RecyclerView recyclerView = showView.findViewById(R.id.EventsRV);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
@@ -186,6 +192,40 @@ public class CustomCalendarView extends LinearLayout{
                 alertDialog = builder.create();
                 alertDialog.show();
 
+                borrarevento.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("¿Está seguro de que desea eliminar este evento?");
+                        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Obtener objeto Events correspondiente
+                                Events eventToDelete = eventsList.get(which);
+
+                                // Obtener id del evento a borrar
+                                int eventId = eventToDelete.getID();
+
+                                // Borrar evento de la base de datos
+                                SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
+                                dbOpenHelper.deleteEvent(eventId, database);
+                                database.close();
+
+                                // Borrar evento de la lista y actualizar la vista
+                                eventsList.remove(which);
+                                //notifyItemRemoved(position);
+                                //notifyItemRangeChanged(position, eventsList.size());
+                            }
+
+                        });
+                        builder.setNegativeButton("No", null);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+
+
                 return true;
             }
         });
@@ -197,10 +237,15 @@ public class CustomCalendarView extends LinearLayout{
                 View addView = LayoutInflater.from(context).inflate(R.layout.listacolores_calendario,null);
                 Button azul = addView.findViewById(R.id.button_azul);
                 Button rojo = addView.findViewById(R.id.button_rojo);
+                Button amarillo = addView.findViewById(R.id.button_amarillo);
+                Button morado = addView.findViewById(R.id.button_morado);
+                Button rosa = addView.findViewById(R.id.button_rosa);
+                Button verde = addView.findViewById(R.id.button_verde);
+
                 azul.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        cellColor = "#0000ff";
+                        cellColor = "#8181F7";
                         SetUpCalendar();
                         SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
@@ -212,7 +257,55 @@ public class CustomCalendarView extends LinearLayout{
                 rojo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        cellColor = "#ff0000";
+                        cellColor = "#FA5858";
+                        SetUpCalendar();
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                verde.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#58FA58";
+                        SetUpCalendar();
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                amarillo.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#F4FA58";
+                        SetUpCalendar();
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                morado.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#D358F7";
+                        SetUpCalendar();
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                rosa.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#F5A9D0";
                         SetUpCalendar();
                         SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
@@ -277,6 +370,7 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.ReadEvents(date,database);
         while ( cursor.moveToNext()){
+             //Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
              String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT)+0);
              String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
              String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
@@ -296,6 +390,34 @@ public class CustomCalendarView extends LinearLayout{
         dbOpenHelper.close();
 
         return arrayList;
+    }
+
+    private Events getEventById(String date, int eventId) {
+        dbOpenHelper = new DBOpenHelper(context);
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = dbOpenHelper.ReadEvents(date, database);
+
+        Events event = null;
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("ID")+0);
+            if (id == eventId) {
+                String eventStr = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT)+0);
+                String dateStr = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
+                String monthStr = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
+                String yearStr = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
+                String imageStr = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
+                Uri imageUri = (imageStr == null) ? null : Uri.parse(imageStr);
+                String videoStr = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+
+                event = new Events(eventStr, dateStr, monthStr, yearStr, imageUri, videoStr);
+                break;
+            }
+        }
+
+        cursor.close();
+        dbOpenHelper.close();
+
+        return event;
     }
 
     private void SaveEvent(String event, Uri uri, String date, String month, String year, String video){
@@ -398,6 +520,7 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbOpenHelper.ReadEventsPerMonth(month, year, database);
         while (cursor.moveToNext()) {
+            //Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT)+0);
             String date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
             String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
