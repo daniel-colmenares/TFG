@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -16,6 +17,8 @@ import android.graphics.Color;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import android.os.Build;
 import android.view.Window;
 import android.net.Uri;
 import android.os.Environment;
@@ -37,6 +40,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -60,6 +64,8 @@ import java.util.Locale;
 
 public class CustomCalendarView extends LinearLayout{
     DBOpenHelper dbOpenHelper;
+
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Events events;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf;
     TextView CurrentDate;
@@ -323,10 +329,26 @@ public class CustomCalendarView extends LinearLayout{
         pdf.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                guardarComoPDF(view);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+                    } else {
+                        //guardarComoPDF(gridView);
+                    }
+                }
             }
         });
 
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                guardarComoPDF(gridView);
+            } else {
+
+            }
+        }
     }
     public void guardarComoPDF(View view) {
         // Captura la pantalla actual
@@ -357,6 +379,7 @@ public class CustomCalendarView extends LinearLayout{
     }
 
     private Bitmap getBitmapFromView(View view) {
+        view = gridView;
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
