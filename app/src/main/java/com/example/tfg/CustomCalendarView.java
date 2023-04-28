@@ -341,12 +341,14 @@ public class CustomCalendarView extends LinearLayout{
 
     }
 
+
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 guardarComoPDF(gridView);
             } else {
-
+                Toast.makeText(context, "Permiso denegado", Toast.LENGTH_SHORT).show();
             }
         }
     }
