@@ -89,9 +89,11 @@ public class SelectCalendarActivity extends AppCompatActivity {
         crearcalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Crea un AlertDialog.Builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Introduce el nombre del calendario");
+
 
 // Crea un EditText y lo agrega al AlertDialog
                 final EditText input = new EditText(view.getContext());
