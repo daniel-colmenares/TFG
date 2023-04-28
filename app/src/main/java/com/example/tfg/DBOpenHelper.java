@@ -16,7 +16,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             +DBStructure.EVENT+ " TEXT, " + DBStructure.DATE+" TEXT, "+DBStructure.MONTH+" TEXT, "+DBStructure.YEAR+" TEXT, "+DBStructure.IMAGEN+" TEXT, "+DBStructure.VIDEO+" TEXT)";
 
     private final static String CREATE_CALENDAR_TABLE= "create table " +DBStructure.CALENDAR_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            +DBStructure.NAME+ " TEXT, " + DBStructure.EMAIL+" TEXT)";
+            +DBStructure.NAME+ " TEXT, " + DBStructure.EMAIL+" TEXT, "+DBStructure.FECHA_CREACION+" TEXT)";
 
     private final static String USER_CALENDARS =  "SELECT * FROM " + DBStructure.CALENDAR_TABLE_NAME + "WHERE " + DBStructure.EMAIL + " = ?";
 
@@ -83,10 +83,11 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 
 
-    public void SaveCalendar(String name, String email,  SQLiteDatabase database){
+    public void SaveCalendar(String name, String email,String currentDate,  SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.NAME,name);
         contentValues.put(DBStructure.EMAIL,email);
+        contentValues.put(DBStructure.FECHA_CREACION,currentDate);
         database.insert(DBStructure.CALENDAR_TABLE_NAME,null,contentValues);
 
     }
@@ -100,6 +101,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         String[] Projections = {
                 DBStructure.NAME,
                 DBStructure.EMAIL,
+                DBStructure.FECHA_CREACION,
                 "ID"
         };
         String Selection = DBStructure.EMAIL + " = ?";

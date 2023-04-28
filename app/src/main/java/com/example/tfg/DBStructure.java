@@ -13,11 +13,14 @@ public class DBStructure {
     public static final String MONTH="month";
     public static final String YEAR="year";
     public static final String IMAGEN = "imagen";
+
+    public static final String VIDEO="video";
     //CALENDARIOS
     public static final String CALENDAR_TABLE_NAME="calendartable";
 
     public static final String EMAIL="email";
-    public static final String VIDEO="video";
+
+    public static final String FECHA_CREACION="fechacreacion";
 
     public static final String NAME="name";
 

@@ -23,8 +23,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
@@ -35,6 +37,11 @@ public class SelectCalendarActivity extends AppCompatActivity {
     TextView textViewAdmin;
     ArrayList<Calendars> arrayList;
     Button crearcalendario, cerrarsesion, cambiarRol;
+
+
+    EditText editTextBuscar;
+    Button buttonFiltrar;
+    CalendarRecyclerAdapter calendarRecyclerAdapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,6 +55,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
         cerrarsesion = findViewById(R.id.botoncerrarsesion);
         mAuth = FirebaseAuth.getInstance();
 
+
+        editTextBuscar = findViewById(R.id.editText_buscar);
+        buttonFiltrar = findViewById(R.id.buttonfiltrar);
+
         arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(this);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
@@ -55,8 +66,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
         while ( cursor.moveToNext()){
             String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME)+0);
             String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL)+0);
+            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION)+0);
             Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
-            Calendars calendar = new Calendars(Name,Email,Id);
+            Calendars calendar = new Calendars(Name,Email,Fecha,Id);
             arrayList.add(calendar);
 
         }
@@ -92,20 +104,24 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String nombreCalendario = input.getText().toString();
                         String email = getIntent().getStringExtra("email");
+                        Date currentDate = new Date();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        String currentDateString = dateFormat.format(currentDate);
                         // Haz algo con el nombre introducido por el usuario
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-                        dbOpenHelper.SaveCalendar(nombreCalendario, email, database);
+                        dbOpenHelper.SaveCalendar(nombreCalendario, email,currentDateString, database);
 
                         arrayList = new ArrayList<>();
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
                         Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"),database1);
                         while ( cursor.moveToNext()){
+                            Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
                             String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME)+0);
                             String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL)+0);
-                            Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
-                            Calendars calendar = new Calendars(Name,Email,Id);
+                            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION)+0);
+                            Calendars calendar = new Calendars(Name,Email,Fecha,Id);
                             arrayList.add(calendar);
 
                         }
@@ -130,6 +146,26 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        buttonFiltrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtiene el texto ingresado por el usuario
+                String searchText = editTextBuscar.getText().toString().trim();
+
+                // Filtra los calendarios que coincidan con el texto ingresado
+                ArrayList<Calendars> filteredList = new ArrayList<>();
+                for (Calendars calendar : arrayList) {
+                    if (calendar.getNAME().toLowerCase().contains(searchText.toLowerCase())) {
+                        filteredList.add(calendar);
+                    }
+                }
+
+                // Actualiza el RecyclerView con los calendarios filtrados
+                calendarRecyclerAdapter.filterList(filteredList);
+            }
+        });
+
 
         cerrarsesion.setOnClickListener(new View.OnClickListener() {
             @Override

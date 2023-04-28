@@ -11,35 +11,53 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="15dp"
         app:cardElevation="12sp">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
+                android:id="@+id/calendarname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/holo_purple"
-                android:id="@+id/calendarname"
-                android:textStyle="bold"
                 android:text="Calendario"
-                android:textSize="40sp"/>
+                android:textColor="@android:color/holo_purple"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/vercalendario"
-                android:layout_width="match_parent"
+                android:layout_width="204dp"
                 android:layout_height="wrap_content"
-                android:text="VER CALENDARIO"
-                android:background="@color/green"/>
+                android:layout_below="@+id/calendarname"
+                android:layout_alignParentStart="true"
+
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/green"
+                android:text="VER CALENDARIO" />
 
             <Button
                 android:id="@+id/eliminarcalendario"
-                android:layout_width="match_parent"
+                android:layout_width="206dp"
                 android:layout_height="wrap_content"
-                android:text="ELIMINAR CALENDARIO"
-                android:background="@color/red"/>
+                android:layout_below="@+id/calendarname"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="right"
+                android:layout_marginStart="204dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/red"
+                android:text="ELIMINAR CALENDARIO" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/fechacalendario"
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                android:text="Fecha" />
+
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
 

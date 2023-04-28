@@ -23,6 +23,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     Context context;
     ArrayList<Calendars> arrayList;
     DBOpenHelper dbOpenHelper;
+    private ArrayList<Calendars> arrayListFull;
 
     Boolean esAdmin;
 
@@ -34,6 +35,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         this.context = context;
         this.arrayList = arrayList;
         this.esAdmin = esAdmin;
+        this.arrayListFull = new ArrayList<>(arrayList); // Copia la lista original
     }
 
     @NonNull
@@ -43,10 +45,16 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         return new MyViewHolder(view);
     }
 
+    public void filterList(ArrayList<Calendars> filteredList) {
+        arrayList = filteredList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Calendars calendars = arrayList.get(position);
         holder.Calendar.setText(calendars.getNAME());
+        holder.fechaCalendario.setText(calendars.getFECHA());
         if (!esAdmin){
             holder.eliminarCalendario.setVisibility(View.INVISIBLE);
         }
@@ -101,12 +109,13 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView Calendar;
+        TextView Calendar, fechaCalendario;
         Button verCalendario;
         Button eliminarCalendario;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             Calendar = itemView.findViewById(R.id.calendarname);
+            fechaCalendario = itemView.findViewById(R.id.fechacalendario);
             verCalendario = itemView.findViewById(R.id.vercalendario);
             eliminarCalendario = itemView.findViewById(R.id.eliminarcalendario);
         }
