@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import android.os.Build;
+import android.provider.Settings;
 import android.view.Window;
 import android.net.Uri;
 import android.os.Environment;
@@ -184,8 +186,6 @@ public class CustomCalendarView extends LinearLayout{
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View showView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_layout,null);
-                View borrarView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_rowlayout,null);
-                Button borrarevento = borrarView.findViewById(R.id.borrarevento);
                 RecyclerView recyclerView = showView.findViewById(R.id.EventsRV);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
@@ -198,39 +198,6 @@ public class CustomCalendarView extends LinearLayout{
                 builder.setView(showView);
                 alertDialog = builder.create();
                 alertDialog.show();
-
-                borrarevento.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("¿Está seguro de que desea eliminar este evento?");
-                        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                // Obtener objeto Events correspondiente
-                                Events eventToDelete = eventsList.get(which);
-
-                                // Obtener id del evento a borrar
-                                int eventId = eventToDelete.getID();
-
-                                // Borrar evento de la base de datos
-                                SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-                                dbOpenHelper.deleteEvent(eventId, database);
-                                database.close();
-
-                                // Borrar evento de la lista y actualizar la vista
-                                eventsList.remove(which);
-                                //notifyItemRemoved(position);
-                                //notifyItemRangeChanged(position, eventsList.size());
-                            }
-
-                        });
-                        builder.setNegativeButton("No", null);
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
 
 
                 return true;
@@ -329,13 +296,12 @@ public class CustomCalendarView extends LinearLayout{
         pdf.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
-                    } else {
-                        //guardarComoPDF(gridView);
-                    }
+                if (!Environment.isExternalStorageManager()) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    activity.startActivity(intent);
+                    return;
                 }
+                guardarComoPDF(activity.getWindow().getDecorView().getRootView());
             }
         });
 
@@ -354,12 +320,13 @@ public class CustomCalendarView extends LinearLayout{
     }
     public void guardarComoPDF(View view) {
         // Captura la pantalla actual
-        View rootView = findViewById(android.R.id.content);
+        View rootView = view;
+        //findViewById(android.R.id.content)
         Bitmap bitmap = getBitmapFromView(rootView);
 
         // Crea un archivo PDF y escribe la imagen en él
         try {
-            File pdfFile = new File(Environment.getExternalStorageDirectory(), "captura.pdf");
+            File pdfFile = new File(Environment.getExternalStorageDirectory(), "Calendario_" + calendars.getNAME() + ".pdf");
             FileOutputStream outputStream = new FileOutputStream(pdfFile);
 
             Document document = new Document();
@@ -473,7 +440,7 @@ public class CustomCalendarView extends LinearLayout{
 
 
 
-    private void SetUpCalendar(){
+    /*private void SetUpCalendar(){
         String currentDate= dateFormat.format(calendar.getTime());
         CurrentDate.setText(currentDate);
         dates.clear();
@@ -490,6 +457,32 @@ public class CustomCalendarView extends LinearLayout{
         }
 
         //CUIDADO ARRIBA
+        gridView.setAdapter(myGridAdapter);
+    }*/
+
+    private void SetUpCalendar() {
+        String currentDate = dateFormat.format(calendar.getTime());
+        CurrentDate.setText(currentDate);
+        dates.clear();
+        Calendar monthCalendar = (Calendar) calendar.clone();
+        monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        int FirstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+        monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayOfMonth);
+        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()));
+
+        while (dates.size() < MAX_CALENDARDAYS) {
+            Date dateToAdd = monthCalendar.getTime();
+            if (monthCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+                // add the date to the list only if it belongs to the current month
+                dates.add(dateToAdd);
+            } else {
+                // add a null value to the list for dates that belong to other months
+                dates.add(null);
+            }
+            monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor);
         gridView.setAdapter(myGridAdapter);
     }
 

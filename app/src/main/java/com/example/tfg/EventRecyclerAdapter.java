@@ -1,9 +1,11 @@
 package com.example.tfg;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -74,6 +76,38 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.DateText.setText(events.getDATE());
         Glide.with(context).load(events.getIMAGEN()).into(holder.Imagen);
         holder.Video.setText(events.getVIDEO());
+        holder.Borrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("¿Está seguro de que desea eliminar este evento?");
+                    builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // Obtener objeto Events correspondiente
+                            Events eventToDelete = arrayList.get(position);
+
+                            // Obtener id del evento a borrar
+                            int eventId = eventToDelete.getID();
+                            DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
+                            // Borrar evento de la base de datos
+                            SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
+                            dbOpenHelper.deleteEvent(eventId, database);
+                            database.close();
+
+                            // Borrar evento de la lista y actualizar la vista
+                            arrayList.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, arrayList.size());
+                        }
+
+                    });
+                    builder.setNegativeButton("No", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+        });
 
     }
 
@@ -84,6 +118,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView DateText, Event, Video;
+        Button Borrar;
         ImageView Imagen;
 
         public MyViewHolder(@NonNull View itemView){
@@ -92,6 +127,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Event = itemView.findViewById(R.id.eventname);
             Imagen = itemView.findViewById(R.id.imagenEvento);
             Video = itemView.findViewById(R.id.videourl);
+            Borrar = itemView.findViewById((R.id.borrarevento));
 
         }
 

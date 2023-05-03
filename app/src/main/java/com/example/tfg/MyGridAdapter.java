@@ -59,8 +59,13 @@ public class MyGridAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Date monthDate = dates.get(position);
+
         Calendar dateCalendar = Calendar.getInstance();
-        dateCalendar.setTime(monthDate);
+        if (monthDate != null) { // verifica si monthDate no es nulo
+            dateCalendar.setTime(monthDate);
+        }else {
+            monthDate = new Date(0);
+        }
         int DayNo = dateCalendar.get(Calendar.DAY_OF_MONTH);
         int displayMonth = dateCalendar.get(Calendar.MONTH)+1;
         int displayYear = dateCalendar.get(Calendar.YEAR);
@@ -110,10 +115,16 @@ public class MyGridAdapter extends ArrayAdapter {
         if (currentDay==Calendar.SUNDAY){
             domingo.setTypeface(null, Typeface.BOLD);
 
-        }*/
+        }
+        */
+
         TextView Day_Number = view.findViewById(R.id.calendar_day);
         TextView EventNumber = view.findViewById(R.id.events_id);
-        Day_Number.setText(String.valueOf(DayNo));
+        if (monthDate.getTime()==0){
+            Day_Number.setText("-");
+        }else {
+            Day_Number.setText(String.valueOf(DayNo));
+        }
         Calendar eventCalendar = Calendar.getInstance();
         ArrayList<String> arrayList = new ArrayList<>();
         for ( int i =0; i < events.size(); i++){
