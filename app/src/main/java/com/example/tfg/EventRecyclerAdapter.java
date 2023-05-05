@@ -1,6 +1,7 @@
 package com.example.tfg;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -70,7 +71,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Events events = arrayList.get(position);
         holder.Event.setText(events.getEVENT());
         holder.DateText.setText(events.getDATE());
@@ -89,10 +90,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                             Events eventToDelete = arrayList.get(position);
 
                             // Obtener id del evento a borrar
-                            Integer eventId = eventToDelete.getID();
                             DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
                             // Borrar evento de la base de datos
                             SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
+                            Integer eventId = dbOpenHelper.getEventId(eventToDelete.getEVENT(), eventToDelete.getDATE(), database);
                             database.beginTransaction();
                             try {
                                 dbOpenHelper.deleteEvent(eventId, database);

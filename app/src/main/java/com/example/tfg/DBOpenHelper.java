@@ -56,6 +56,16 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public int getEventId(String eventName, String date, SQLiteDatabase database) {
+        int eventId = -1;
+        Cursor cursor = database.rawQuery("SELECT ID FROM " + DBStructure.EVENT_TABLE_NAME + " WHERE " + DBStructure.EVENT + " = ? AND " + DBStructure.DATE + " = ?", new String[]{eventName, date});
+        if (cursor.moveToFirst()) {
+            eventId = cursor.getInt(cursor.getColumnIndex("ID")+0);
+        }
+        cursor.close();
+        return eventId;
+    }
+
     public Cursor ReadEvents (String date, SQLiteDatabase database ){
         String [] Projections = {DBStructure.EVENT,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR, DBStructure.IMAGEN, DBStructure.VIDEO};
         String Selection = DBStructure.DATE + "=?";

@@ -112,12 +112,12 @@ public class CustomCalendarView extends LinearLayout{
         //DUDAAAAAAAAAAAA
 
         SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-        //String nombre = prefs.getString("nombre","");
+        String nombre = prefs.getString("name","");
         String email = prefs.getString("email", "");
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
         cellColor = prefs.getString("cellColor", "#D0FA58");
-        calendars = new Calendars("", email,fecha, id);
+        calendars = new Calendars(nombre, email,fecha, id);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
@@ -324,10 +324,10 @@ public class CustomCalendarView extends LinearLayout{
         View rootView = view;
         //findViewById(android.R.id.content)
         Bitmap bitmap = getBitmapFromView(rootView);
-
+        String nombreCalendario = calendars.getNAME();
         // Crea un archivo PDF y escribe la imagen en él
         try {
-            File pdfFile = new File(Environment.getExternalStorageDirectory(), "Calendario.pdf" + calendars.getNAME());
+            File pdfFile = new File(Environment.getExternalStorageDirectory(),nombreCalendario + "Calendario.pdf");
             FileOutputStream outputStream = new FileOutputStream(pdfFile);
 
             Document document = new Document();
