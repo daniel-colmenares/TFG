@@ -75,7 +75,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteEvent(int id, SQLiteDatabase database) {
+    public void deleteEvent(Integer id, SQLiteDatabase database) {
         String selection =  "ID = ?";
         String[] selectionArgs = { String.valueOf(id) };
         database.delete(DBStructure.EVENT_TABLE_NAME, selection, selectionArgs);

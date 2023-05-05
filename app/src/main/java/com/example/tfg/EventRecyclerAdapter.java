@@ -89,14 +89,22 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                             Events eventToDelete = arrayList.get(position);
 
                             // Obtener id del evento a borrar
-                            int eventId = eventToDelete.getID();
+                            Integer eventId = eventToDelete.getID();
                             DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
                             // Borrar evento de la base de datos
                             SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-                            dbOpenHelper.deleteEvent(eventId, database);
+                            database.beginTransaction();
+                            try {
+                                dbOpenHelper.deleteEvent(eventId, database);
+                                database.setTransactionSuccessful();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                database.endTransaction();
+                            }
                             database.close();
 
-                            // Borrar evento de la lista y actualizar la vista
+// Borrar evento de la lista y actualizar la vista
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, arrayList.size());

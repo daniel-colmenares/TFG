@@ -2,52 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="4dp">
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
         app:cardElevation="12sp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:isScrollContainer="false"
             android:orientation="vertical">
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@android:color/holo_blue_dark"
                 android:id="@+id/evendate"
-                android:textStyle="bold"
-                android:text="Fecha"
-                android:textSize="15sp"/>
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/holo_purple"
+                android:text="Fecha"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/eventname"
-                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Evento"
-                android:textSize="40sp"/>
+                android:textColor="@android:color/holo_purple"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imagenEvento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
+
             <TextView
+                android:id="@+id/videourl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/holo_blue_bright"
-                android:id="@+id/videourl"
-                android:textStyle="bold"
                 android:text="Video/multimedia"
-                android:textSize="40sp"/>
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/borrarevento"
@@ -55,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@color/red"
-                android:textColor="@color/white"
-                android:text="BORRAR EVENTO" />
+                android:text="BORRAR EVENTO"
+                android:textColor="@color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

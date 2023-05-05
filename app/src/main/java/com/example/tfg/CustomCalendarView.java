@@ -112,6 +112,7 @@ public class CustomCalendarView extends LinearLayout{
         //DUDAAAAAAAAAAAA
 
         SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        //String nombre = prefs.getString("nombre","");
         String email = prefs.getString("email", "");
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
@@ -326,7 +327,7 @@ public class CustomCalendarView extends LinearLayout{
 
         // Crea un archivo PDF y escribe la imagen en él
         try {
-            File pdfFile = new File(Environment.getExternalStorageDirectory(), "Calendario_" + calendars.getNAME() + ".pdf");
+            File pdfFile = new File(Environment.getExternalStorageDirectory(), "Calendario.pdf" + calendars.getNAME());
             FileOutputStream outputStream = new FileOutputStream(pdfFile);
 
             Document document = new Document();
