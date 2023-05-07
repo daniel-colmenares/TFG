@@ -116,7 +116,7 @@ public class CustomCalendarView extends LinearLayout{
         String email = prefs.getString("email", "");
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
-        cellColor = prefs.getString("cellColor", "#D0FA58");
+        cellColor = prefs.getString("cellColor", "#5FB404");
         calendars = new Calendars(nombre, email,fecha, id);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();

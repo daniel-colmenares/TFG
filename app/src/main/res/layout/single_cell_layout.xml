@@ -7,19 +7,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="left"
         android:layout_marginStart="20dp"
         android:id="@+id/calendar_day"
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:textColor="@color/black"
+
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
+        android:gravity="start"
         android:layout_marginStart="20dp"
         android:id="@+id/events_id"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:textColor="@color/white"
         />
 

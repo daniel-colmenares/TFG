@@ -14,10 +14,10 @@
     <color name="lightred">#FE2E64</color>
     <color name="lightgreen">#00FF40</color>
 
-    <color name="calendargreen">#58FA58</color>
+    <color name="calendargreen">#04B404</color>
     <color name="calendarblue">#8181F7</color>
     <color name="calendarred">#FA5858</color>
     <color name="calendarpurple">#D358F7</color>
     <color name="calendarpink">#F5A9D0</color>
-    <color name="calendaryellow">#F4FA58</color>
+    <color name="calendaryellow">#D7DF01</color>
 </resources>

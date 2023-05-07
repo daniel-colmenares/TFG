@@ -117,6 +117,16 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                     dialog.show();
                 }
         });
+        holder.Video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = events.VIDEO;
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(url), "video/*");
+                context.startActivity(intent);
+                //launchVideo(this, "https://www.ejemplo.com/video.mp4");
+            }
+        });
 
     }
 

@@ -63,4 +63,32 @@
         app:layout_constraintTop_toBottomOf="@id/buttonLoginIniciarSesion"
         app:layout_constraintBottom_toBottomOf="parent"
          />
+
+    <Button
+        android:id="@+id/btnAddUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#BA55D3"
+        android:text="Add User"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLoginCorreo" />
+
+    <Button
+        android:id="@+id/btnGetUsersList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#32CD32"
+        android:text="Fetch users"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLoginPassword" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnGetUsersList"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLoginCorreo"
+        tools:layout_editor_absoluteX="0dp">
+
+    </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>

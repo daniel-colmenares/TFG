@@ -10,14 +10,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tfg.model.User;
+import com.example.tfg.remote.APIUtils;
+import com.example.tfg.remote.UserService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,6 +38,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    Button btnAddUser;
+    Button btnGetUsersList;
+    ListView listView;
+
+    UserService userService;
+    List<User> list = new ArrayList<User>();
 
 
 
@@ -44,6 +61,29 @@ public class LoginActivity extends AppCompatActivity {
         editTextLoginPassword = findViewById(R.id.editTextLoginPassword);
         buttonLoginRegistro = findViewById(R.id.buttonLoginRegistro);
         buttonLoginIniciarSesion = findViewById(R.id.buttonLoginIniciarSesion);
+
+        btnAddUser = (Button) findViewById(R.id.btnAddUser);
+        btnGetUsersList = (Button) findViewById(R.id.btnGetUsersList);
+        listView = (ListView) findViewById(R.id.listView);
+        userService = APIUtils.getUserService();
+
+        btnGetUsersList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get users list
+                getUsersList();
+            }
+        });
+
+        btnAddUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, UserActivity.class);
+                intent.putExtra("user_name", "");
+                startActivity(intent);
+            }
+        });
+
 
         buttonLoginIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +136,24 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
                 dialog.show();
+            }
+        });
+    }
+
+    public void getUsersList(){
+        Call<List<User>> call = userService.getUsers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response.isSuccessful()){
+                    list = response.body();
+                    listView.setAdapter(new UserAdapter(LoginActivity.this, R.layout.list_user, list));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.e("ERROR: ", t.getMessage());
             }
         });
     }

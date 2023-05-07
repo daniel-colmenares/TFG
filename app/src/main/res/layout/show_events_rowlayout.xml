@@ -54,7 +54,8 @@
                 android:text="Video/multimedia"
                 android:textColor="@android:color/holo_blue_bright"
                 android:textSize="40sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:autoLink="web"/>
 
             <Button
                 android:id="@+id/borrarevento"

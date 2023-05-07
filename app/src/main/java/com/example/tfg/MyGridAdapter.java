@@ -132,7 +132,11 @@ public class MyGridAdapter extends ArrayAdapter {
             if (DayNo==eventCalendar.get(Calendar.DAY_OF_MONTH)&& displayMonth==eventCalendar.get(Calendar.MONTH)+1
             && displayYear == eventCalendar.get(Calendar.YEAR)){
                 arrayList.add(events.get(i).getEVENT());
-                EventNumber.setText(arrayList.size() + "Eventos");
+                if (arrayList.size()==1){
+                    EventNumber.setText(events.get(i).getEVENT());
+                }else {
+                    EventNumber.setText(arrayList.size() + "Evtos.");
+                }
             }
         }
         return view;
