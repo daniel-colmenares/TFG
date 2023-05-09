@@ -58,27 +58,33 @@
         app:layout_constraintBottom_toTopOf="@+id/cambiarRol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonfiltrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="FILTRAR"
-        app:layout_constraintBottom_toTopOf="@+id/button_crearcalendario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editText_buscar"
+    <RadioGroup
+        android:id="@+id/filterRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Buscar calendario por nombre"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/buttonfiltrar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp" />
+        android:orientation="horizontal">
+
+    </RadioGroup>
+
+
+    <RadioButton
+        android:id="@+id/nameFilterRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtrar por nombre"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/dateFilterRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filtrar por fecha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

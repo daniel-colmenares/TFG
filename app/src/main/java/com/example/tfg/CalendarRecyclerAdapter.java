@@ -54,7 +54,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Calendars calendars = arrayList.get(position);
         holder.Calendar.setText(calendars.getNAME());
-        holder.fechaCalendario.setText(calendars.getFECHA());
+        holder.fechaCalendario.setText(calendars.getFECHA().toString());
         if (!esAdmin){
             holder.eliminarCalendario.setVisibility(View.INVISIBLE);
         }
