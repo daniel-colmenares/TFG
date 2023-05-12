@@ -15,12 +15,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+
+import com.example.tfg.model.Pictograma;
+import com.example.tfg.remote.APIUtils;
+import com.example.tfg.remote.PictogramService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Window;
 import android.net.Uri;
 import android.os.Environment;
@@ -53,6 +58,8 @@ import com.bumptech.glide.Glide;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.json.JSONArray;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,8 +70,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class CustomCalendarView extends LinearLayout{
+    PictogramService pictogramService;
     DBOpenHelper dbOpenHelper;
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
@@ -122,6 +134,8 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
 
+        pictogramService = APIUtils.getUserService();
+
 
 
 
@@ -148,6 +162,9 @@ public class CustomCalendarView extends LinearLayout{
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (dates.get(position)==null){
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
@@ -164,6 +181,13 @@ public class CustomCalendarView extends LinearLayout{
                     @Override
                     public void onClick(View view) {
                         pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
+                    }
+                });
+                image.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        mostrarDialogoLista(view.getContext());
+                        return true;
                     }
                 });
                 AddEvent.setOnClickListener(new OnClickListener() {
@@ -307,6 +331,48 @@ public class CustomCalendarView extends LinearLayout{
         });
 
     }
+
+    private void mostrarDialogoLista(Context context) {
+
+        Call<List<JSONArray>> call = pictogramService.getUsers();
+        call.enqueue(new Callback<List<JSONArray>>() {
+            @Override
+            public void onResponse(Call<List<JSONArray>> call, Response<List<JSONArray>> response) {
+                if(response.isSuccessful()){
+                    String texto = response.body().toString();
+                    // Crear una lista de cadenas
+                    List<String> listaCadenas = new ArrayList<>();
+                    listaCadenas.add("Elemento 1");
+                    listaCadenas.add("Elemento 2");
+                    listaCadenas.add("Elemento 3");
+
+                    // Crear el diálogo
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Lista de pictogramas");
+                    builder.setItems(listaCadenas.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int position) {
+                            // Acción a realizar al hacer clic en un elemento
+                            String elementoSeleccionado = listaCadenas.get(position);
+                            // Haz algo con el elemento seleccionado
+                        }
+                    });
+// Mostrar el diálogo
+
+                    builder.create().show();
+                    //list = response.body();
+                    //listView.setAdapter(new UserAdapter(LoginActivity.this, R.layout.list_user, list));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<JSONArray>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

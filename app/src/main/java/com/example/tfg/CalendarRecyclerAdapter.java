@@ -63,6 +63,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("name",calendars.getNAME());
                 intent.putExtra("email",calendars.getEMAIL());
                 intent.putExtra("ID",calendars.getID());
                 context.startActivity(intent);

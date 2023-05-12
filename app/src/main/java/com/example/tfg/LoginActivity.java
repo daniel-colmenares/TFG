@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tfg.model.User;
+import com.example.tfg.model.Pictograma;
 import com.example.tfg.remote.APIUtils;
-import com.example.tfg.remote.UserService;
+import com.example.tfg.remote.PictogramService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnGetUsersList;
     ListView listView;
 
-    UserService userService;
-    List<User> list = new ArrayList<User>();
+    PictogramService userService;
+    List<Pictograma> list = new ArrayList<Pictograma>();
 
 
 
@@ -67,22 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         userService = APIUtils.getUserService();
 
-        btnGetUsersList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get users list
-                getUsersList();
-            }
-        });
-
-        btnAddUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, UserActivity.class);
-                intent.putExtra("user_name", "");
-                startActivity(intent);
-            }
-        });
 
 
         buttonLoginIniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -140,23 +124,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void getUsersList(){
-        Call<List<User>> call = userService.getUsers();
-        call.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response.isSuccessful()){
-                    list = response.body();
-                    listView.setAdapter(new UserAdapter(LoginActivity.this, R.layout.list_user, list));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.e("ERROR: ", t.getMessage());
-            }
-        });
-    }
 
     @Override
     public void onStart() {

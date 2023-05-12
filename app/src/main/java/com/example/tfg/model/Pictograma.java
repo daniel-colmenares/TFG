@@ -3,21 +3,21 @@ package com.example.tfg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class Pictograma {
     @SerializedName("id")
     @Expose
     private int id;
 
-    @SerializedName("name")
+    @SerializedName("keyword")
     @Expose
-    private String name;
+    private String keyword;
 
-    public User() {
+    public Pictograma() {
     }
 
-    public User(int id, String name) {
+    public Pictograma(int id, String keyword) {
         this.id = id;
-        this.name = name;
+        this.keyword = keyword;
     }
 
     public int getId() {
@@ -28,11 +28,11 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setKeyword(String keyword) {
+        this.keyword= keyword;
     }
 }
