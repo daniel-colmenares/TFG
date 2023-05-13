@@ -22,10 +22,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CREAR CALENDARIO"
+        android:background="@color/calendargreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
+        app:layout_constraintVertical_bias="0.76" />
 
     <Button
         android:id="@+id/cambiarRol"
@@ -34,8 +37,10 @@
         android:text="CAMBIAR ROL"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.206"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_crearcalendario" />
+        app:layout_constraintTop_toBottomOf="@+id/button_crearcalendario"
+        app:layout_constraintVertical_bias="0.619" />
 
     <Button
         android:id="@+id/botoncerrarsesion"
@@ -45,46 +50,72 @@
         android:text="Cerrar Sesión"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cambiarRol" />
+        app:layout_constraintTop_toBottomOf="@+id/dateFilterButton"
+        app:layout_constraintVertical_bias="0.92" />
+
 
     <TextView
         android:id="@+id/textView_Admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/cambiarRol"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toStartOf="parent" />
-    <RadioGroup
-        android:id="@+id/filterRadioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-    </RadioGroup>
-
-
-    <RadioButton
-        android:id="@+id/nameFilterRadioButton"
+    <Button
+        android:id="@+id/nameFilterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filtrar por nombre"
+        android:layout_marginStart="24dp"
+        android:text="NOMBRE"
+        android:background="@color/calendarblue"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
+        app:layout_constraintVertical_bias="0.337" />
 
-    <RadioButton
-        android:id="@+id/dateFilterRadioButton"
+    <Button
+        android:id="@+id/dateFilterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filtrar por fecha"
+        android:layout_marginEnd="36dp"
+        android:text="FECHA"
+        android:textColor="@color/white"
+        android:background="@color/calendarred"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
+        app:layout_constraintVertical_bias="0.337" />
 
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RESET"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FILTRAR CALENDARIOS POR:"
+        app:layout_constraintBottom_toTopOf="@+id/resetButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

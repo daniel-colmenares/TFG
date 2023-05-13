@@ -17,7 +17,7 @@ import retrofit2.http.Path;
 public interface PictogramService {
 
     @GET("all/es/")
-    Call<List<JSONArray>> getUsers();
+    Call<List<JSONArray>> getPictos();
 
     @GET("{id}")
     Call<Pictograma> getOne(@Path("id") int id);

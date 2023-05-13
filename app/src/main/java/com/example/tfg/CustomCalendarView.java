@@ -134,7 +134,7 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
 
-        pictogramService = APIUtils.getUserService();
+        pictogramService = APIUtils.getPictoService();
 
 
 
@@ -334,7 +334,7 @@ public class CustomCalendarView extends LinearLayout{
 
     private void mostrarDialogoLista(Context context) {
 
-        Call<List<JSONArray>> call = pictogramService.getUsers();
+        Call<List<JSONArray>> call = pictogramService.getPictos();
         call.enqueue(new Callback<List<JSONArray>>() {
             @Override
             public void onResponse(Call<List<JSONArray>> call, Response<List<JSONArray>> response) {

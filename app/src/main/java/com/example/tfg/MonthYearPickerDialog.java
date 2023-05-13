@@ -22,15 +22,15 @@ public class MonthYearPickerDialog extends DialogFragment {
 
     private NumberPicker monthPicker;
     private NumberPicker yearPicker;
-    private NumberPicker dayPicker;
+    //private NumberPicker dayPicker;
 
     private Calendar cal = Calendar.getInstance();
 
     public static final String MONTH_KEY = "monthValue";
-    public static final String DAY_KEY = "dayValue";
+    //public static final String DAY_KEY = "dayValue";
     public static final String YEAR_KEY = "yearValue";
 
-    int monthVal = -1 , dayVal = -1 , yearVal =-1 ;
+    int monthVal = -1 , yearVal =-1 ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,18 +39,18 @@ public class MonthYearPickerDialog extends DialogFragment {
         Bundle extras = getArguments();
         if(extras != null){
             monthVal = extras.getInt(MONTH_KEY , -1);
-            dayVal = extras.getInt(DAY_KEY , -1);
+            //dayVal = extras.getInt(DAY_KEY , -1);
             yearVal = extras.getInt(YEAR_KEY , -1);
         }
     }
 
-    public static MonthYearPickerDialog newInstance(int monthIndex , int daysIndex , int yearIndex) {
+    public static MonthYearPickerDialog newInstance(int monthIndex , int yearIndex) {
         MonthYearPickerDialog f = new MonthYearPickerDialog();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
         args.putInt(MONTH_KEY, monthIndex);
-        args.putInt(DAY_KEY, daysIndex);
+        //args.putInt(DAY_KEY, daysIndex);
         args.putInt(YEAR_KEY, yearIndex);
         f.setArguments(args);
 
@@ -73,7 +73,7 @@ public class MonthYearPickerDialog extends DialogFragment {
         View dialog = inflater.inflate(R.layout.month_year_picker, null);
         monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
-        dayPicker = (NumberPicker) dialog.findViewById(R.id.picker_day);
+        //dayPicker = (NumberPicker) dialog.findViewById(R.id.picker_day);
 
         monthPicker.setMinValue(1);
         monthPicker.setMaxValue(12);
@@ -88,14 +88,14 @@ public class MonthYearPickerDialog extends DialogFragment {
                 "Aug","Sep","Oct","Nov","Dec"});
 
 
-        dayPicker.setMinValue(1);
+        /*dayPicker.setMinValue(1);
         dayPicker.setMaxValue(daysOfMonth);
 
         if(dayVal != -1)
             dayPicker.setValue(dayVal);
         else
             dayPicker.setValue(cal.get(Calendar.DAY_OF_MONTH));
-
+*/
         monthPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -104,17 +104,17 @@ public class MonthYearPickerDialog extends DialogFragment {
                     case 7:case 8:case 10:
                     case 12:
                         daysOfMonth = 31;
-                        dayPicker.setMaxValue(daysOfMonth);
+                        //dayPicker.setMaxValue(daysOfMonth);
                         break;
                     case 2:
                         daysOfMonth = 28;
-                        dayPicker.setMaxValue(daysOfMonth);
+                        //dayPicker.setMaxValue(daysOfMonth);
                         break;
 
                     case 4:case 6:
                     case 9:case 11:
                         daysOfMonth = 30;
-                        dayPicker.setMaxValue(daysOfMonth);
+                        //dayPicker.setMaxValue(daysOfMonth);
                         break;
                 }
 
@@ -151,7 +151,7 @@ public class MonthYearPickerDialog extends DialogFragment {
                 try {
                     if(isLeapYear(picker.getValue())){
                         daysOfMonth = 29;
-                        dayPicker.setMaxValue(daysOfMonth);
+                        //dayPicker.setMaxValue(daysOfMonth);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -169,7 +169,7 @@ public class MonthYearPickerDialog extends DialogFragment {
                         if(year == (minYear+1)){
                             year = 1904;
                         }
-                        listener.onDateSet(null, year, monthPicker.getValue(), dayPicker.getValue());
+                        listener.onDateSet(null, year, monthPicker.getValue(), 0);
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

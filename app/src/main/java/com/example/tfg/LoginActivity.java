@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         btnAddUser = (Button) findViewById(R.id.btnAddUser);
         btnGetUsersList = (Button) findViewById(R.id.btnGetUsersList);
         listView = (ListView) findViewById(R.id.listView);
-        userService = APIUtils.getUserService();
+        userService = APIUtils.getPictoService();
 
 
 

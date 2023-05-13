@@ -7,7 +7,7 @@ public class APIUtils {
 
     public static final String API_URL = "https://api.arasaac.org/api/pictograms/";
 
-    public static PictogramService getUserService(){
+    public static PictogramService getPictoService(){
         return RetrofitClient.getClient(API_URL).create(PictogramService.class);
     }
 

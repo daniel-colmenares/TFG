@@ -175,54 +175,90 @@ public class SelectCalendarActivity extends AppCompatActivity  {
         });
 
 */
-        RadioGroup filterRadioGroup = findViewById(R.id.filterRadioGroup);
-        filterRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                // Verificar cuál botón se seleccionó
-                if (checkedId == R.id.nameFilterRadioButton) {
-                    // Filtrar por nombre de calendario
-                    String searchText = editTextBuscar.getText().toString().trim();
-                    ArrayList<Calendars> filteredList = new ArrayList<>();
-                    for (Calendars calendar : arrayList) {
-                        if (calendar.getNAME().toLowerCase().contains(searchText.toLowerCase())) {
-                            filteredList.add(calendar);
-                        }
-                    }
-                    calendarRecyclerAdapter.filterList(filteredList);
-                } else if (checkedId == R.id.dateFilterRadioButton) {
-                    // Obtener la fecha actual para inicializar el diálogo
-                    Calendar calendar = Calendar.getInstance();
-                    int initialYear = calendar.get(Calendar.YEAR);
-                    int initialMonth = calendar.get(Calendar.MONTH);
+        Button nameFilterButton = findViewById(R.id.nameFilterButton);
+        Button dateFilterButton = findViewById(R.id.dateFilterButton);
 
-                    // Mostrar el diálogo de selección de mes y año
-                    MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(calendar.get(Calendar.MONTH) + 1,
-                            calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.YEAR));
-                    pd.setListener(new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-// Filtrar los calendarios por mes y año de creación
-                            ArrayList<Calendars> filteredList = new ArrayList<>();
-                            for (Calendars calendar : arrayList) {
-                                try {
-                                    Date creationDate = dateFormat.parse(calendar.getFECHA());
-                                    Calendar calendarCreationDate = Calendar.getInstance();
-                                    calendarCreationDate.setTime(creationDate);
-                                    if (calendarCreationDate.get(Calendar.YEAR) == selectedYear && calendarCreationDate.get(Calendar.MONTH) == selectedMonth) {
-                                        filteredList.add(calendar);
-                                    }
-                                } catch (ParseException e) {
-                                    throw new RuntimeException(e);
-                                }
+        nameFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Crear el cuadro de diálogo
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Buscar calendario por nombre");
+
+                // Agregar el campo de texto
+                final EditText input = new EditText(view.getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                // Agregar los botones "Buscar" y "Cancelar"
+                builder.setPositiveButton("Buscar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String searchText = input.getText().toString().trim();
+                        ArrayList<Calendars> filteredList = new ArrayList<>();
+                        for (Calendars calendar : arrayList) {
+                            if (calendar.getNAME().toLowerCase().contains(searchText.toLowerCase())) {
+                                filteredList.add(calendar);
                             }
-                            // Actualizar el RecyclerView con los calendarios filtrados
-                            calendarRecyclerAdapter.filterList(filteredList);
                         }
-                    });
-                    pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
-                }
+                        calendarRecyclerAdapter.filterList(filteredList);
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Mostrar el cuadro de diálogo
+                builder.show();
+            }
+        });
+
+        dateFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtener la fecha actual para inicializar el diálogo
+                Calendar calendar = Calendar.getInstance();
+                int initialYear = calendar.get(Calendar.YEAR);
+                int initialMonth = calendar.get(Calendar.MONTH);
+
+                // Mostrar el diálogo de selección de mes y año
+                MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(calendar.get(Calendar.MONTH) + 1,calendar.get(Calendar.YEAR));
+                pd.setListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        // Filtrar los calendarios por mes y año de creación
+                        ArrayList<Calendars> filteredList = new ArrayList<>();
+                        for (Calendars calendar : arrayList) {
+                            try {
+                                Date creationDate = dateFormat.parse(calendar.getFECHA());
+                                Calendar calendarCreationDate = Calendar.getInstance();
+                                calendarCreationDate.setTime(creationDate);
+                                if (calendarCreationDate.get(Calendar.YEAR) == selectedYear && calendarCreationDate.get(Calendar.MONTH) == selectedMonth) {
+                                    filteredList.add(calendar);
+                                }
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        // Actualizar el RecyclerView con los calendarios filtrados
+                        calendarRecyclerAdapter.filterList(filteredList);
+                    }
+                });
+                pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
+            }
+        });
+
+
+        Button resetButton = findViewById(R.id.resetButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Restablecer la lista de calendarios
+                calendarRecyclerAdapter.filterList(arrayList);
             }
         });
 
