@@ -26,7 +26,7 @@ public class MyGridAdapter extends ArrayAdapter {
     List<Date> dates;
     Calendar currentDate;
     List<Events> events;
-    String cellColor;
+    String cellColor, fuenteLetra;
     LayoutInflater inflater;
     TextView lunes, martes, miercoles, jueves, viernes, sabado, domingo;
     private FragmentActivity mActivity;
@@ -50,6 +50,7 @@ public class MyGridAdapter extends ArrayAdapter {
         this.currentDate=currentDate;
         this.events=events;
         this.cellColor=cellColor;
+        //this.fuenteLetra=fuenteLetra;
         inflater = LayoutInflater.from(context);
     }
 

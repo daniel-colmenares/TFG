@@ -23,6 +23,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import android.graphics.Typeface;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -59,6 +60,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -81,13 +84,13 @@ public class CustomCalendarView extends LinearLayout{
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Events events;
-    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf;
+    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf, letra_calendario;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
-    String cellColor;
+    String cellColor, letraFuente;
     Calendars calendars;
     List<Date> dates= new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -129,6 +132,7 @@ public class CustomCalendarView extends LinearLayout{
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
         cellColor = prefs.getString("cellColor", "#5FB404");
+        letraFuente = prefs.getString("letraFuente", "monospace");
         calendars = new Calendars(nombre, email,fecha, id);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
@@ -186,7 +190,7 @@ public class CustomCalendarView extends LinearLayout{
                 image.setOnLongClickListener(new OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        mostrarDialogoLista(view.getContext());
+                        //mostrarDialogoLista(view.getContext());
                         return true;
                     }
                 });
@@ -268,7 +272,7 @@ public class CustomCalendarView extends LinearLayout{
                 verde.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        cellColor = "#58FA58";
+                        cellColor = "#04B404";
                         SetUpCalendar();
                         SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
@@ -280,7 +284,7 @@ public class CustomCalendarView extends LinearLayout{
                 amarillo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        cellColor = "#F4FA58";
+                        cellColor = "#D7DF01";
                         SetUpCalendar();
                         SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
@@ -329,49 +333,110 @@ public class CustomCalendarView extends LinearLayout{
                 guardarComoPDF(activity.getWindow().getDecorView().getRootView());
             }
         });
+        /*letra_calendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setCancelable(true);
+                View addView = LayoutInflater.from(context).inflate(R.layout.listafuentes_calendario,null);
+                Button font1 = addView.findViewById(R.id.button_font1);
+                Button font2 = addView.findViewById(R.id.button_font2);
+                Button font3 = addView.findViewById(R.id.button_font3);
 
+                font1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Typeface typeface = getResources().getFont(R.font.myfont);
+                        textView.setTypeface(typeface);
+                        SharedPreferences prefs = context.getSharedPreferences("PreferenciasUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("font_type", "font1.ttf");
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                font2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font2.ttf");
+                        textView.setTypeface(typeface);
+                        SharedPreferences prefs = context.getSharedPreferences("PreferenciasUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("font_type", "font2.ttf");
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                font3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font3.ttf");
+                        textView.setTypeface(typeface);
+                        SharedPreferences prefs = context.getSharedPreferences("PreferenciasUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("font_type", "font3.ttf");
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
+
+                builder.setView(addView);
+                alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+*/
     }
 
-    private void mostrarDialogoLista(Context context) {
 
-        Call<List<JSONArray>> call = pictogramService.getPictos();
-        call.enqueue(new Callback<List<JSONArray>>() {
+
+    /*private void mostrarDialogoLista(Context context) {
+
+        Call<List<JSONObject>> call = pictogramService.getPictos();
+        call.enqueue(new Callback<List<JSONObject>>() {
             @Override
-            public void onResponse(Call<List<JSONArray>> call, Response<List<JSONArray>> response) {
+            public void onResponse(Call<List<JSONObject>> call, Response<List<JSONObject>> response) {
                 if(response.isSuccessful()){
-                    String texto = response.body().toString();
-                    // Crear una lista de cadenas
-                    List<String> listaCadenas = new ArrayList<>();
-                    listaCadenas.add("Elemento 1");
-                    listaCadenas.add("Elemento 2");
-                    listaCadenas.add("Elemento 3");
+                    try {
+                        JSONObject jsonObject = response.body().get(0);
+                        JSONArray keywordsArray = jsonObject.getJSONArray("keywords");
+                        JSONObject firstKeyword = keywordsArray.getJSONObject(0);
+                        String keyword = firstKeyword.getString("keyword");
 
-                    // Crear el diálogo
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Lista de pictogramas");
-                    builder.setItems(listaCadenas.toArray(new String[0]), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int position) {
-                            // Acción a realizar al hacer clic en un elemento
-                            String elementoSeleccionado = listaCadenas.get(position);
-                            // Haz algo con el elemento seleccionado
-                        }
-                    });
-// Mostrar el diálogo
+                        // Crear una lista de cadenas
+                        List<String> listaCadenas = new ArrayList<>();
+                        listaCadenas.add(keyword);
 
-                    builder.create().show();
-                    //list = response.body();
-                    //listView.setAdapter(new UserAdapter(LoginActivity.this, R.layout.list_user, list));
+                        // Crear el diálogo
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Lista de pictogramas");
+                        builder.setItems(listaCadenas.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int position) {
+                                // Acción a realizar al hacer clic en un elemento
+                                String elementoSeleccionado = listaCadenas.get(position);
+                                // Haz algo con el elemento seleccionado
+                            }
+                        });
+                        // Mostrar el diálogo
+                        builder.create().show();
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                        // handle the exception gracefully
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<JSONArray>> call, Throwable t) {
-
+            public void onFailure(Call<List<JSONObject>> call, Throwable t) {
+                // Manejo de errores
             }
         });
     }
-
+*/
 
 
 
@@ -393,7 +458,7 @@ public class CustomCalendarView extends LinearLayout{
         String nombreCalendario = calendars.getNAME();
         // Crea un archivo PDF y escribe la imagen en él
         try {
-            File pdfFile = new File(Environment.getExternalStorageDirectory(),nombreCalendario + "Calendario.pdf");
+            File pdfFile = new File(Environment.getExternalStorageDirectory(),nombreCalendario + " calendario.pdf");
             FileOutputStream outputStream = new FileOutputStream(pdfFile);
 
             Document document = new Document();
@@ -502,6 +567,7 @@ public class CustomCalendarView extends LinearLayout{
         elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
         color_calendario = view.findViewById(R.id.color_calendario);
         pdf = view.findViewById(R.id.pdf);
+        letra_calendario = view.findViewById(R.id.letra_calendario);
         //defaultColor = ContextCompat.getColor(context, droidninja.filepicker.R.color.colorPrimary);
     }
 

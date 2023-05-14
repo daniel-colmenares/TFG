@@ -148,13 +148,21 @@
         android:text="ELEGIR CALENDARIO"
         android:layout_gravity="center"/>
 
+    <Button
+        android:id="@+id/letra_calendario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="LETRA" />
 
     <Button
         android:id="@+id/color_calendario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="CAMBIAR DE COLOR" />
+        android:text="COLOR" />
+
+
     <Button
         android:id="@+id/pdf"
         android:layout_width="wrap_content"
