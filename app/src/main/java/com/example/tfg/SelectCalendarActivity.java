@@ -237,7 +237,7 @@ public class SelectCalendarActivity extends AppCompatActivity  {
                                 Date creationDate = dateFormat.parse(calendar.getFECHA());
                                 Calendar calendarCreationDate = Calendar.getInstance();
                                 calendarCreationDate.setTime(creationDate);
-                                if (calendarCreationDate.get(Calendar.YEAR) == selectedYear && calendarCreationDate.get(Calendar.MONTH) == selectedMonth) {
+                                if (calendarCreationDate.get(Calendar.YEAR) == selectedYear && calendarCreationDate.get(Calendar.MONTH)+1 == selectedMonth) {
                                     filteredList.add(calendar);
                                 }
                             } catch (ParseException e) {

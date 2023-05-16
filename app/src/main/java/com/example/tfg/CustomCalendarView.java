@@ -18,6 +18,7 @@ import android.graphics.Color;
 
 import com.example.tfg.model.Pictograma;
 import com.example.tfg.remote.APIUtils;
+import com.example.tfg.remote.Modelo;
 import com.example.tfg.remote.PictogramService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -190,7 +191,7 @@ public class CustomCalendarView extends LinearLayout{
                 image.setOnLongClickListener(new OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        //mostrarDialogoLista(view.getContext());
+                        mostrarDialogoLista(view.getContext());
                         return true;
                     }
                 });
@@ -392,22 +393,24 @@ public class CustomCalendarView extends LinearLayout{
 
 
 
-    /*private void mostrarDialogoLista(Context context) {
+    private void mostrarDialogoLista(Context context) {
 
-        Call<List<JSONObject>> call = pictogramService.getPictos();
-        call.enqueue(new Callback<List<JSONObject>>() {
+        Call<List<Modelo>> call = pictogramService.getPictos();
+        call.enqueue(new Callback<List<Modelo>>() {
             @Override
-            public void onResponse(Call<List<JSONObject>> call, Response<List<JSONObject>> response) {
+            public void onResponse(Call<List<Modelo>> call, Response<List<Modelo>> response) {
                 if(response.isSuccessful()){
                     try {
-                        JSONObject jsonObject = response.body().get(0);
-                        JSONArray keywordsArray = jsonObject.getJSONArray("keywords");
-                        JSONObject firstKeyword = keywordsArray.getJSONObject(0);
-                        String keyword = firstKeyword.getString("keyword");
-
-                        // Crear una lista de cadenas
+                        List<Modelo> listaModelo = response.body();
+                        //.subList(0,49)
+                        assert listaModelo != null;
                         List<String> listaCadenas = new ArrayList<>();
-                        listaCadenas.add(keyword);
+                        List<Integer> listaId = new ArrayList<>();
+
+                        for (Modelo item : listaModelo) {
+                            listaCadenas.add(item.getKeywords().get(0).getKeyword());
+                            listaId.add(item.getId());
+                        }
 
                         // Crear el diálogo
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -415,28 +418,26 @@ public class CustomCalendarView extends LinearLayout{
                         builder.setItems(listaCadenas.toArray(new String[0]), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                // Acción a realizar al hacer clic en un elemento
-                                String elementoSeleccionado = listaCadenas.get(position);
-                                // Haz algo con el elemento seleccionado
+                                Glide.with(context).load("https://api.arasaac.org/api/pictograms/"+listaId.get(position)).into(image);
+                                uriImagen = Uri.parse("https://api.arasaac.org/api/pictograms/"+listaId.get(position));
                             }
                         });
                         // Mostrar el diálogo
                         builder.create().show();
                     }
-                    catch (JSONException e) {
+                    catch (Exception e) {
                         e.printStackTrace();
-                        // handle the exception gracefully
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<JSONObject>> call, Throwable t) {
-                // Manejo de errores
+            public void onFailure(Call<List<Modelo>> call, Throwable t) {
+                Log.d("fallo servidor", "error desconocido");
             }
         });
     }
-*/
+
 
 
 
