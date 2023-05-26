@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.internal.Constants;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
@@ -39,13 +41,13 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     RecyclerView show_calendarlist;
     private FirebaseAuth mAuth;
+    android.app.AlertDialog alertDialog;
     DBOpenHelper dbOpenHelper;
     Boolean esAdmin;
     TextView textViewAdmin;
     ArrayList<Calendars> arrayList;
     Button crearcalendario, cerrarsesion, cambiarRol;
-    String colorCal;
-    Integer letraCal;
+    String colorCal, letraCal;
 
 
     EditText editTextBuscar;
@@ -78,7 +80,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
             Integer Id = cursor.getInt(cursor.getColumnIndex("ID") + 0);
             String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR)+0);
-            Integer Letra = cursor.getInt(cursor.getColumnIndex(DBStructure.LETRA)+0);
+            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA)+0);
             Calendars calendar = new Calendars(Name, Email, Fecha, Id, Color, Letra);
             arrayList.add(calendar);
 
@@ -101,17 +103,24 @@ public class SelectCalendarActivity extends AppCompatActivity {
         crearcalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
+                builder.setCancelable(true);
                 //android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
                 //builder.setCancelable(true);
                 View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.crear_calendario, null);
                 Button selec_color = addView.findViewById(R.id.buttonColor);
                 Button selec_fuente = addView.findViewById(R.id.buttonLetra);
-                EditText nombreCal = addView.findViewById(R.id.nombreNuevoCalendario);
-                nombreCal.setInputType(InputType.TYPE_CLASS_TEXT);
+                TextInputLayout nombreCalLayout = addView.findViewById(R.id.nombreNuevoCalendario);
                 Button confirmarCal = addView.findViewById(R.id.button_crearcalendario);
+                Button buttonCancelar = addView.findViewById(R.id.buttonCancelar);
+
+                TextInputEditText nombreCal = (TextInputEditText) nombreCalLayout.getEditText();
+
                 selec_color.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(view.getContext());
+                        builder1.setCancelable(true);
                         View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listacolores_calendario, null);
                         Button azul = addView.findViewById(R.id.button_azul);
                         Button rojo = addView.findViewById(R.id.button_rojo);
@@ -128,6 +137,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("cellColor", colorCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         rojo.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +148,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("cellColor", colorCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         verde.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +159,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("cellColor", colorCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         amarillo.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +170,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("cellColor", colorCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         morado.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +181,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("cellColor", colorCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         rosa.setOnClickListener(new View.OnClickListener() {
@@ -178,13 +192,19 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("cellColor", colorCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
+                        builder1.setView(addView);
+                        alertDialog = builder1.create();
+                        alertDialog.show();
                     }
                 });
                 selec_fuente.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        android.app.AlertDialog.Builder builder2 = new android.app.AlertDialog.Builder(view.getContext());
+                        builder2.setCancelable(true);
                         View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listafuentes_calendario, null);
                         Button monospace = addView.findViewById(R.id.monospace);
                         Button serif = addView.findViewById(R.id.serif);
@@ -194,49 +214,56 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         monospace.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = 1;
+                                letraCal = "monospace";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
-                                editor.putInt("letraCal", letraCal);
+                                editor.putString("letraCal", letraCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         serif.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = 2;
+                                letraCal = "serif";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
-                                editor.putInt("letraCal", letraCal);
+                                editor.putString("letraCal", letraCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         curisva.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = 3;
+                                letraCal = "cursiva";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
-                                editor.putInt("letraCal", letraCal);
+                                editor.putString("letraCal", letraCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
                         casual.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = 4;
+                                letraCal = "casual";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
-                                editor.putInt("letraCal", letraCal);
+                                editor.putString("letraCal", letraCal);
                                 editor.apply();
+                                alertDialog.dismiss();
                             }
                         });
+                        builder2.setView(addView);
+                        alertDialog = builder2.create();
+                        alertDialog.show();
                     }
                 });
                 confirmarCal.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String nombreCalendario = nombreCal.getText().toString();
+                        //String nombreCalendario = nombreCal.getText().toString();
                         String email = getIntent().getStringExtra("email");
                         Date currentDate = new Date();
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -244,7 +271,14 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         // Haz algo con el nombre introducido por el usuario
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-                        dbOpenHelper.SaveCalendar(nombreCalendario, email, currentDateString, colorCal, letraCal, database);
+                        if (nombreCal != null) {
+                            String calendarName = nombreCal.getText().toString();
+                            dbOpenHelper.SaveCalendar(calendarName, email, currentDateString, colorCal, letraCal, database);
+                            alertDialog.dismiss();
+                        } else {
+                            Toast.makeText(view.getContext(), "El nombre del calendario no puede ser nulo", Toast.LENGTH_SHORT).show();
+                        }
+                        alertDialog.dismiss();
 
                         arrayList = new ArrayList<>();
                         dbOpenHelper = new DBOpenHelper(view.getContext());
@@ -256,7 +290,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                             String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
                             String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
                             String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
-                            Integer Letra = cursor.getInt(cursor.getColumnIndex(DBStructure.LETRA) + 0);
+                            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
                             Calendars calendar = new Calendars(Name, Email, Fecha, Id, Color, Letra);
                             arrayList.add(calendar);
 
@@ -268,6 +302,15 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                    }
+                });
+                builder.setView(addView);
+                alertDialog = builder.create();
+                alertDialog.show();
+                buttonCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
                     }
                 });
 

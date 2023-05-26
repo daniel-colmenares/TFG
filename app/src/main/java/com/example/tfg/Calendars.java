@@ -5,10 +5,10 @@ import java.util.Date;
 public class Calendars {
     String NAME;
     String EMAIL;
-    String FECHA, COLOR;
-    Integer ID, LETRA;
+    String FECHA, COLOR, LETRA;
+    Integer ID;
 
-    public Calendars(String NAME, String EMAIL,String FECHA, Integer ID, String COLOR, Integer LETRA) {
+    public Calendars(String NAME, String EMAIL,String FECHA, Integer ID, String COLOR, String LETRA) {
         this.NAME = NAME;
         this.EMAIL = EMAIL;
         this.FECHA = FECHA;
@@ -18,11 +18,11 @@ public class Calendars {
     }
 
 
-    public Integer getLETRA() {
+    public String getLETRA() {
         return LETRA;
     }
 
-    public void setLETRA(Integer LETRA) {
+    public void setLETRA(String LETRA) {
         this.LETRA = LETRA;
     }
 

@@ -44,13 +44,13 @@ public class MyGridAdapter extends ArrayAdapter {
         inflater = LayoutInflater.from(context);
     }*/
 
-    public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<Events> events, String cellColor) {
+    public MyGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<Events> events, String cellColor, String fuenteLetra) {
         super(context, R.layout.single_cell_layout);
         this.dates=dates;
         this.currentDate=currentDate;
         this.events=events;
         this.cellColor=cellColor;
-        //this.fuenteLetra=fuenteLetra;
+        this.fuenteLetra=fuenteLetra;
         inflater = LayoutInflater.from(context);
     }
 
@@ -80,6 +80,13 @@ public class MyGridAdapter extends ArrayAdapter {
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
         view.setBackgroundColor(Color.parseColor(cellColor));
+
+        /*if (fuenteLetra.equals("monospace")){
+            Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
+            view.setTypeface(typeface);
+        }
+        */
+
         //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         /*lunes = view.findViewById(R.id.lunes);
         martes = view.findViewById(R.id.martes);

@@ -91,8 +91,7 @@ public class CustomCalendarView extends LinearLayout{
     private static final int MAX_CALENDARDAYS=42;
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
-    String cellColor;
-    Integer letraFuente;
+    String cellColor, letraFuente;
     Calendars calendars;
     List<Date> dates= new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -134,7 +133,7 @@ public class CustomCalendarView extends LinearLayout{
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
         cellColor = prefs.getString("cellColor", "#5FB404");
-        letraFuente = prefs.getInt("letraFuente", 1);
+        letraFuente = prefs.getString("letraFuente", "");
         calendars = new Calendars(nombre, email,fecha, id, cellColor, letraFuente);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
@@ -617,7 +616,7 @@ public class CustomCalendarView extends LinearLayout{
             monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor);
+        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraFuente);
         gridView.setAdapter(myGridAdapter);
     }
 

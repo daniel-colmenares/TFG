@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.177" />
 
     <Button
         android:id="@+id/serif"
@@ -27,9 +27,10 @@
         android:text="SERIF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monospace" />
+        app:layout_constraintTop_toBottomOf="@+id/monospace"
+        app:layout_constraintVertical_bias="0.661" />
 
     <Button
         android:id="@+id/cursive"
@@ -43,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monospace"
-        app:layout_constraintVertical_bias="0.757" />
+        app:layout_constraintVertical_bias="0.671" />
 
     <Button
         android:id="@+id/casual"
@@ -57,7 +58,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monospace"
-        app:layout_constraintVertical_bias="0.592" />
+        app:layout_constraintVertical_bias="0.44" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
