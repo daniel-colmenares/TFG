@@ -146,6 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ELEGIR CALENDARIO"
+        android:background="@color/calendarpurple"
         android:layout_gravity="center"/>
 
     <Button
@@ -153,14 +154,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="LETRA" />
+        android:text="LETRA"
+        android:background="@color/calendarblue"/>
 
     <Button
         android:id="@+id/color_calendario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="COLOR" />
+        android:text="COLOR"
+        android:background="@color/calendargreen"/>
 
 
     <Button
@@ -168,7 +171,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="PDF" />
+        android:text="PDF"
+        android:background="@color/calendarpink"/>
 
 
 </LinearLayout>

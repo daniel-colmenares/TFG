@@ -13,10 +13,12 @@
         android:layout_marginTop="13dp"
         android:layout_marginBottom="11dp"
         android:text="REGISTRO"
-        android:textSize="40sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/editTextRegistroNombreUsuario"
 
-        app:layout_constraintStart_toStartOf="@+id/editTextRegistroNombreUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -50,11 +52,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
         android:layout_marginBottom="11dp"
-
-
+        android:background="@color/green"
         android:text="Registrarme"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/editTextRegistroContrasenna"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRegistroContrasenna" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -132,6 +132,27 @@ public class MyGridAdapter extends ArrayAdapter {
             Day_Number.setText("-");
         }else {
             Day_Number.setText(String.valueOf(DayNo));
+            if (fuenteLetra.equals("monospace")){
+                Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
+                Day_Number.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);
+            }
+            else if (fuenteLetra.equals("serif")){
+                Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+                Day_Number.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);
+            }
+            /*else if (fuenteLetra.equals("cursive")){
+
+                Typeface typeface = Typeface.create(Typeface.CURSIVE, Typeface.NORMAL);
+                Day_Number.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);
+            }
+            else if (fuenteLetra.equals("casual")){
+                Typeface typeface = Typeface.create(Typeface.CASUAL, Typeface.NORMAL);
+                Day_Number.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);
+            }*/
         }
         Calendar eventCalendar = Calendar.getInstance();
         ArrayList<String> arrayList = new ArrayList<>();
@@ -141,7 +162,11 @@ public class MyGridAdapter extends ArrayAdapter {
             && displayYear == eventCalendar.get(Calendar.YEAR)){
                 arrayList.add(events.get(i).getEVENT());
                 if (arrayList.size()==1){
-                    EventNumber.setText(events.get(i).getEVENT());
+                    if (events.get(i).getEVENT().equals("")){
+                        EventNumber.setText("1 Evto.");
+                    }else {
+                        EventNumber.setText(events.get(i).getEVENT());
+                    }
                 }else {
                     EventNumber.setText(arrayList.size() + "Evtos.");
                 }
