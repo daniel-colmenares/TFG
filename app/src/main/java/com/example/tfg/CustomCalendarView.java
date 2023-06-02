@@ -85,7 +85,7 @@ public class CustomCalendarView extends LinearLayout{
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Events events;
-    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf, letra_calendario;
+    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf, letra_calendario, buttonPicto, buttonGaleria;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
@@ -140,7 +140,7 @@ public class CustomCalendarView extends LinearLayout{
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
-        nombreCalView.setText(nombre);
+        nombreCalView.setText("CALENDARIO "+nombre);
 
         pictogramService = APIUtils.getPictoService();
 
@@ -178,24 +178,24 @@ public class CustomCalendarView extends LinearLayout{
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
                 EditText EventName = addView.findViewById(R.id.eventname);//eventsid
                 EditText EventVideo = addView.findViewById(R.id.eventvideo);
-                image = addView.findViewById(R.id.image);
+                buttonGaleria = addView.findViewById(R.id.buttonGaleria);
+                buttonPicto = addView.findViewById(R.id.buttonPicto);
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 final String date = eventDateFormat.format(dates.get(position));
                 final String month = monthFormat.format(dates.get(position));
                 final String year= yearFormat.format(dates.get(position));
                 TextView fecha = addView.findViewById(R.id.mostrarfecha);
                 fecha.setText(date);
-                image.setOnClickListener(new OnClickListener() {
+                buttonGaleria.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
                     }
                 });
-                image.setOnLongClickListener(new OnLongClickListener() {
+                buttonPicto.setOnClickListener(new OnClickListener() {
                     @Override
-                    public boolean onLongClick(View view) {
+                    public void onClick(View view) {
                         mostrarDialogoLista(view.getContext());
-                        return true;
                     }
                 });
                 AddEvent.setOnClickListener(new OnClickListener() {

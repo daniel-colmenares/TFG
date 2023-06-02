@@ -29,35 +29,45 @@
 
     <!--android:onClick="popTimePicker"-->
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="296dp"
-        android:layout_height="238dp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/buttonGaleria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AÑADIR IMAGEN/VIDEO DE GALERIA"
+        android:background="@color/green"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/buttonPicto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AÑADIR PICTOGRAMA"
+        android:background="@color/purple"
+        android:textColor="@color/white"/>
+
 
     <EditText
-        android:hint="Añadir url de video"
-        android:background="@android:color/white"
+        android:id="@+id/eventvideo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:textSize="20sp"
+        android:background="@android:color/white"
+        android:hint="Añadir url de video"
         android:inputType="text"
-        android:id="@+id/eventvideo"/>
-
+        android:textSize="20sp" />
 
     <Button
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
+        android:id="@+id/addevent"
+        android:layout_width="104dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@null"
         android:text="Guardar"
         android:textColor="@color/blue"
-        android:background="@null"
-        android:textStyle="bold"
-        android:id="@+id/addevent"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

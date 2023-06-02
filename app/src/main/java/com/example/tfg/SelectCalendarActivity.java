@@ -310,7 +310,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 buttonCancelar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        finish();
+                        alertDialog.dismiss();
                     }
                 });
 
