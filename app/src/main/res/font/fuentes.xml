@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <font-family xmlns:android="http://schemas.android.com/apk/res/android">
     <font
-        android:fontStyle="cursive"
+        android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/Cursive" />
+        android:font="@font/casual" />
     <font
-        android:fontStyle="italic"
+        android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/lobster_italic" />
+        android:font="@font/cursive" />
 </font-family>

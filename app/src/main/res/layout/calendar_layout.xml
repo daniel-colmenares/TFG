@@ -135,19 +135,26 @@
             android:textSize="16sp"/>
     </LinearLayout>
 
-    <GridView
+    <TextView
+        android:id="@+id/NombreCalView"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <GridView
         android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:numColumns="7" />
 
     <Button
         android:id="@+id/buttonCambiarCalendario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ELEGIR CALENDARIO"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
         android:background="@color/calendarpurple"
-        android:layout_gravity="center"/>
+        android:text="ELEGIR CALENDARIO" />
 
     <Button
         android:id="@+id/letra_calendario"

@@ -1,7 +1,10 @@
 package com.example.tfg;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -27,8 +30,9 @@ public class MyGridAdapter extends ArrayAdapter {
     Calendar currentDate;
     List<Events> events;
     String cellColor, fuenteLetra;
+    DBOpenHelper dbOpenHelper;
     LayoutInflater inflater;
-    TextView lunes, martes, miercoles, jueves, viernes, sabado, domingo;
+    TextView lunes, martes, miercoles, jueves, viernes, sabado, domingo, nombreCal;
     private FragmentActivity mActivity;
 
 
@@ -80,12 +84,9 @@ public class MyGridAdapter extends ArrayAdapter {
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
         view.setBackgroundColor(Color.parseColor(cellColor));
+        //nombreCal = parent.findViewById(R.id.NombreCalView);
 
-        /*if (fuenteLetra.equals("monospace")){
-            Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
-            view.setTypeface(typeface);
-        }
-        */
+
 
         //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         /*lunes = view.findViewById(R.id.lunes);
@@ -138,21 +139,17 @@ public class MyGridAdapter extends ArrayAdapter {
                 EventNumber.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("serif")){
-                Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
-                Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);
-            }
-            /*else if (fuenteLetra.equals("cursive")){
-
-                Typeface typeface = Typeface.create(Typeface.CURSIVE, Typeface.NORMAL);
+                Typeface typeface=parent.getResources().getFont(R.font.cursive);
+                //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("casual")){
-                Typeface typeface = Typeface.create(Typeface.CASUAL, Typeface.NORMAL);
+                Typeface typeface=parent.getResources().getFont(R.font.casual);
+                //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);
-            }*/
+            }
         }
         Calendar eventCalendar = Calendar.getInstance();
         ArrayList<String> arrayList = new ArrayList<>();

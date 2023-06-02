@@ -129,6 +129,8 @@ public class CustomCalendarView extends LinearLayout{
 
         SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         String nombre = prefs.getString("name","");
+        TextView nombreCalView = findViewById(R.id.NombreCalView);
+        //Calendar calendar = Calendar.getInstance();
         String email = prefs.getString("email", "");
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
@@ -138,6 +140,7 @@ public class CustomCalendarView extends LinearLayout{
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
+        nombreCalView.setText(nombre);
 
         pictogramService = APIUtils.getPictoService();
 
