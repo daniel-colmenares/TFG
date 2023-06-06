@@ -110,11 +110,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.crear_calendario, null);
                 Button selec_color = addView.findViewById(R.id.buttonColor);
                 Button selec_fuente = addView.findViewById(R.id.buttonLetra);
-                TextInputLayout nombreCalLayout = addView.findViewById(R.id.nombreNuevoCalendario);
+                EditText nombreCalLayout = addView.findViewById(R.id.editTextNombreCalendario);
                 Button confirmarCal = addView.findViewById(R.id.button_crearcalendario);
                 Button buttonCancelar = addView.findViewById(R.id.buttonCancelar);
-
-                TextInputEditText nombreCal = (TextInputEditText) nombreCalLayout.getEditText();
 
                 selec_color.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -271,8 +269,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         // Haz algo con el nombre introducido por el usuario
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-                        if (nombreCal != null) {
-                            String calendarName = nombreCal.getText().toString();
+                        if (!nombreCalLayout.getText().toString().equals("")) {
+                            String calendarName = nombreCalLayout.getText().toString();
                             dbOpenHelper.SaveCalendar(calendarName, email, currentDateString, colorCal, letraCal, database);
                             alertDialog.dismiss();
                         } else {

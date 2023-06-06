@@ -3,9 +3,9 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/Casual" />
+        android:font="@font/casual" />
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/Cursive" />
+        android:font="@font/cursive" />
 </font-family>

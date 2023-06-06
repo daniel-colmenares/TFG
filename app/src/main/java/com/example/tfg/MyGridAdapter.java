@@ -138,14 +138,19 @@ public class MyGridAdapter extends ArrayAdapter {
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);
             }
+            else if (fuenteLetra.equals("serif")){
+                Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+                Day_Number.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);
+            }
             else if (fuenteLetra.equals("cursive")){
-                Typeface typeface=parent.getResources().getFont(R.font.Cursive);
+                Typeface typeface=parent.getResources().getFont(R.font.cursive);
                 //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("casual")){
-                Typeface typeface=parent.getResources().getFont(R.font.Casual);
+                Typeface typeface=parent.getResources().getFont(R.font.casual);
                 //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);
