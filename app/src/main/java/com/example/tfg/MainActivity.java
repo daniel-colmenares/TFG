@@ -39,12 +39,6 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("name",getIntent().getExtras().getString("name"));
-        editor.putString("email", getIntent().getExtras().getString("email"));
-        editor.putInt("ID", getIntent().getExtras().getInt("ID"));
-        editor.apply();
         customCalendarView = (CustomCalendarView)findViewById(R.id.custom_calendar_view);
         //glide
     }

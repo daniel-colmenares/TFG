@@ -2,6 +2,7 @@ package com.example.tfg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,14 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         holder.verCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", 0);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("name",calendars.getNAME());
+                editor.putString("email", calendars.getEMAIL());
+                editor.putInt("ID", calendars.getID());
+                editor.putString("cellColor",calendars.getCOLOR());
+                editor.putString("letra",calendars.getLETRA());
+                editor.apply();
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("name",calendars.getNAME());
                 intent.putExtra("email",calendars.getEMAIL());

@@ -100,8 +100,9 @@ public class CustomCalendarView extends LinearLayout{
     SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy",Locale.forLanguageTag("es-ES"));
     SimpleDateFormat eventDateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.forLanguageTag("es-ES"));
     MyGridAdapter myGridAdapter;
+    EditText filtroPicto;
     AlertDialog alertDialog;
-    ImageView image;
+    ImageView image, imageViewGal, imageViewPicto;
 
     Uri uriImagen;
 
@@ -118,7 +119,8 @@ public class CustomCalendarView extends LinearLayout{
         MainActivity activity = (MainActivity)context;
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia = activity.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri!=null) {
-                Glide.with(context).load(uri).into(image);
+                Glide.with(context).load(uri).into(imageViewGal);
+                imageViewGal.setVisibility(View.VISIBLE);
                 uriImagen = uri;
             }else {
                 Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
@@ -178,8 +180,11 @@ public class CustomCalendarView extends LinearLayout{
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
                 EditText EventName = addView.findViewById(R.id.eventname);//eventsid
                 EditText EventVideo = addView.findViewById(R.id.eventvideo);
+                filtroPicto = addView.findViewById(R.id.editTextFiltroPicto);
                 buttonGaleria = addView.findViewById(R.id.buttonGaleria);
                 buttonPicto = addView.findViewById(R.id.buttonPicto);
+                imageViewGal = addView.findViewById(R.id.imageViewGaleria);
+                imageViewPicto = addView.findViewById(R.id.imageViewPicto);
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 final String date = eventDateFormat.format(dates.get(position));
                 final String month = monthFormat.format(dates.get(position));
@@ -190,6 +195,7 @@ public class CustomCalendarView extends LinearLayout{
                     @Override
                     public void onClick(View view) {
                         pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
+
                     }
                 });
                 buttonPicto.setOnClickListener(new OnClickListener() {
@@ -398,14 +404,22 @@ public class CustomCalendarView extends LinearLayout{
 
     private void mostrarDialogoLista(Context context) {
 
-        Call<List<Modelo>> call = pictogramService.getPictos();
+        Call<List<Modelo>> call;
+        if(filtroPicto.getText().toString().equals("")){
+            call = pictogramService.getPictos();
+        }
+        else{
+            call = pictogramService.getByFilter(filtroPicto.getText().toString());
+        }
         call.enqueue(new Callback<List<Modelo>>() {
             @Override
             public void onResponse(Call<List<Modelo>> call, Response<List<Modelo>> response) {
                 if(response.isSuccessful()){
                     try {
-                        List<Modelo> listaModelo = response.body();
-                        //.subList(0,49)
+                        int max = response.body().size()-1;
+                        int min = 30;
+                        int result = (int)(Math.random()*(max-min+1)+min);
+                        List<Modelo> listaModelo = response.body().subList(result-20,result);
                         assert listaModelo != null;
                         List<String> listaCadenas = new ArrayList<>();
                         List<Integer> listaId = new ArrayList<>();
@@ -421,8 +435,9 @@ public class CustomCalendarView extends LinearLayout{
                         builder.setItems(listaCadenas.toArray(new String[0]), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                Glide.with(context).load("https://api.arasaac.org/api/pictograms/"+listaId.get(position)).into(image);
+                                Glide.with(context).load("https://api.arasaac.org/api/pictograms/"+listaId.get(position)).into(imageViewPicto);
                                 uriImagen = Uri.parse("https://api.arasaac.org/api/pictograms/"+listaId.get(position));
+                                imageViewPicto.setVisibility(View.VISIBLE);
                             }
                         });
                         // Mostrar el diálogo

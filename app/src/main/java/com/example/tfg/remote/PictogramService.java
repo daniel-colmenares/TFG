@@ -26,4 +26,8 @@ public interface PictogramService {
     @GET("{id}")
     Call<Pictograma> getOne(@Path("id") int id);
 
+    @Headers("Accept: application/json")
+    @GET("es/search/{filtro}")
+    Call<List<Modelo>> getByFilter(@Path("filtro") String filtro);
+
 }

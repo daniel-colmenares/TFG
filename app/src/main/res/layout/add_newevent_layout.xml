@@ -38,6 +38,13 @@
         android:background="@color/green"
         android:textColor="@color/white"/>
 
+    <ImageView
+        android:id="@+id/imageViewGaleria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars"
+        android:visibility="gone"/>
+
     <Button
         android:id="@+id/buttonPicto"
         android:layout_width="match_parent"
@@ -46,6 +53,21 @@
         android:background="@color/purple"
         android:textColor="@color/white"/>
 
+
+    <ImageView
+        android:id="@+id/imageViewPicto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/editTextFiltroPicto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Escribe pictograma aquí" />
 
     <EditText
         android:id="@+id/eventvideo"
