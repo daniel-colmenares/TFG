@@ -28,6 +28,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.net.Uri;
 import android.os.Environment;
@@ -85,13 +86,15 @@ public class CustomCalendarView extends LinearLayout{
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Events events;
-    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf, letra_calendario, buttonPicto, buttonGaleria, personalizar;
+    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf,
+            letra_calendario, buttonPicto, buttonGaleria, personalizar,
+            confirmarPersonalizar;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
-    String cellColor, letraFuente;
+    String cellColor, letraCal;
     Calendars calendars;
     List<Date> dates= new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -102,7 +105,7 @@ public class CustomCalendarView extends LinearLayout{
     MyGridAdapter myGridAdapter;
     EditText filtroPicto;
     AlertDialog alertDialog;
-    ImageView image, imageViewGal, imageViewPicto;
+    ImageView imageViewGal, imageViewPicto;
 
     Uri uriImagen;
 
@@ -137,8 +140,8 @@ public class CustomCalendarView extends LinearLayout{
         String fecha = prefs.getString("fechacreacion","");
         Integer id = prefs.getInt("ID", 0);
         cellColor = prefs.getString("cellColor", "#5FB404");
-        letraFuente = prefs.getString("letraFuente", "");
-        calendars = new Calendars(nombre, email,fecha, id, cellColor, letraFuente);
+        letraCal = prefs.getString("letraCal", "");
+        calendars = new Calendars(nombre, email,fecha, id, cellColor, letraCal);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
@@ -242,96 +245,6 @@ public class CustomCalendarView extends LinearLayout{
                 return true;
             }
         });
-        color_calendario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setCancelable(true);
-                View addView = LayoutInflater.from(context).inflate(R.layout.listacolores_calendario,null);
-                Button azul = addView.findViewById(R.id.button_azul);
-                Button rojo = addView.findViewById(R.id.button_rojo);
-                Button amarillo = addView.findViewById(R.id.button_amarillo);
-                Button morado = addView.findViewById(R.id.button_morado);
-                Button rosa = addView.findViewById(R.id.button_rosa);
-                Button verde = addView.findViewById(R.id.button_verde);
-
-                azul.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cellColor = "#8181F7";
-                        SetUpCalendar();
-                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("cellColor", cellColor);
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                rojo.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cellColor = "#FA5858";
-                        SetUpCalendar();
-                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("cellColor", cellColor);
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                verde.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cellColor = "#04B404";
-                        SetUpCalendar();
-                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("cellColor", cellColor);
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                amarillo.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cellColor = "#D7DF01";
-                        SetUpCalendar();
-                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("cellColor", cellColor);
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                morado.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cellColor = "#D358F7";
-                        SetUpCalendar();
-                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("cellColor", cellColor);
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                rosa.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        cellColor = "#F5A9D0";
-                        SetUpCalendar();
-                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("cellColor", cellColor);
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                builder.setView(addView);
-                alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
         pdf.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -343,61 +256,184 @@ public class CustomCalendarView extends LinearLayout{
                 guardarComoPDF(activity.getWindow().getDecorView().getRootView());
             }
         });
-        /*letra_calendario.setOnClickListener(new View.OnClickListener() {
+        personalizar.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setCancelable(true);
-                View addView = LayoutInflater.from(context).inflate(R.layout.listafuentes_calendario,null);
-                Button font1 = addView.findViewById(R.id.button_font1);
-                Button font2 = addView.findViewById(R.id.button_font2);
-                Button font3 = addView.findViewById(R.id.button_font3);
+            public void onClick(View view) {
+                // Inflar el nuevo archivo XML
+                View nuevaVista = LayoutInflater.from(view.getContext()).inflate(R.layout.personalizar_calendario, null);
 
-                font1.setOnClickListener(new View.OnClickListener() {
+                // Reemplazar la vista existente con la nueva vista
+                ViewGroup parentView = (ViewGroup) view.getParent();
+                int index = parentView.indexOfChild(view);
+                parentView.removeView(view);
+                parentView.addView(nuevaVista, index);
+                confirmarPersonalizar = nuevaVista.findViewById(R.id.confirmarPers);
+                color_calendario = nuevaVista.findViewById(R.id.color_calendario);
+                letra_calendario = nuevaVista.findViewById(R.id.letra_calendario);
+                color_calendario.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Typeface typeface = getResources().getFont(R.font.myfont);
-                        textView.setTypeface(typeface);
-                        SharedPreferences prefs = context.getSharedPreferences("PreferenciasUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("font_type", "font1.ttf");
-                        editor.apply();
-                        alertDialog.dismiss();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setCancelable(true);
+                        View addView = LayoutInflater.from(context).inflate(R.layout.listacolores_calendario,null);
+                        Button azul = addView.findViewById(R.id.button_azul);
+                        Button rojo = addView.findViewById(R.id.button_rojo);
+                        Button amarillo = addView.findViewById(R.id.button_amarillo);
+                        Button morado = addView.findViewById(R.id.button_morado);
+                        Button rosa = addView.findViewById(R.id.button_rosa);
+                        Button verde = addView.findViewById(R.id.button_verde);
+
+                        azul.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cellColor = "#8181F7";
+                                SetUpCalendar();
+                                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("cellColor", cellColor);
+                                editor.apply();
+                                Toast.makeText(view.getContext(), "Color de calendario cambiado a azul", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        rojo.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cellColor = "#FA5858";
+                                SetUpCalendar();
+                                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("cellColor", cellColor);
+                                editor.apply();
+                                Toast.makeText(view.getContext(), "Color de calendario: rojo", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        verde.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cellColor = "#04B404";
+                                SetUpCalendar();
+                                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("cellColor", cellColor);
+                                editor.apply();
+                                Toast.makeText(view.getContext(), "Color de calendario: verde", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        amarillo.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cellColor = "#D7DF01";
+                                SetUpCalendar();
+                                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("cellColor", cellColor);
+                                editor.apply();
+                                Toast.makeText(view.getContext(), "Color de calendario: amarillo", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        morado.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cellColor = "#D358F7";
+                                SetUpCalendar();
+                                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("cellColor", cellColor);
+                                editor.apply();
+                                Toast.makeText(view.getContext(), "Color de calendario: morado", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        rosa.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cellColor = "#F5A9D0";
+                                SetUpCalendar();
+                                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("cellColor", cellColor);
+                                editor.apply();
+                                Toast.makeText(view.getContext(), "Color de calendario: rosa", Toast.LENGTH_SHORT).show();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        builder.setView(addView);
+                        alertDialog = builder.create();
+                        alertDialog.show();
                     }
                 });
+                letra_calendario.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                    public void onClick(View view) {
+                        android.app.AlertDialog.Builder builder2 = new android.app.AlertDialog.Builder(view.getContext());
+                        builder2.setCancelable(true);
+                        View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listafuentes_calendario, null);
+                        Button monospace = addView.findViewById(R.id.monospace);
+                        Button serif = addView.findViewById(R.id.serif);
+                        Button curisva = addView.findViewById(R.id.cursive);
+                        Button casual = addView.findViewById(R.id.casual);
 
-                font2.setOnClickListener(new View.OnClickListener() {
+                        monospace.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                letraCal = "monospace";
+                                SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("letraCal", letraCal);
+                                editor.apply();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        serif.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                letraCal = "serif";
+                                SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("letraCal", letraCal);
+                                editor.apply();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        curisva.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                letraCal = "cursiva";
+                                SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("letraCal", letraCal);
+                                editor.apply();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        casual.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                letraCal = "casual";
+                                SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("letraCal", letraCal);
+                                editor.apply();
+                                alertDialog.dismiss();
+                            }
+                        });
+                        builder2.setView(addView);
+                        alertDialog = builder2.create();
+                        alertDialog.show();
+                    }
+                });
+                confirmarPersonalizar.setOnClickListener(new OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font2.ttf");
-                        textView.setTypeface(typeface);
-                        SharedPreferences prefs = context.getSharedPreferences("PreferenciasUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("font_type", "font2.ttf");
-                        editor.apply();
-                        alertDialog.dismiss();
+                    public void onClick(View view) {
+
                     }
                 });
-
-                font3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/font3.ttf");
-                        textView.setTypeface(typeface);
-                        SharedPreferences prefs = context.getSharedPreferences("PreferenciasUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("font_type", "font3.ttf");
-                        editor.apply();
-                        alertDialog.dismiss();
-                    }
-                });
-
-                builder.setView(addView);
-                alertDialog = builder.create();
-                alertDialog.show();
             }
         });
-*/
     }
 
 
@@ -584,10 +620,8 @@ public class CustomCalendarView extends LinearLayout{
         CurrentDate=view.findViewById(R.id.current_Date);
         gridView = view.findViewById(R.id.gridView);
         elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
-        color_calendario = view.findViewById(R.id.color_calendario);
         pdf = view.findViewById(R.id.pdf);
         personalizar = view.findViewById(R.id.personalizar);
-        letra_calendario = view.findViewById(R.id.letra_calendario);
     }
 
 
@@ -634,7 +668,7 @@ public class CustomCalendarView extends LinearLayout{
             monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraFuente);
+        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraCal);
         gridView.setAdapter(myGridAdapter);
     }
 

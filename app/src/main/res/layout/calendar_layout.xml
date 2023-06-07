@@ -163,7 +163,8 @@
     <Button
         android:id="@+id/personalizar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightblue"
         android:layout_gravity="left"
         android:text="PERSONALIZAR" />
 
@@ -174,8 +175,6 @@
         android:layout_gravity="right"
         android:background="@color/calendarpink"
         android:text="PDF" />
-
-
 
 
 </LinearLayout>
