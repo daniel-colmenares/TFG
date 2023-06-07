@@ -85,7 +85,7 @@ public class CustomCalendarView extends LinearLayout{
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Events events;
-    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf, letra_calendario, buttonPicto, buttonGaleria;
+    Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf, letra_calendario, buttonPicto, buttonGaleria, personalizar;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
@@ -586,8 +586,8 @@ public class CustomCalendarView extends LinearLayout{
         elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
         color_calendario = view.findViewById(R.id.color_calendario);
         pdf = view.findViewById(R.id.pdf);
+        personalizar = view.findViewById(R.id.personalizar);
         letra_calendario = view.findViewById(R.id.letra_calendario);
-        //defaultColor = ContextCompat.getColor(context, droidninja.filepicker.R.color.colorPrimary);
     }
 
 

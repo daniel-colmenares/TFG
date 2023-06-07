@@ -46,7 +46,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     Boolean esAdmin;
     TextView textViewAdmin;
     ArrayList<Calendars> arrayList;
-    Button crearcalendario, cerrarsesion, cambiarRol;
+    Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes;
     String colorCal, letraCal;
 
 
@@ -59,8 +59,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
-        cambiarRol = findViewById(R.id.cambiarRol);
-        textViewAdmin = findViewById(R.id.textView_Admin);
+        //cambiarRol = findViewById(R.id.cambiarRol);
+        //textViewAdmin = findViewById(R.id.textView_Admin);
+        ajustesBotton = findViewById(R.id.ajustesbutton);
         crearcalendario = findViewById(R.id.button_crearcalendario);
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
         cerrarsesion = findViewById(R.id.botoncerrarsesion);
@@ -93,12 +94,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
         CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
 
-        if (esAdmin) {
-            textViewAdmin.setText("TERAPEUTA");
-
-        } else {
-            textViewAdmin.setText("USUARIO");
-        }
 
         crearcalendario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,9 +310,17 @@ public class SelectCalendarActivity extends AppCompatActivity {
             }
         });
 
-
+        ajustesBotton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.filtrar_calendar_settings);
+                textViewAdmin = findViewById(R.id.textViewCambiarRol);
+                cambiarRol = findViewById(R.id.cambiarRol);
                 Button nameFilterButton = findViewById(R.id.nameFilterButton);
                 Button dateFilterButton = findViewById(R.id.dateFilterButton);
+                Button resetButton = findViewById(R.id.resetButton);
+                confirmarAjustes = findViewById(R.id.buttonConfirmarAjustes);
+                //View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listacolores_calendario, null);
 
                 nameFilterButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -343,6 +346,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                     }
                                 }
                                 calendarRecyclerAdapter.filterList(filteredList);
+                                Toast.makeText(view.getContext(), "Aplicado filtro de nombre", Toast.LENGTH_SHORT).show();
                             }
                         });
                         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -387,34 +391,17 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 }
                                 // Actualizar el RecyclerView con los calendarios filtrados
                                 calendarRecyclerAdapter.filterList(filteredList);
+                                Toast.makeText(view.getContext(), "Aplicado filtro de fecha", Toast.LENGTH_SHORT).show();
                             }
                         });
                         pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
                     }
                 });
-
-
-                Button resetButton = findViewById(R.id.resetButton);
                 resetButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         // Restablecer la lista de calendarios
                         calendarRecyclerAdapter.filterList(arrayList);
-                    }
-                });
-
-                cerrarsesion.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Realiza las acciones necesarias para cerrar sesión
-                        // Ejemplo: cierra la sesión del usuario actual y elimina información de sesión
-                        mAuth.signOut();
-
-                        // Redirige al usuario a la pantalla de inicio de sesión
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
                     }
                 });
                 cambiarRol.setOnClickListener(new View.OnClickListener() {
@@ -432,8 +419,38 @@ public class SelectCalendarActivity extends AppCompatActivity {
                             crearcalendario.setVisibility(View.INVISIBLE);
                         }
                         editor.apply();
+                        if (esAdmin) {
+                            textViewAdmin.setText("ADMININSTRADOR");
+
+                        } else {
+                            textViewAdmin.setText("USUARIO");
+                        }
                         CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                    }
+                });
+                confirmarAjustes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onBackPressed();
+                    }
+                });
+            }
+        });
+
+
+                cerrarsesion.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Realiza las acciones necesarias para cerrar sesión
+                        // Ejemplo: cierra la sesión del usuario actual y elimina información de sesión
+                        mAuth.signOut();
+
+                        // Redirige al usuario a la pantalla de inicio de sesión
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
                     }
                 });
             }
