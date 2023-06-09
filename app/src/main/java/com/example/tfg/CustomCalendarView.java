@@ -444,7 +444,6 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
         dbOpenHelper.updateCalendar(id, name, color, letra, database);
         dbOpenHelper.close();
-        Toast.makeText(context, "Nuevo color: "+color, Toast.LENGTH_SHORT).show();
     }
 
     public CustomCalendarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -462,28 +461,6 @@ public class CustomCalendarView extends LinearLayout{
         pdf = view.findViewById(R.id.pdf);
         personalizar = view.findViewById(R.id.personalizar);
     }
-
-
-
-    /*private void SetUpCalendar(){
-        String currentDate= dateFormat.format(calendar.getTime());
-        CurrentDate.setText(currentDate);
-        dates.clear();
-        Calendar monthCalendar = (Calendar) calendar.clone();
-        monthCalendar.set(Calendar.DAY_OF_MONTH,1);
-        int FirstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK)-1;
-        monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayOfMonth);
-        CollectEventsPerMonth(monthFormat.format(calendar.getTime()),yearFormat.format(calendar.getTime()));
-
-        while(dates.size() < MAX_CALENDARDAYS){
-            dates.add(monthCalendar.getTime());
-            monthCalendar.add(Calendar.DAY_OF_MONTH,1);
-            myGridAdapter = new MyGridAdapter(context,dates,calendar,eventsList, cellColor);
-        }
-
-        //CUIDADO ARRIBA
-        gridView.setAdapter(myGridAdapter);
-    }*/
 
     public void SetUpCalendar() {
         String currentDate = dateFormat.format(calendar.getTime());
@@ -515,6 +492,8 @@ public class CustomCalendarView extends LinearLayout{
         myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraCal);
         gridView.setAdapter(myGridAdapter);
         UpdateCalendar(id,nombre,cellColor, letraCal);
+        SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
+        nombreCalView.setText(nombre);
     }
 
 

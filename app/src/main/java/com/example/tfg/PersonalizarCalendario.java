@@ -3,16 +3,19 @@ package com.example.tfg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class PersonalizarCalendario extends AppCompatActivity {
 
-    Button confirmarPersonalizar, letra_calendario, color_calendario;
+    Button confirmarPersonalizar, letra_calendario, color_calendario, nombre_calendario;
     String cellColor, letraCal;
     AlertDialog alertDialog;
     String idCalendario;
@@ -26,6 +29,8 @@ public class PersonalizarCalendario extends AppCompatActivity {
         confirmarPersonalizar = findViewById(R.id.confirmarPers);
         color_calendario = findViewById(R.id.color_calendario);
         letra_calendario = findViewById(R.id.letra_calendario);
+        nombre_calendario = findViewById(R.id.nombre_calendario);
+
         color_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +59,6 @@ public class PersonalizarCalendario extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         cellColor = "#FA5858";
-
                         SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
@@ -103,7 +107,6 @@ public class PersonalizarCalendario extends AppCompatActivity {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
                         editor.apply();
-                        Toast.makeText(view.getContext(), "Color de calendario: rosa", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -170,6 +173,40 @@ public class PersonalizarCalendario extends AppCompatActivity {
                 builder2.setView(addView);
                 alertDialog = builder2.create();
                 alertDialog.show();
+            }
+        });
+        nombre_calendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Introduzca el nuevo nombre del calendario");
+
+                // Agregar el campo de texto
+                final EditText input = new EditText(view.getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+                // Agregar los botones "Guardar" y "Cancelar"
+                builder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newCalendarName = input.getText().toString().trim();
+                        SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("name", newCalendarName);
+                        editor.apply();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Mostrar el cuadro de diálogo
+                builder.show();
             }
         });
         confirmarPersonalizar.setOnClickListener(new View.OnClickListener() {
