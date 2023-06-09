@@ -21,6 +21,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     private final static String USER_CALENDARS =  "SELECT * FROM " + DBStructure.CALENDAR_TABLE_NAME + "WHERE " + DBStructure.EMAIL + " = ?";
 
+
     private static final String DROP_EVENTS_TABLE="DROP TABLE IF EXISTS "+DBStructure.EVENT_TABLE_NAME;
 
     private static final String DROP_CALENDAR_TABLE="DROP TABLE IF EXISTS "+DBStructure.CALENDAR_TABLE_NAME;
@@ -103,6 +104,18 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(DBStructure.LETRA,letra);
         database.insert(DBStructure.CALENDAR_TABLE_NAME,null,contentValues);
 
+    }
+
+    public void updateCalendar(int id, String name, String color, String letra, SQLiteDatabase database) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBStructure.NAME, name);
+        contentValues.put(DBStructure.COLOR, color);
+        contentValues.put(DBStructure.LETRA, letra);
+
+        String selection =  "ID = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+
+        database.update(DBStructure.CALENDAR_TABLE_NAME, contentValues, selection, selectionArgs);
     }
 
     public void deleteCalendar(int id, SQLiteDatabase database) {

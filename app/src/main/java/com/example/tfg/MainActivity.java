@@ -55,4 +55,9 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         myGridAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onResume() {
+        customCalendarView.SetUpCalendar();
+        super.onResume();
+    }
 }

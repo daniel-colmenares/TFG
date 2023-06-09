@@ -439,6 +439,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         });
 
 
+
                 cerrarsesion.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -455,4 +456,15 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 });
             }
 
+    @Override
+    protected void onResume() {
+        if (esAdmin) {
+            Toast.makeText(SelectCalendarActivity.this, "Eres Admin", Toast.LENGTH_SHORT).show();
+            crearcalendario.setVisibility(View.VISIBLE);
+        } else {
+            Toast.makeText(SelectCalendarActivity.this, "Eres Usuario", Toast.LENGTH_SHORT).show();
+            crearcalendario.setVisibility(View.INVISIBLE);
+        }
+        super.onResume();
+    }
 }
