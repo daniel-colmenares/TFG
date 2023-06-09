@@ -29,9 +29,9 @@ public class PersonalizarCalendario extends AppCompatActivity {
         color_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setCancelable(true);
-                View addView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listacolores_calendario,null);
+                View addView = LayoutInflater.from(v.getContext()).inflate(R.layout.listacolores_calendario,null);
                 Button azul = addView.findViewById(R.id.button_azul);
                 Button rojo = addView.findViewById(R.id.button_rojo);
                 Button amarillo = addView.findViewById(R.id.button_amarillo);
@@ -47,7 +47,6 @@ public class PersonalizarCalendario extends AppCompatActivity {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
                         editor.apply();
-                        Toast.makeText(view.getContext(), "Color de calendario cambiado a azul", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -60,7 +59,6 @@ public class PersonalizarCalendario extends AppCompatActivity {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
                         editor.apply();
-                        Toast.makeText(view.getContext(), "Color de calendario: rojo", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -72,7 +70,6 @@ public class PersonalizarCalendario extends AppCompatActivity {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
                         editor.apply();
-                        Toast.makeText(view.getContext(), "Color de calendario: verde", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -84,7 +81,6 @@ public class PersonalizarCalendario extends AppCompatActivity {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
                         editor.apply();
-                        Toast.makeText(view.getContext(), "Color de calendario: amarillo", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -92,12 +88,10 @@ public class PersonalizarCalendario extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         cellColor = "#D358F7";
-
                         SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("cellColor", cellColor);
                         editor.apply();
-                        Toast.makeText(view.getContext(), "Color de calendario: morado", Toast.LENGTH_SHORT).show();
                         alertDialog.dismiss();
                     }
                 });
@@ -181,8 +175,7 @@ public class PersonalizarCalendario extends AppCompatActivity {
         confirmarPersonalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                finish();
             }
         });
     }

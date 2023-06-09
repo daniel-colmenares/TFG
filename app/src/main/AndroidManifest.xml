@@ -20,9 +20,6 @@
             android:name=".PersonalizarCalendario"
             android:exported="false" />
         <activity
-            android:name=".FiltrarCalendario"
-            android:exported="false" />
-        <activity
             android:name=".SelectCalendarActivity"
             android:exported="false" />
         <activity

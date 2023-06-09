@@ -59,8 +59,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
-        //cambiarRol = findViewById(R.id.cambiarRol);
-        //textViewAdmin = findViewById(R.id.textView_Admin);
+        textViewAdmin = findViewById(R.id.textViewCambiarRol);
         ajustesBotton = findViewById(R.id.ajustesbutton);
         crearcalendario = findViewById(R.id.button_crearcalendario);
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
@@ -93,6 +92,13 @@ public class SelectCalendarActivity extends AppCompatActivity {
         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+        if (esAdmin) {
+            textViewAdmin.setText("ADMININSTRADOR");
+
+        } else {
+            textViewAdmin.setText("USUARIO");
+        }
+
 
 
         crearcalendario.setOnClickListener(new View.OnClickListener() {
@@ -313,128 +319,120 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ajustesBotton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.filtrar_calendar_settings);
-                textViewAdmin = findViewById(R.id.textViewCambiarRol);
-                cambiarRol = findViewById(R.id.cambiarRol);
-                Button nameFilterButton = findViewById(R.id.nameFilterButton);
-                Button dateFilterButton = findViewById(R.id.dateFilterButton);
-                Button resetButton = findViewById(R.id.resetButton);
-                confirmarAjustes = findViewById(R.id.buttonConfirmarAjustes);
-                //View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listacolores_calendario, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Ajustes");
+                final String[] opciones = {"Filtrar calendarios por nombre", "Filtrar calendarios por fecha",
+                        "Reset filtro de calendarios", "Cambiar rol"};
 
-                nameFilterButton.setOnClickListener(new View.OnClickListener() {
+                builder.setItems(opciones, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        // Crear el cuadro de diálogo
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                        builder.setTitle("Buscar calendario por nombre");
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Acciones a realizar cuando se selecciona una opción
+                        String opcionSeleccionada = opciones[which];
+                        switch (opcionSeleccionada) {
+                            case "Filtrar calendarios por nombre":
+                                AlertDialog.Builder searchBuilder = new AlertDialog.Builder(view.getContext());
+                                searchBuilder.setTitle("Buscar calendario por nombre");
 
-                        // Agregar el campo de texto
-                        final EditText input = new EditText(view.getContext());
-                        input.setInputType(InputType.TYPE_CLASS_TEXT);
-                        builder.setView(input);
+                                // Agregar el campo de texto
+                                final EditText input = new EditText(view.getContext());
+                                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                                searchBuilder.setView(input);
 
-                        // Agregar los botones "Buscar" y "Cancelar"
-                        builder.setPositiveButton("Buscar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String searchText = input.getText().toString().trim();
-                                ArrayList<Calendars> filteredList = new ArrayList<>();
-                                for (Calendars calendar : arrayList) {
-                                    if (calendar.getNAME().toLowerCase().contains(searchText.toLowerCase())) {
-                                        filteredList.add(calendar);
-                                    }
-                                }
-                                calendarRecyclerAdapter.filterList(filteredList);
-                                Toast.makeText(view.getContext(), "Aplicado filtro de nombre", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        // Mostrar el cuadro de diálogo
-                        builder.show();
-                    }
-                });
-
-                dateFilterButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Obtener la fecha actual para inicializar el diálogo
-                        Calendar calendar = Calendar.getInstance();
-                        int initialYear = calendar.get(Calendar.YEAR);
-                        int initialMonth = calendar.get(Calendar.MONTH);
-
-                        // Mostrar el diálogo de selección de mes y año
-                        MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
-                        pd.setListener(new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                // Filtrar los calendarios por mes y año de creación
-                                ArrayList<Calendars> filteredList = new ArrayList<>();
-                                for (Calendars calendar : arrayList) {
-                                    try {
-                                        Date creationDate = dateFormat.parse(calendar.getFECHA());
-                                        Calendar calendarCreationDate = Calendar.getInstance();
-                                        calendarCreationDate.setTime(creationDate);
-                                        if (calendarCreationDate.get(Calendar.YEAR) == selectedYear && calendarCreationDate.get(Calendar.MONTH) + 1 == selectedMonth) {
-                                            filteredList.add(calendar);
+                                // Agregar los botones "Buscar" y "Cancelar"
+                                searchBuilder.setPositiveButton("Buscar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String searchText = input.getText().toString().trim();
+                                        ArrayList<Calendars> filteredList = new ArrayList<>();
+                                        for (Calendars calendar : arrayList) {
+                                            if (calendar.getNAME().toLowerCase().contains(searchText.toLowerCase())) {
+                                                filteredList.add(calendar);
+                                            }
                                         }
-                                    } catch (ParseException e) {
-                                        throw new RuntimeException(e);
+                                        calendarRecyclerAdapter.filterList(filteredList);
+                                        Toast.makeText(view.getContext(), "Aplicado filtro de nombre", Toast.LENGTH_SHORT).show();
                                     }
-                                }
-                                // Actualizar el RecyclerView con los calendarios filtrados
-                                calendarRecyclerAdapter.filterList(filteredList);
-                                Toast.makeText(view.getContext(), "Aplicado filtro de fecha", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
-                    }
-                });
-                resetButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Restablecer la lista de calendarios
-                        calendarRecyclerAdapter.filterList(arrayList);
-                    }
-                });
-                cambiarRol.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        esAdmin = !esAdmin;
-                        SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean("esAdmin", esAdmin);
-                        if (esAdmin) {
-                            Toast.makeText(SelectCalendarActivity.this, "Eres Admin", Toast.LENGTH_SHORT).show();
-                            crearcalendario.setVisibility(View.VISIBLE);
-                        } else {
-                            Toast.makeText(SelectCalendarActivity.this, "Eres Usuario", Toast.LENGTH_SHORT).show();
-                            crearcalendario.setVisibility(View.INVISIBLE);
-                        }
-                        editor.apply();
-                        if (esAdmin) {
-                            textViewAdmin.setText("ADMININSTRADOR");
+                                });
+                                searchBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
 
-                        } else {
-                            textViewAdmin.setText("USUARIO");
+                                // Mostrar el cuadro de diálogo de búsqueda
+                                searchBuilder.show();
+                                break;
+                            case "Filtrar calendarios por fecha":
+                                Calendar calendar = Calendar.getInstance();
+                                //int initialYear = calendar.get(Calendar.YEAR);
+                                //int initialMonth = calendar.get(Calendar.MONTH);
+
+                                // Mostrar el diálogo de selección de mes y año
+                                MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
+                                pd.setListener(new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                        // Filtrar los calendarios por mes y año de creación
+                                        ArrayList<Calendars> filteredList = new ArrayList<>();
+                                        for (Calendars calendar : arrayList) {
+                                            try {
+                                                Date creationDate = dateFormat.parse(calendar.getFECHA());
+                                                Calendar calendarCreationDate = Calendar.getInstance();
+                                                calendarCreationDate.setTime(creationDate);
+                                                if (calendarCreationDate.get(Calendar.YEAR) == selectedYear && calendarCreationDate.get(Calendar.MONTH) + 1 == selectedMonth) {
+                                                    filteredList.add(calendar);
+                                                }
+                                            } catch (ParseException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+                                        // Actualizar el RecyclerView con los calendarios filtrados
+                                        calendarRecyclerAdapter.filterList(filteredList);
+                                        Toast.makeText(view.getContext(), "Aplicado filtro de fecha", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
+                                break;
+                            case "Reset filtro de calendarios":
+                                calendarRecyclerAdapter.filterList(arrayList);
+                                break;
+                            case "Cambiar rol":
+                                esAdmin = !esAdmin;
+                                SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putBoolean("esAdmin", esAdmin);
+                                editor.apply();
+                                if (esAdmin) {
+                                    crearcalendario.setVisibility(View.VISIBLE);
+                                } else {
+                                    crearcalendario.setVisibility(View.INVISIBLE);
+                                }
+                                if (esAdmin) {
+                                    textViewAdmin.setText("ADMININSTRADOR");
+
+                                } else {
+                                    textViewAdmin.setText("USUARIO");
+                                }
+                                CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                                show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                                onResume();
                         }
-                        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
-                        show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                        // Aquí puedes realizar las acciones correspondientes a la opción seleccionada
                     }
                 });
-                confirmarAjustes.setOnClickListener(new View.OnClickListener() {
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        onBackPressed();
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -456,7 +454,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 });
             }
 
-    @Override
+    /*@Override
     protected void onResume() {
         if (esAdmin) {
             Toast.makeText(SelectCalendarActivity.this, "Eres Admin", Toast.LENGTH_SHORT).show();
@@ -466,5 +464,5 @@ public class SelectCalendarActivity extends AppCompatActivity {
             crearcalendario.setVisibility(View.INVISIBLE);
         }
         super.onResume();
-    }
+    }*/
 }

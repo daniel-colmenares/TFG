@@ -444,7 +444,7 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
         dbOpenHelper.updateCalendar(id, name, color, letra, database);
         dbOpenHelper.close();
-        Toast.makeText(context, "Calendario Actualizado", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Nuevo color: "+color, Toast.LENGTH_SHORT).show();
     }
 
     public CustomCalendarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
