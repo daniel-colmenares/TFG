@@ -37,8 +37,6 @@ public class MyGridAdapter extends ArrayAdapter {
 
 
 
-
-
     /*public MyGridAdapter(@NonNull Context context,  List<Date> dates, Calendar currentDate, List<Events> events, FragmentActivity activity) {
         super(context, R.layout.single_cell_layout);
         this.dates=dates;
@@ -144,13 +142,15 @@ public class MyGridAdapter extends ArrayAdapter {
                 EventNumber.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("cursive")){
-                Typeface typeface=parent.getResources().getFont(R.font.cursive);
+                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/cursive.ttf");
+                //Typeface typeface=parent.getResources().getFont(R.font.cursive);
                 //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("casual")){
-                Typeface typeface=parent.getResources().getFont(R.font.casual);
+                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/casual.ttf");
+                //Typeface typeface=parent.getResources().getFont(R.font.cursive);
                 //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 EventNumber.setTypeface(typeface);

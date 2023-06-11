@@ -151,8 +151,6 @@ public class CustomCalendarView extends LinearLayout{
         pictogramService = APIUtils.getPictoService();
 
 
-
-
         elegirCalendario.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
