@@ -142,18 +142,14 @@ public class MyGridAdapter extends ArrayAdapter {
                 EventNumber.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("cursive")){
-                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/cursive.ttf");
-                //Typeface typeface=parent.getResources().getFont(R.font.cursive);
-                //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+                /*Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/cursive.ttf");
                 Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);*/
             }
             else if (fuenteLetra.equals("casual")){
-                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/casual.ttf");
-                //Typeface typeface=parent.getResources().getFont(R.font.cursive);
-                //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+                /*Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/casual.ttf");
                 Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);
+                EventNumber.setTypeface(typeface);*/
             }
         }
         Calendar eventCalendar = Calendar.getInstance();
