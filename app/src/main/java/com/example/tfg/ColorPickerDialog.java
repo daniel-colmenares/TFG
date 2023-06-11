@@ -18,13 +18,6 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerDial
             listener.onColorSelected(color);
         }
     }
-    /*@Override
-    public void onColorSelected(int color) {
-        SharedPreferences prefs = requireActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("color_calendario", color);
-        editor.apply();
-    }*/
 
 
 }

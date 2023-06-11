@@ -19,6 +19,7 @@ public class PersonalizarCalendario extends AppCompatActivity {
     String cellColor, letraCal;
     AlertDialog alertDialog;
     String idCalendario;
+    Boolean esAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +31,14 @@ public class PersonalizarCalendario extends AppCompatActivity {
         color_calendario = findViewById(R.id.color_calendario);
         letra_calendario = findViewById(R.id.letra_calendario);
         nombre_calendario = findViewById(R.id.nombre_calendario);
-
+        SharedPreferences prefs1 = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        esAdmin = prefs1.getBoolean("esAdmin", false);
         color_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!esAdmin){
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setCancelable(true);
                 View addView = LayoutInflater.from(v.getContext()).inflate(R.layout.listacolores_calendario,null);
@@ -118,6 +123,9 @@ public class PersonalizarCalendario extends AppCompatActivity {
         letra_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!esAdmin){
+                    return;
+                }
                 android.app.AlertDialog.Builder builder2 = new android.app.AlertDialog.Builder(view.getContext());
                 builder2.setCancelable(true);
                 View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listafuentes_calendario, null);
@@ -178,6 +186,9 @@ public class PersonalizarCalendario extends AppCompatActivity {
         nombre_calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!esAdmin){
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Introduzca el nuevo nombre del calendario");
 

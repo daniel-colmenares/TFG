@@ -95,6 +95,7 @@ public class CustomCalendarView extends LinearLayout{
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
     String cellColor, letraCal;
+    Boolean esAdmin;
     Calendars calendars;
     List<Date> dates= new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -172,15 +173,20 @@ public class CustomCalendarView extends LinearLayout{
                 SetUpCalendar();
             }
         });
+        SharedPreferences prefs1 = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        esAdmin = prefs1.getBoolean("esAdmin", false);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (dates.get(position)==null){
+                if (!esAdmin){
+                    return;
+                }
+                if (dates.get(position) == null) {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
-                View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout,null);
+                View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout, null);
                 EditText EventName = addView.findViewById(R.id.eventname);//eventsid
                 EditText EventVideo = addView.findViewById(R.id.eventvideo);
                 filtroPicto = addView.findViewById(R.id.editTextFiltroPicto);
@@ -191,7 +197,7 @@ public class CustomCalendarView extends LinearLayout{
                 Button AddEvent = addView.findViewById(R.id.addevent);
                 final String date = eventDateFormat.format(dates.get(position));
                 final String month = monthFormat.format(dates.get(position));
-                final String year= yearFormat.format(dates.get(position));
+                final String year = yearFormat.format(dates.get(position));
                 TextView fecha = addView.findViewById(R.id.mostrarfecha);
                 fecha.setText(date);
                 buttonGaleria.setOnClickListener(new OnClickListener() {
@@ -210,7 +216,7 @@ public class CustomCalendarView extends LinearLayout{
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(EventName.getText().toString(),uriImagen,date,month,year,EventVideo.getText().toString());
+                        SaveEvent(EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -219,6 +225,7 @@ public class CustomCalendarView extends LinearLayout{
                 alertDialog = builder.create();
                 alertDialog.show();
             }
+
         });
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -492,7 +499,6 @@ public class CustomCalendarView extends LinearLayout{
         myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraCal);
         gridView.setAdapter(myGridAdapter);
         UpdateCalendar(id,nombre,cellColor, letraCal);
-        SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
         nombreCalView.setText(nombre);
     }
 
