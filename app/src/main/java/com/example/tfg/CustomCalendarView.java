@@ -139,7 +139,7 @@ public class CustomCalendarView extends LinearLayout{
         //Calendar calendar = Calendar.getInstance();
         String email = prefs.getString("email", "");
         String fecha = prefs.getString("fechacreacion","");
-        Integer id = prefs.getInt("ID", 0);
+        Integer id = prefs.getInt("IDCAL", 0);
         cellColor = prefs.getString("cellColor", "#5FB404");
         letraCal = prefs.getString("letraCal", "");
         calendars = new Calendars(nombre, email,fecha, id, cellColor, letraCal);
@@ -185,7 +185,7 @@ public class CustomCalendarView extends LinearLayout{
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout, null);
-                EditText EventName = addView.findViewById(R.id.eventname);//eventsid
+                EditText EventName = addView.findViewById(R.id.eventname);
                 EditText EventVideo = addView.findViewById(R.id.eventvideo);
                 filtroPicto = addView.findViewById(R.id.editTextFiltroPicto);
                 buttonGaleria = addView.findViewById(R.id.buttonGaleria);
@@ -214,7 +214,7 @@ public class CustomCalendarView extends LinearLayout{
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                        SaveEvent(calendars.getID(),EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -265,7 +265,7 @@ public class CustomCalendarView extends LinearLayout{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, PersonalizarCalendario.class);
-                intent.putExtra("ID",calendars.getID());
+                intent.putExtra("IDCAL",calendars.getID());
                 context.startActivity(intent);
             }
         });
@@ -436,10 +436,10 @@ public class CustomCalendarView extends LinearLayout{
         return event;
     }
 
-    private void SaveEvent(String event, Uri uri, String date, String month, String year, String video){
+    private void SaveEvent(Integer id, String event, Uri uri, String date, String month, String year, String video){
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-        dbOpenHelper.SaveEvent(event, uri, date, month, year, video, database);
+        dbOpenHelper.SaveEvent(id, event, uri, date, month, year, video, database);
         dbOpenHelper.close();
         Toast.makeText(context, "Evento Guardado", Toast.LENGTH_SHORT).show();
     }

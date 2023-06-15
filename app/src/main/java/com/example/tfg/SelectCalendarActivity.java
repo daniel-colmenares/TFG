@@ -45,6 +45,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     DBOpenHelper dbOpenHelper;
     Boolean esAdmin;
     TextView textViewAdmin;
+    Calendars calendars;
     ArrayList<Calendars> arrayList;
     Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes;
     String colorCal, letraCal;
@@ -70,34 +71,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         //editTextBuscar = findViewById(R.id.editText_buscar);
         //buttonFiltrar = findViewById(R.id.buttonfiltrar);
 
-        arrayList = new ArrayList<>();
-        dbOpenHelper = new DBOpenHelper(this);
-        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database);
-        while (cursor.moveToNext()) {
-            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
-            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
-            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
-            Integer Id = cursor.getInt(cursor.getColumnIndex("ID") + 0);
-            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR)+0);
-            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA)+0);
-            Calendars calendar = new Calendars(Name, Email, Fecha, Id, Color, Letra);
-            arrayList.add(calendar);
-
-        }
-        cursor.close();
-        dbOpenHelper.close();
-        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-        esAdmin = prefs.getBoolean("esAdmin", false);
-        show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
-        show_calendarlist.setAdapter(calendarRecyclerAdapter);
-        if (esAdmin) {
-            textViewAdmin.setText("ADMININSTRADOR");
-
-        } else {
-            textViewAdmin.setText("USUARIO");
-        }
+        recogerDatos();
 
 
 
@@ -284,7 +258,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
                         Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
                         while (cursor.moveToNext()) {
-                            Integer Id = cursor.getInt(cursor.getColumnIndex("ID") + 0);
+                            Integer Id = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
                             String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
                             String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
                             String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
@@ -438,31 +412,56 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
 
 
-                cerrarsesion.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Realiza las acciones necesarias para cerrar sesión
-                        // Ejemplo: cierra la sesión del usuario actual y elimina información de sesión
-                        mAuth.signOut();
+        cerrarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Realiza las acciones necesarias para cerrar sesión
+                // Ejemplo: cierra la sesión del usuario actual y elimina información de sesión
+                mAuth.signOut();
 
-                        // Redirige al usuario a la pantalla de inicio de sesión
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                // Redirige al usuario a la pantalla de inicio de sesión
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
+        });
+    }
 
-    /*@Override
-    protected void onResume() {
-        if (esAdmin) {
-            Toast.makeText(SelectCalendarActivity.this, "Eres Admin", Toast.LENGTH_SHORT).show();
-            crearcalendario.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(SelectCalendarActivity.this, "Eres Usuario", Toast.LENGTH_SHORT).show();
-            crearcalendario.setVisibility(View.INVISIBLE);
+    private void recogerDatos() {
+        arrayList = new ArrayList<>();
+        dbOpenHelper = new DBOpenHelper(this);
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database);
+        while (cursor.moveToNext()) {
+            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
+            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
+            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
+            Integer Id = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
+            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR)+0);
+            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA)+0);
+            Calendars calendar = new Calendars(Name, Email, Fecha, Id, Color, Letra);
+            arrayList.add(calendar);
+
         }
+        cursor.close();
+        dbOpenHelper.close();
+        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        esAdmin = prefs.getBoolean("esAdmin", false);
+        show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
+        show_calendarlist.setAdapter(calendarRecyclerAdapter);
+        if (esAdmin) {
+            textViewAdmin.setText("ADMININSTRADOR");
+
+        } else {
+            textViewAdmin.setText("USUARIO");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        recogerDatos();
         super.onResume();
-    }*/
+    }
 }

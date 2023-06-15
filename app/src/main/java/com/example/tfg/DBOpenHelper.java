@@ -12,10 +12,11 @@ import androidx.annotation.Nullable;
 
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    private final static String CREATE_EVENTS_TABLE= "create table " +DBStructure.EVENT_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            +DBStructure.EVENT+ " TEXT, " + DBStructure.DATE+" TEXT, "+DBStructure.MONTH+" TEXT, "+DBStructure.YEAR+" TEXT, "+DBStructure.IMAGEN+" TEXT, "+DBStructure.VIDEO+" TEXT)";
-
-    private final static String CREATE_CALENDAR_TABLE = "create table " + DBStructure.CALENDAR_TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+    private final static String CREATE_EVENTS_TABLE = "CREATE TABLE " + DBStructure.EVENT_TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + DBStructure.EVENT + " TEXT, " + DBStructure.DATE + " TEXT, " + DBStructure.MONTH + " TEXT, "
+            + DBStructure.YEAR + " TEXT, " + DBStructure.IMAGEN + " TEXT, " + DBStructure.VIDEO + " TEXT, "
+            + DBStructure.CALENDAR_ID + " INTEGER)";
+    private final static String CREATE_CALENDAR_TABLE = "create table " + DBStructure.CALENDAR_TABLE_NAME + "(IDCAL INTEGER PRIMARY KEY AUTOINCREMENT, "
             + DBStructure.NAME + " TEXT, " + DBStructure.EMAIL + " TEXT, " + DBStructure.FECHA_CREACION + " TEXT, "
             + DBStructure.COLOR + " TEXT, " + DBStructure.LETRA + " TEXT)";
 
@@ -44,7 +45,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void SaveEvent(String event, Uri uri, String date, String month, String year,String video, SQLiteDatabase database){
+    public void SaveEvent(Integer id, String event, Uri uri, String date, String month, String year,String video, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.EVENT,event);
         if (uri != null) {
@@ -54,6 +55,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(DBStructure.MONTH,month);
         contentValues.put(DBStructure.YEAR,year);
         contentValues.put(DBStructure.VIDEO,video);
+        contentValues.put(DBStructure.CALENDAR_ID, id);
         database.insert(DBStructure.EVENT_TABLE_NAME,null,contentValues);
 
     }
@@ -112,14 +114,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(DBStructure.COLOR, color);
         contentValues.put(DBStructure.LETRA, letra);
 
-        String selection =  "ID = ?";
+        String selection =  DBStructure.CALENDAR_ID + " = ?";
         String[] selectionArgs = { String.valueOf(id) };
 
         database.update(DBStructure.CALENDAR_TABLE_NAME, contentValues, selection, selectionArgs);
     }
 
     public void deleteCalendar(int id, SQLiteDatabase database) {
-        String selection =  "ID = ?";
+        String selection =  DBStructure.CALENDAR_ID + " = ?";
         String[] selectionArgs = { String.valueOf(id) };
         database.delete(DBStructure.CALENDAR_TABLE_NAME, selection, selectionArgs);
     }
@@ -130,7 +132,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 DBStructure.FECHA_CREACION,
                 DBStructure.COLOR,
                 DBStructure.LETRA,
-                "ID"
+                DBStructure.CALENDAR_ID
         };
         String Selection = DBStructure.EMAIL + " = ?";
         String[] SelectionArgs = { email };
@@ -140,9 +142,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     }
     public Cursor getCalendarsByID(int id, SQLiteDatabase database) {
         String[] Projections = {
-                "ID"
+                DBStructure.CALENDAR_ID
         };
-        String Selection = "ID = ?";
+        String Selection = DBStructure.CALENDAR_ID +" = ?";
         String[] selectionArgs = { String.valueOf(id) };
 
         return database.query(DBStructure.CALENDAR_TABLE_NAME,Projections,Selection,selectionArgs,null,null,null);
