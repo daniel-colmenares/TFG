@@ -82,10 +82,11 @@ import retrofit2.Response;
 
 public class CustomCalendarView extends LinearLayout{
     PictogramService pictogramService;
+    ArrayList<Calendars> arrayList;
     DBOpenHelper dbOpenHelper;
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    Events events;
+    List<Events> events;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf,
             letra_calendario, buttonPicto, buttonGaleria, personalizar,
             confirmarPersonalizar;
@@ -139,10 +140,10 @@ public class CustomCalendarView extends LinearLayout{
         //Calendar calendar = Calendar.getInstance();
         String email = prefs.getString("email", "");
         String fecha = prefs.getString("fechacreacion","");
-        Integer id = prefs.getInt("IDCAL", 0);
+        Integer idCal = prefs.getInt("ID", 99);
         cellColor = prefs.getString("cellColor", "#5FB404");
         letraCal = prefs.getString("letraCal", "");
-        calendars = new Calendars(nombre, email,fecha, id, cellColor, letraCal);
+        calendars = new Calendars(nombre, email,fecha, idCal, cellColor, letraCal);
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
@@ -176,6 +177,7 @@ public class CustomCalendarView extends LinearLayout{
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Calendars calendars = arrayList.get(position);
                 if (!esAdmin){
                     return;
                 }
@@ -214,7 +216,7 @@ public class CustomCalendarView extends LinearLayout{
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(calendars.getID(),EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                        SaveEvent(idCal,EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -265,7 +267,7 @@ public class CustomCalendarView extends LinearLayout{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, PersonalizarCalendario.class);
-                intent.putExtra("IDCAL",calendars.getID());
+                intent.putExtra("ID",calendars.getID());
                 context.startActivity(intent);
             }
         });
@@ -393,11 +395,13 @@ public class CustomCalendarView extends LinearLayout{
              String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
              //Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
             String imageString = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
+            //Integer idCal = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID)+0);
             Uri Image = null;
             if (imageString != null) {
                 Image = Uri.parse(imageString);
             }
              String Video = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+            //Events events = new Events(event,Date,Month, Year, Image, Video,idCal);
             Events events = new Events(event,Date,Month, Year, Image, Video);
             arrayList.add(events);
 
@@ -424,7 +428,9 @@ public class CustomCalendarView extends LinearLayout{
                 String imageStr = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
                 Uri imageUri = (imageStr == null) ? null : Uri.parse(imageStr);
                 String videoStr = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+                //Integer idCal = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID)+0);
 
+                //event = new Events(eventStr, dateStr, monthStr, yearStr, imageUri, videoStr, idCal);
                 event = new Events(eventStr, dateStr, monthStr, yearStr, imageUri, videoStr);
                 break;
             }
@@ -491,7 +497,7 @@ public class CustomCalendarView extends LinearLayout{
         SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         String nombre = prefs.getString("name","");
         TextView nombreCalView = findViewById(R.id.NombreCalView);
-        Integer id = prefs.getInt("ID", 0);
+        Integer id = prefs.getInt("ID", 99);
         cellColor = prefs.getString("cellColor", "#5FB404");
         letraCal = prefs.getString("letraCal", "");
         myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraCal);
@@ -565,6 +571,8 @@ public class CustomCalendarView extends LinearLayout{
             }
             //Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
             String Video = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+            //Integer idCal = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID)+1);
+            //Events events = new Events(event, date, Month, Year, Image, Video, idCal);
             Events events = new Events(event, date, Month, Year, Image, Video);
             eventsList.add(events);
 

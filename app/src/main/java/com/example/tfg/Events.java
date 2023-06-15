@@ -6,7 +6,9 @@ import android.net.Uri;
 public class Events {
     String EVENT,DATE,MONTHS,YEAR, VIDEO;
     Uri IMAGEN;
-    Integer ID;
+    Integer ID,IDCAL;
+
+    private Calendars calendar;
     //String IMAGEN;
 
     public Events(String EVENT, String DATE, String MONTHS, String YEAR, Uri IMAGEN, String VIDEO) {
@@ -17,6 +19,35 @@ public class Events {
         this.IMAGEN = IMAGEN;
         this.VIDEO = VIDEO;
         //this.ID = ID;
+    }
+
+
+    /*public Events(String EVENT, String DATE, String MONTHS, String YEAR, Uri IMAGEN, String VIDEO, Integer IDCAL) {
+        this.EVENT = EVENT;
+        this.DATE = DATE;
+        this.MONTHS = MONTHS;
+        this.YEAR = YEAR;
+        this.IMAGEN = IMAGEN;
+        this.VIDEO = VIDEO;
+        this.IDCAL = IDCAL;
+        //this.ID = ID;
+    }*/
+
+
+    /*public Integer getIDCAL() {
+        return IDCAL;
+    }
+
+    public void setIDCAL(Integer IDCAL) {
+        this.IDCAL = IDCAL;
+    }*/
+
+    public Calendars getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendars calendar) {
+        this.calendar = calendar;
     }
 
     public Integer getID() {

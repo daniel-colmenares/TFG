@@ -47,6 +47,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     public void SaveEvent(Integer id, String event, Uri uri, String date, String month, String year,String video, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DBStructure.CALENDAR_ID, id);
         contentValues.put(DBStructure.EVENT,event);
         if (uri != null) {
             contentValues.put(DBStructure.IMAGEN,uri.toString());
@@ -55,7 +56,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(DBStructure.MONTH,month);
         contentValues.put(DBStructure.YEAR,year);
         contentValues.put(DBStructure.VIDEO,video);
-        contentValues.put(DBStructure.CALENDAR_ID, id);
         database.insert(DBStructure.EVENT_TABLE_NAME,null,contentValues);
 
     }

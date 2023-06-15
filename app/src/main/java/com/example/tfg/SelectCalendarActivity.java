@@ -256,7 +256,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         arrayList = new ArrayList<>();
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
+                        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
                         Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
+
                         while (cursor.moveToNext()) {
                             Integer Id = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
                             String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
@@ -275,6 +277,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                        //calendarRecyclerAdapter.filterList(arrayList);
                     }
                 });
                 builder.setView(addView);

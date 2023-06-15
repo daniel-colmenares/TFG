@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,10 +25,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MyGridAdapter extends ArrayAdapter {
     List<Date> dates;
     Calendar currentDate;
+    Calendars calendars;
     List<Events> events;
     String cellColor, fuenteLetra;
     DBOpenHelper dbOpenHelper;
@@ -127,6 +130,7 @@ public class MyGridAdapter extends ArrayAdapter {
 
         TextView Day_Number = view.findViewById(R.id.calendar_day);
         TextView EventNumber = view.findViewById(R.id.events_id);
+        ImageView EventImage = view.findViewById(R.id.imagenEvento);
         if (monthDate.getTime()==0){
             Day_Number.setText("-");
         }else {
@@ -158,16 +162,19 @@ public class MyGridAdapter extends ArrayAdapter {
             eventCalendar.setTime(ConvertStringToDate(events.get(i).getDATE()));
             if (DayNo==eventCalendar.get(Calendar.DAY_OF_MONTH)&& displayMonth==eventCalendar.get(Calendar.MONTH)+1
             && displayYear == eventCalendar.get(Calendar.YEAR)){
-                arrayList.add(events.get(i).getEVENT());
-                if (arrayList.size()==1){
-                    if (events.get(i).getEVENT().equals("")){
-                        EventNumber.setText("1 Evto.");
-                    }else {
-                        EventNumber.setText(events.get(i).getEVENT());
+//                if (events.get(i).getCalendar().getID().equals(calendars.getID())) {
+                    arrayList.add(events.get(i).getEVENT());
+                    if (arrayList.size() == 1) {
+                        if (events.get(i).getEVENT().equals("")) {
+                            EventNumber.setText("1 Evto.");
+                        } else {
+                            EventNumber.setText(events.get(i).getEVENT());
+                            EventImage.setImageURI(events.get(i).getIMAGEN());
+                        }
+                    } else {
+                        EventNumber.setText(arrayList.size() + "Evtos.");
                     }
-                }else {
-                    EventNumber.setText(arrayList.size() + "Evtos.");
-                }
+        //        }
             }
         }
         return view;
