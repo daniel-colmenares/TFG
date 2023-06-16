@@ -86,7 +86,6 @@ public class CustomCalendarView extends LinearLayout{
     DBOpenHelper dbOpenHelper;
 
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    List<Events> events;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf,
             letra_calendario, buttonPicto, buttonGaleria, personalizar,
             confirmarPersonalizar;
@@ -200,12 +199,13 @@ public class CustomCalendarView extends LinearLayout{
                 final String year = yearFormat.format(dates.get(position));
                 TextView fecha = addView.findViewById(R.id.mostrarfecha);
                 fecha.setText(date);
-                events = CollectEventByDate(String.valueOf(fecha),idCal);
+                String date1 = eventDateFormat.format(dates.get(position));
+                List<Events> events = CollectEventByDate(date1,idCal);
                 if(events.size()==1 && events.get(0).getIMAGEN()!=null){
-                    buttonPicto.setVisibility(INVISIBLE);
+                    buttonPicto.setVisibility(View.GONE);
                     //imageViewGal.setVisibility(INVISIBLE);
-                    filtroPicto.setVisibility(INVISIBLE);
-                    buttonGaleria.setVisibility(INVISIBLE);
+                    filtroPicto.setVisibility(View.GONE);
+                    buttonGaleria.setVisibility(View.GONE);
                     //imageViewPicto.setVisibility(INVISIBLE);
                 }
                 if(events.size()==2){

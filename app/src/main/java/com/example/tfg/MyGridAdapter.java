@@ -131,7 +131,11 @@ public class MyGridAdapter extends ArrayAdapter {
         */
 
         TextView Day_Number = view.findViewById(R.id.calendar_day);
-        TextView EventNumber = view.findViewById(R.id.events_id);
+        TextView Event1 = view.findViewById(R.id.events_id);
+        TextView Link1 = view.findViewById(R.id.link1);
+        TextView Event2 = view.findViewById(R.id.evento2);
+        TextView Link2 = view.findViewById(R.id.link2);
+
         ImageView EventImage = view.findViewById(R.id.imagenEvento);
         if (monthDate.getTime()==0){
             Day_Number.setText("-");
@@ -140,12 +144,12 @@ public class MyGridAdapter extends ArrayAdapter {
             if (fuenteLetra.equals("monospace")){
                 Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);
+                Event1.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("serif")){
                 Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);
+                Event1.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("cursive")){
                 /*Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/cursive.ttf");
@@ -164,14 +168,63 @@ public class MyGridAdapter extends ArrayAdapter {
             eventCalendar.setTime(ConvertStringToDate(events.get(i).getDATE()));
             if (DayNo==eventCalendar.get(Calendar.DAY_OF_MONTH)&& displayMonth==eventCalendar.get(Calendar.MONTH)+1
             && displayYear == eventCalendar.get(Calendar.YEAR)) {
-//                if (events.get(i).getCalendar().getID().equals(calendars.getID())) {
                 arrayList.add(events.get(i).getEVENT());
-                //if (arrayList.size() == 1) {
-                //}
-                EventNumber.setText(events.get(i).getEVENT());
+                if (arrayList.size() == 1) {
+                    if(events.get(i).getVIDEO().equals("")){
+                        Link1.setVisibility(View.INVISIBLE);
+                    }else {
+                        String video = events.get(i).getVIDEO();
+                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo);
+                    }
+                    if(events.get(i).getEVENT()==null){
+                        Event1.setVisibility(View.INVISIBLE);
+                    } else {
+                        Event1.setText(events.get(i).getEVENT());
+                    }
                 EventImage.setImageURI(events.get(i).getIMAGEN());
                 Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
-        //        }
+                Event2.setVisibility(View.GONE);
+                Link2.setVisibility(View.GONE);
+               }else if(arrayList.size() == 2){
+                    if(events.get(0).getVIDEO().equals("")){
+                        Link1.setVisibility(View.INVISIBLE);
+                    }else {
+                        String video = events.get(i).getVIDEO();
+                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo);
+                    }
+                    if(events.get(1).getVIDEO().equals("")){
+                        Link2.setVisibility(View.INVISIBLE);
+                    }else {
+                        String video2 = events.get(i).getVIDEO();
+                        String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
+                        Link2.setText(truncatedVideo2);
+                    }
+                    if(events.get(0).getEVENT().equals("")){
+                        Event1.setVisibility(View.INVISIBLE);
+                    }else{
+                        Event1.setText(events.get(i).getEVENT());
+                    }
+                    if(events.get(1).getEVENT().equals("")){
+                        Event2.setVisibility(View.INVISIBLE);
+                    }else{
+                        Event2.setText(events.get(i).getEVENT());
+                    }
+                    EventImage.setImageURI(events.get(i).getIMAGEN());
+                    Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
+                }
+                        /*String video1 = events.get(i).getVIDEO();
+                        String truncatedVideo1 = video1.substring(0, Math.min(video1.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo1);
+                        Event1.setText(events.get(i).getEVENT());
+                        EventImage.setImageURI(events.get(i).getIMAGEN());
+                        Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
+                        String video2 = events.get(i).getVIDEO();
+                        String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo2);
+                        Event2.setText(events.get(i).getEVENT());
+                        */
             }
         }
         return view;

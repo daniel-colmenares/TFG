@@ -7,11 +7,11 @@
 
     <Button
         android:id="@+id/letra_calendario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
         android:layout_marginTop="252dp"
         android:background="@color/blue"
-        android:text="CAMBIAR LETRA"
+        android:drawableBottom="@drawable/ic_font"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,22 +20,22 @@
 
     <Button
         android:id="@+id/color_calendario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="91dp"
+        android:layout_height="40dp"
         android:layout_marginTop="88dp"
-        android:text="CAMBIAR COLOR"
-        android:background="@color/yellow"
+        android:background="@color/blue"
+        android:drawableBottom="@drawable/ic_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/letra_calendario" />
 
     <Button
         android:id="@+id/confirmarPers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="88dp"
+        android:layout_height="40dp"
         android:layout_marginTop="156dp"
-        android:text="VOLVER AL CALENDARIO"
         android:background="@color/green"
+        android:drawableBottom="@drawable/ic_confirm"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,9 +43,10 @@
 
     <Button
         android:id="@+id/nombre_calendario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CAMBIAR NOMBRE"
+        android:layout_width="80dp"
+        android:layout_height="36dp"
+        android:background="@color/blue"
+        android:drawableBottom="@drawable/ic_name"
         app:layout_constraintBottom_toTopOf="@+id/letra_calendario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
