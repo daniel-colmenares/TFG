@@ -70,20 +70,20 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         return eventId;
     }
 
-    public Cursor ReadEvents (String date, SQLiteDatabase database ){
-        String [] Projections = {DBStructure.EVENT,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR, DBStructure.IMAGEN, DBStructure.VIDEO};
-        String Selection = DBStructure.DATE + "=?";
-        String [] SelectionArgs  = {date};
+    public Cursor ReadEvents (String date, Integer id, SQLiteDatabase database ){
+        String [] Projections = {DBStructure.EVENT,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR, DBStructure.IMAGEN, DBStructure.VIDEO, DBStructure.CALENDAR_ID};
+        String Selection = DBStructure.DATE + "=? and "+DBStructure.CALENDAR_ID+"=?";
+        String [] SelectionArgs  = {date, String.valueOf(id)};
 
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
 
 
     }
 
-    public Cursor ReadEventsPerMonth (String month, String year, @NonNull SQLiteDatabase database ){
+    public Cursor ReadEventsPerMonth (String month, String year, Integer id, @NonNull SQLiteDatabase database ){
         String [] Projections = {DBStructure.EVENT,DBStructure.DATE,DBStructure.MONTH,DBStructure.YEAR, DBStructure.IMAGEN, DBStructure.VIDEO};
-        String Selection = DBStructure.MONTH + "=? and "+DBStructure.YEAR+"=?";
-        String [] SelectionArgs  = {month,year};
+        String Selection = DBStructure.MONTH + "=? and "+DBStructure.YEAR+"=? and "+DBStructure.CALENDAR_ID+"=?";
+        String [] SelectionArgs  = {month,year, String.valueOf(id)};
 
         return database.query(DBStructure.EVENT_TABLE_NAME,Projections,Selection,SelectionArgs,null,null,null);
 

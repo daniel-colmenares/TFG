@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -161,19 +163,14 @@ public class MyGridAdapter extends ArrayAdapter {
         for ( int i =0; i < events.size(); i++){
             eventCalendar.setTime(ConvertStringToDate(events.get(i).getDATE()));
             if (DayNo==eventCalendar.get(Calendar.DAY_OF_MONTH)&& displayMonth==eventCalendar.get(Calendar.MONTH)+1
-            && displayYear == eventCalendar.get(Calendar.YEAR)){
+            && displayYear == eventCalendar.get(Calendar.YEAR)) {
 //                if (events.get(i).getCalendar().getID().equals(calendars.getID())) {
-                    arrayList.add(events.get(i).getEVENT());
-                    if (arrayList.size() == 1) {
-                        if (events.get(i).getEVENT().equals("")) {
-                            EventNumber.setText("1 Evto.");
-                        } else {
-                            EventNumber.setText(events.get(i).getEVENT());
-                            EventImage.setImageURI(events.get(i).getIMAGEN());
-                        }
-                    } else {
-                        EventNumber.setText(arrayList.size() + "Evtos.");
-                    }
+                arrayList.add(events.get(i).getEVENT());
+                //if (arrayList.size() == 1) {
+                //}
+                EventNumber.setText(events.get(i).getEVENT());
+                EventImage.setImageURI(events.get(i).getIMAGEN());
+                Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
         //        }
             }
         }

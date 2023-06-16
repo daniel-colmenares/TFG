@@ -200,6 +200,18 @@ public class CustomCalendarView extends LinearLayout{
                 final String year = yearFormat.format(dates.get(position));
                 TextView fecha = addView.findViewById(R.id.mostrarfecha);
                 fecha.setText(date);
+                events = CollectEventByDate(String.valueOf(fecha),idCal);
+                if(events.size()==1 && events.get(0).getIMAGEN()!=null){
+                    buttonPicto.setVisibility(INVISIBLE);
+                    //imageViewGal.setVisibility(INVISIBLE);
+                    filtroPicto.setVisibility(INVISIBLE);
+                    buttonGaleria.setVisibility(INVISIBLE);
+                    //imageViewPicto.setVisibility(INVISIBLE);
+                }
+                if(events.size()==2){
+                    Toast.makeText(activity, "No se puede añadir mas de 2 eventos por dia", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 buttonGaleria.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -240,7 +252,7 @@ public class CustomCalendarView extends LinearLayout{
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
                 EventRecyclerAdapter eventRecyclerAdapter = new EventRecyclerAdapter(showView.getContext(),
-                        CollectEventByDate(date));
+                        CollectEventByDate(date,idCal));
                 recyclerView.setAdapter(eventRecyclerAdapter);
                 eventRecyclerAdapter.notifyDataSetChanged();
 
@@ -382,11 +394,11 @@ public class CustomCalendarView extends LinearLayout{
 
 
 
-    private ArrayList<Events> CollectEventByDate(String date){
+    private ArrayList<Events> CollectEventByDate(String date, Integer id){
         ArrayList<Events> arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = dbOpenHelper.ReadEvents(date,database);
+        Cursor cursor = dbOpenHelper.ReadEvents(date,id,database);
         while ( cursor.moveToNext()){
              //Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
              String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT)+0);
@@ -412,10 +424,10 @@ public class CustomCalendarView extends LinearLayout{
         return arrayList;
     }
 
-    private Events getEventById(String date, int eventId) {
+    private Events getEventById(String date,Integer idC, int eventId) {
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = dbOpenHelper.ReadEvents(date, database);
+        Cursor cursor = dbOpenHelper.ReadEvents(date,idC, database);
 
         Events event = null;
         while (cursor.moveToNext()) {
@@ -474,6 +486,8 @@ public class CustomCalendarView extends LinearLayout{
     }
 
     public void SetUpCalendar() {
+        SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        Integer id = prefs.getInt("ID", 99);
         String currentDate = dateFormat.format(calendar.getTime());
         CurrentDate.setText(currentDate);
         dates.clear();
@@ -481,7 +495,7 @@ public class CustomCalendarView extends LinearLayout{
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
         int FirstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
         monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayOfMonth);
-        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()));
+        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()),id);
 
         while (dates.size() < MAX_CALENDARDAYS) {
             Date dateToAdd = monthCalendar.getTime();
@@ -494,10 +508,10 @@ public class CustomCalendarView extends LinearLayout{
             }
             monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
-        SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        //SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         String nombre = prefs.getString("name","");
         TextView nombreCalView = findViewById(R.id.NombreCalView);
-        Integer id = prefs.getInt("ID", 99);
+        //Integer id = prefs.getInt("ID", 99);
         cellColor = prefs.getString("cellColor", "#5FB404");
         letraCal = prefs.getString("letraCal", "");
         myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor, letraCal);
@@ -506,58 +520,11 @@ public class CustomCalendarView extends LinearLayout{
         nombreCalView.setText(nombre);
     }
 
-
-    /*
-    private void SetUpCalendar() {
-        String currentDate = dateFormat.format(calendar.getTime());
-        CurrentDate.setText(currentDate);
-        dates.clear();
-
-        // Obtener el primer día del mes actual y el número total de días del mes
-        Calendar monthCalendar = (Calendar) calendar.clone();
-        monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        int daysInMonth = monthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        // Obtener el día de la semana en que comienza el mes actual
-        int firstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-
-        // Añadir fechas del mes anterior si el primer día del mes no es domingo
-        if (firstDayOfMonth > 0) {
-            monthCalendar.add(Calendar.DAY_OF_MONTH, -firstDayOfMonth);
-            for (int i = 0; i < firstDayOfMonth; i++) {
-                dates.add(null); // Agregar valores nulos
-            }
-        }
-
-        // Añadir fechas del mes actual
-        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()));
-        for (int i = 1; i <= daysInMonth; i++) {
-            dates.add(monthCalendar.getTime());
-            monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
-
-        // Añadir fechas del mes siguiente si el último día del mes no es sábado
-        int lastDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK);
-        if (lastDayOfMonth != 1) {
-            for (int i = lastDayOfMonth; i <= 7; i++) {
-                dates.add(null); // Agregar valores nulos
-            }
-        }
-
-        // Asegurar que el número total de elementos en la lista sea igual a MAX_CALENDAR_DAYS
-        while (dates.size() < MAX_CALENDARDAYS) {
-            dates.add(null); // Agregar valores nulos
-        }
-
-        myGridAdapter = new MyGridAdapter(context, dates, calendar, eventsList, cellColor);
-        gridView.setAdapter(myGridAdapter);
-    }*/
-
-    private void CollectEventsPerMonth ( String month, String year) {
+    private void CollectEventsPerMonth ( String month, String year,Integer id) {
         eventsList.clear();
         dbOpenHelper = new DBOpenHelper(context);
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-        Cursor cursor = dbOpenHelper.ReadEventsPerMonth(month, year, database);
+        Cursor cursor = dbOpenHelper.ReadEventsPerMonth(month, year,id, database);
         while (cursor.moveToNext()) {
             //Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
             String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT)+0);

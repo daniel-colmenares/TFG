@@ -49,7 +49,7 @@
         android:id="@+id/buttonPicto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AÑADIR PICTOGRAMA"
+        android:text="BUSCAR PICTOGRAMA"
         android:background="@color/purple"
         android:textColor="@color/white"/>
 
