@@ -8,24 +8,18 @@
     android:background="@drawable/cell_border">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginStart="20dp"
         android:id="@+id/calendar_day"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-
-        />
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:gravity="start"
-        android:layout_marginStart="20dp"
+        android:textSize="14dp"
+        android:gravity="center"
+         />
+
+    <TextView
         android:id="@+id/events_id"
-        android:textSize="10sp"
-        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13dp"
         />
 
     <ImageView
@@ -38,18 +32,21 @@
         android:id="@+id/link1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="10dp"
         />
 
     <TextView
         android:id="@+id/evento2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="13dp"
          />
 
     <TextView
         android:id="@+id/link2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="10dp"
         />
 
 

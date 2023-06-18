@@ -82,11 +82,23 @@ public class MyGridAdapter extends ArrayAdapter {
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
         view.setBackgroundColor(Color.parseColor(cellColor));
-        //nombreCal = parent.findViewById(R.id.NombreCalView);
+        //view.setBackgroundResource(R.drawable.cell_border);
+
+        // Obtener el color del fondo de la celda
+        /*int backgroundColor = Color.parseColor(cellColor);
+
+// Obtener el borde definido en el archivo de forma "cell_border.xml"
+        Drawable borderDrawable = AppCompatResources.getDrawable(getContext(),R.drawable.cell_border);
+
+// Crear una capa que combina el color de fondo y el borde
+        Drawable[] layers = {borderDrawable, new ColorDrawable(backgroundColor)};
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+
+// Establecer el fondo de la vista como la capa combinada
+        view.setBackground(layerDrawable);*/
 
 
 
-        //view.setBackgroundColor(getContext().getResources().getColor(R.color.green));
         /*lunes = view.findViewById(R.id.lunes);
         martes = view.findViewById(R.id.martes);
         miercoles = view.findViewById(R.id.miercoles);
@@ -130,8 +142,8 @@ public class MyGridAdapter extends ArrayAdapter {
         TextView Link1 = view.findViewById(R.id.link1);
         TextView Event2 = view.findViewById(R.id.evento2);
         TextView Link2 = view.findViewById(R.id.link2);
-
         ImageView EventImage = view.findViewById(R.id.imagenEvento);
+        //TextView NombreCal = view.findViewById(R.id.NombreCalView);
         if (monthDate.getTime()==0){
             Day_Number.setText("-");
         }else {
@@ -143,6 +155,7 @@ public class MyGridAdapter extends ArrayAdapter {
                 Event2.setTypeface(typeface);
                 Link1.setTypeface(typeface);
                 Link2.setTypeface(typeface);
+               //NombreCal.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("serif")){
                 Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
@@ -151,6 +164,7 @@ public class MyGridAdapter extends ArrayAdapter {
                 Event2.setTypeface(typeface);
                 Link1.setTypeface(typeface);
                 Link2.setTypeface(typeface);
+                //NombreCal.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("times")){
                 Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/times.ttf");
@@ -160,6 +174,7 @@ public class MyGridAdapter extends ArrayAdapter {
                 Event2.setTypeface(typeface);
                 Link1.setTypeface(typeface);
                 Link2.setTypeface(typeface);
+                //NombreCal.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("cursivestandard")){
                 Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/cursivestandard.ttf");
@@ -168,6 +183,7 @@ public class MyGridAdapter extends ArrayAdapter {
                 Event2.setTypeface(typeface);
                 Link1.setTypeface(typeface);
                 Link2.setTypeface(typeface);
+                //NombreCal.setTypeface(typeface);
             }
         }
         Calendar eventCalendar = Calendar.getInstance();
@@ -196,28 +212,28 @@ public class MyGridAdapter extends ArrayAdapter {
                 Link2.setVisibility(View.GONE);
                }else if(arrayList.size() == 2){
                     if(events.get(0).getVIDEO().equals("")){
-                        Link1.setVisibility(View.INVISIBLE);
+                        Link1.setVisibility(View.GONE);
                     }else {
-                        String video = events.get(i).getVIDEO();
+                        String video = events.get(0).getVIDEO();
                         String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
                         Link1.setText(truncatedVideo);
                     }
                     if(events.get(1).getVIDEO().equals("")){
                         Link2.setVisibility(View.INVISIBLE);
                     }else {
-                        String video2 = events.get(i).getVIDEO();
+                        String video2 = events.get(1).getVIDEO();
                         String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
                         Link2.setText(truncatedVideo2);
                     }
                     if(events.get(0).getEVENT().equals("")){
                         Event1.setVisibility(View.INVISIBLE);
                     }else{
-                        Event1.setText(events.get(i).getEVENT());
+                        Event1.setText(events.get(0).getEVENT());
                     }
                     if(events.get(1).getEVENT().equals("")){
                         Event2.setVisibility(View.INVISIBLE);
                     }else{
-                        Event2.setText(events.get(i).getEVENT());
+                        Event2.setText(events.get(1).getEVENT());
                     }
                     EventImage.setImageURI(events.get(i).getIMAGEN());
                     Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
