@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:fontFamily="monospace"
-        android:text="MONOSPACE"
+        android:text="HOLA!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:fontFamily="serif"
-        android:text="SERIF"
+        android:text="HOLA!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -33,12 +33,11 @@
         app:layout_constraintVertical_bias="0.661" />
 
     <Button
-        android:id="@+id/cursive"
+        android:id="@+id/times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:fontFamily="cursive"
-        android:text="CURSIVA"
+        android:text="Hola!"
         app:layout_constraintBottom_toTopOf="@+id/serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -47,13 +46,12 @@
         app:layout_constraintVertical_bias="0.671" />
 
     <Button
-        android:id="@+id/casual"
+        android:id="@+id/cursivestandard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:fontFamily="casual"
-        android:text="CASUAL"
-        app:layout_constraintBottom_toTopOf="@+id/cursive"
+        android:text="HOLA!"
+        app:layout_constraintBottom_toTopOf="@+id/times"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

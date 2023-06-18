@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.Observable;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -181,8 +182,12 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listafuentes_calendario, null);
                         Button monospace = addView.findViewById(R.id.monospace);
                         Button serif = addView.findViewById(R.id.serif);
-                        Button curisva = addView.findViewById(R.id.cursive);
-                        Button casual = addView.findViewById(R.id.casual);
+                        Button times = addView.findViewById(R.id.times);
+                        Button cursivestandard = addView.findViewById(R.id.cursivestandard);
+                        Typeface typeface1 = Typeface.createFromAsset(getAssets(), "fonts/cursivestandard.ttf");
+                        Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/times.ttf");
+                        cursivestandard.setTypeface(typeface1);
+                        times.setTypeface(typeface2);
 
                         monospace.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -206,10 +211,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 alertDialog.dismiss();
                             }
                         });
-                        curisva.setOnClickListener(new View.OnClickListener() {
+                        cursivestandard.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = "cursiva";
+                                letraCal = "cursivestandard";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("letraCal", letraCal);
@@ -217,10 +222,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 alertDialog.dismiss();
                             }
                         });
-                        casual.setOnClickListener(new View.OnClickListener() {
+                        times.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = "casual";
+                                letraCal = "times";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("letraCal", letraCal);

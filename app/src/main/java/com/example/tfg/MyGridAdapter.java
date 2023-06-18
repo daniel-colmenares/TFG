@@ -152,16 +152,17 @@ public class MyGridAdapter extends ArrayAdapter {
                 Link1.setTypeface(typeface);
                 Link2.setTypeface(typeface);
             }
-            else if (fuenteLetra.equals("cursive")){
-                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/cursive.ttf");
+            else if (fuenteLetra.equals("times")){
+                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/times.ttf");
+                //Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
                 Event2.setTypeface(typeface);
                 Link1.setTypeface(typeface);
                 Link2.setTypeface(typeface);
             }
-            else if (fuenteLetra.equals("casual")){
-                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/casual.ttf");
+            else if (fuenteLetra.equals("cursivestandard")){
+                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/cursivestandard.ttf");
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
                 Event2.setTypeface(typeface);
