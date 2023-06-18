@@ -7,54 +7,34 @@
 
     <Button
         android:id="@+id/buttonColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="44dp"
         android:layout_marginBottom="49dp"
-        android:background="@color/calendarblue"
-        android:text="COLOR"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLetra"
+        android:background="@color/calendarpurple"
+        android:drawableBottom="@drawable/ic_color"
         app:layout_constraintBottom_toTopOf="@+id/buttonCancelar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLetra" />
 
     <Button
         android:id="@+id/buttonLetra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="83dp"
+        android:layout_height="43dp"
         android:background="@color/calendarpurple"
-        android:text="LETRA"
+        android:drawableBottom="@drawable/ic_font"
         app:layout_constraintBottom_toTopOf="@+id/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNombreCalendario" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="1dp"
-        android:text="Tipo de letra"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLetra"
-        app:layout_constraintStart_toStartOf="@+id/buttonLetra" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:text="Color de fondo"
-        app:layout_constraintBottom_toTopOf="@+id/buttonColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/button_crearcalendario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="86dp"
+        android:layout_height="41dp"
         android:layout_marginTop="50dp"
         android:background="@color/green"
-        android:text="CREAR CALENDARIO"
+        android:drawableBottom="@drawable/ic_new"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/editTextNombreCalendario"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,11 +43,11 @@
 
     <Button
         android:id="@+id/buttonCancelar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="83dp"
+        android:layout_height="41dp"
         android:layout_marginBottom="49dp"
         android:background="@color/red"
-        android:text="CANCELAR"
+        android:drawableBottom="@drawable/ic_back"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,9 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="51dp"
         android:ems="10"
-        android:hint="Introduzca nombre de calnedario"
+        android:hint="Nombre de calendario"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_crearcalendario" />

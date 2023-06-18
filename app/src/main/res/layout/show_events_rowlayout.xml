@@ -59,11 +59,11 @@
 
             <Button
                 android:id="@+id/borrarevento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="103dp"
+                android:layout_height="41dp"
                 android:layout_gravity="center"
                 android:background="@color/red"
-                android:text="BORRAR EVENTO"
+                android:drawableBottom="@drawable/ic_basura"
                 android:textColor="@color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

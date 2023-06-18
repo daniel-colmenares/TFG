@@ -29,23 +29,26 @@
 
             <Button
                 android:id="@+id/vercalendario"
-                android:layout_width="100dp"
-                android:layout_height="23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="37dp"
                 android:layout_below="@+id/calendarname"
+                android:layout_alignParentEnd="@id/eliminarcalendario"
+                android:layout_marginTop="-12dp"
                 android:layout_toStartOf="@+id/eliminarcalendario"
                 android:background="@color/green"
-                android:text="VER"
-                android:layout_alignParentEnd="@id/eliminarcalendario"
+                android:drawableBottom="@drawable/ic_ojo"
                 android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/eliminarcalendario"
-                android:layout_width="100dp"
-                android:layout_height="23dp"
+                android:layout_width="98dp"
+                android:layout_height="37dp"
                 android:layout_below="@+id/calendarname"
                 android:layout_alignParentEnd="true"
+                android:layout_marginTop="-12dp"
+                android:layout_marginEnd="0dp"
                 android:background="@color/red"
-                android:text="ELIMINAR"
+                android:drawableBottom="@drawable/ic_basura"
                 android:textColor="@color/white" />
 
             <TextView

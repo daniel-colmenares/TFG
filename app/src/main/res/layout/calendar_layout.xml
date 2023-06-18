@@ -150,26 +150,24 @@
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:numColumns="7"
-        >
-    </GridView>
-
-    <Button
-        android:id="@+id/buttonCambiarCalendario"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_gravity="center"
-        android:background="@color/calendarpurple"
-        android:text="ELEGIR CALENDARIO" />
+        android:layout_height="516dp"
+        android:numColumns="7"></GridView>
 
     <Button
         android:id="@+id/personalizar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/lightblue"
+        android:layout_width="62dp"
+        android:layout_height="32dp"
         android:layout_gravity="left"
-        android:text="PERSONALIZAR" />
+        android:background="@color/lightblue"
+        android:drawableBottom="@drawable/ic_personalizar" />
+
+    <Button
+        android:id="@+id/buttonCambiarCalendario"
+        android:layout_width="69dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:background="@color/calendarpurple"
+        android:drawableBottom="@drawable/ic_back" />
 
     <Button
         android:id="@+id/pdf"

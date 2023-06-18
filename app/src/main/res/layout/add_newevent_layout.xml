@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/holo_orange_light">
+    android:background="@color/calendarpurple">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="@color/black"
         android:id="@+id/mostrarfecha"
         android:textStyle="bold"
         android:text="Fecha"
@@ -19,7 +19,9 @@
 
     <EditText
         android:hint="Escribe evento"
-        android:background="@android:color/white"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:background="@color/calendarpurple"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -50,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="BUSCAR PICTOGRAMA"
-        android:background="@color/purple"
+        android:background="@color/blue"
         android:textColor="@color/white"/>
 
 
@@ -67,27 +69,29 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Escribe pictograma aquí" />
+        android:hint="Escribe pictograma aquí"
+        android:textColorHint="@color/white"/>
 
     <EditText
         android:id="@+id/eventvideo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:background="@android:color/white"
+        android:background="@color/calendarpurple"
         android:hint="Añadir url de video"
+        android:textColorHint="@color/white"
         android:inputType="text"
         android:textSize="20sp" />
 
     <Button
         android:id="@+id/addevent"
-        android:layout_width="104dp"
+        android:layout_width="131dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@null"
         android:text="Guardar"
-        android:textColor="@color/blue"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
 

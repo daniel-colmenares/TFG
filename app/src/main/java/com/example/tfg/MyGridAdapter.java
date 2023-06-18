@@ -1,10 +1,6 @@
 package com.example.tfg;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -27,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class MyGridAdapter extends ArrayAdapter {
     List<Date> dates;
@@ -145,21 +140,33 @@ public class MyGridAdapter extends ArrayAdapter {
                 Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
+                Event2.setTypeface(typeface);
+                Link1.setTypeface(typeface);
+                Link2.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("serif")){
                 Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
+                Event2.setTypeface(typeface);
+                Link1.setTypeface(typeface);
+                Link2.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("cursive")){
-                /*Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/cursive.ttf");
+                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/cursive.ttf");
                 Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);*/
+                Event1.setTypeface(typeface);
+                Event2.setTypeface(typeface);
+                Link1.setTypeface(typeface);
+                Link2.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("casual")){
-                /*Typeface typeface = Typeface.createFromAsset(getContext().getAssets(),  "font/casual.ttf");
+                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/casual.ttf");
                 Day_Number.setTypeface(typeface);
-                EventNumber.setTypeface(typeface);*/
+                Event1.setTypeface(typeface);
+                Event2.setTypeface(typeface);
+                Link1.setTypeface(typeface);
+                Link2.setTypeface(typeface);
             }
         }
         Calendar eventCalendar = Calendar.getInstance();
