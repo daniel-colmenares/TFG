@@ -194,61 +194,36 @@ public class MyGridAdapter extends ArrayAdapter {
             && displayYear == eventCalendar.get(Calendar.YEAR)) {
                 arrayList.add(events.get(i).getEVENT());
                 if (arrayList.size() == 1) {
-                    if(events.get(i).getVIDEO().equals("")){
-                        Link1.setVisibility(View.INVISIBLE);
-                    }else {
-                        String video = events.get(i).getVIDEO();
-                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
-                        Link1.setText(truncatedVideo);
-                    }
-                    if(events.get(i).getEVENT()==null){
-                        Event1.setVisibility(View.INVISIBLE);
-                    } else {
-                        Event1.setText(events.get(i).getEVENT());
-                    }
-                EventImage.setImageURI(events.get(i).getIMAGEN());
-                Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
-                Event2.setVisibility(View.GONE);
-                Link2.setVisibility(View.GONE);
-               }else if(arrayList.size() == 2){
-                    if(events.get(0).getVIDEO().equals("")){
-                        Link1.setVisibility(View.GONE);
-                    }else {
-                        String video = events.get(0).getVIDEO();
-                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
-                        Link1.setText(truncatedVideo);
-                    }
-                    if(events.get(1).getVIDEO().equals("")){
-                        Link2.setVisibility(View.INVISIBLE);
-                    }else {
-                        String video2 = events.get(1).getVIDEO();
-                        String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
-                        Link2.setText(truncatedVideo2);
-                    }
-                    if(events.get(0).getEVENT().equals("")){
-                        Event1.setVisibility(View.INVISIBLE);
-                    }else{
-                        Event1.setText(events.get(0).getEVENT());
-                    }
-                    if(events.get(1).getEVENT().equals("")){
-                        Event2.setVisibility(View.INVISIBLE);
-                    }else{
-                        Event2.setText(events.get(1).getEVENT());
+                    String video = events.get(i).getVIDEO();
+                    String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                    Link1.setText(truncatedVideo);
+                    Event1.setText(events.get(i).getEVENT());
+                    if(events.get(i).getIMAGEN()==null){
+                        EventImage.setVisibility(View.GONE);
                     }
                     EventImage.setImageURI(events.get(i).getIMAGEN());
                     Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
+                    Event2.setText("");
+                    Link2.setText("");
+                }else if(arrayList.size() == 2){
+                    if(events.get(0).getIMAGEN()!=null){
+                        EventImage.setImageURI(events.get(0).getIMAGEN());
+                        Glide.with(getContext()).load(events.get(0).getIMAGEN()).into(EventImage);
+                    }else if (events.get(1).getIMAGEN()!=null){
+                        EventImage.setImageURI(events.get(1).getIMAGEN());
+                        Glide.with(getContext()).load(events.get(1).getIMAGEN()).into(EventImage);
+                    }else {
+                        EventImage.setVisibility(View.GONE);
+                    }
+                    String video = events.get(0).getVIDEO();
+                    String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                    Link1.setText(truncatedVideo);
+                    String video2 = events.get(1).getVIDEO();
+                    String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
+                    Link2.setText(truncatedVideo2);
+                    Event1.setText(events.get(0).getEVENT());
+                    Event2.setText(events.get(1).getEVENT());
                 }
-                        /*String video1 = events.get(i).getVIDEO();
-                        String truncatedVideo1 = video1.substring(0, Math.min(video1.length(), 5)) + "...";
-                        Link1.setText(truncatedVideo1);
-                        Event1.setText(events.get(i).getEVENT());
-                        EventImage.setImageURI(events.get(i).getIMAGEN());
-                        Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
-                        String video2 = events.get(i).getVIDEO();
-                        String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
-                        Link1.setText(truncatedVideo2);
-                        Event2.setText(events.get(i).getEVENT());
-                        */
             }
         }
         return view;
