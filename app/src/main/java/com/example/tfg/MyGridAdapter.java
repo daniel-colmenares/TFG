@@ -1,8 +1,14 @@
 package com.example.tfg;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,13 +142,16 @@ public class MyGridAdapter extends ArrayAdapter {
 
         }
         */
+        SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+        Integer idCal = prefs.getInt("ID", 99);
 
         TextView Day_Number = view.findViewById(R.id.calendar_day);
         TextView Event1 = view.findViewById(R.id.events_id);
         TextView Link1 = view.findViewById(R.id.link1);
         TextView Event2 = view.findViewById(R.id.evento2);
         TextView Link2 = view.findViewById(R.id.link2);
-        ImageView EventImage = view.findViewById(R.id.imagenEvento);
+        ImageView EventImage1 = view.findViewById(R.id.imagenEvento1);
+        ImageView EventImage2 = view.findViewById(R.id.imagenEvento2);
         //TextView NombreCal = view.findViewById(R.id.NombreCalView);
         if (monthDate.getTime()==0){
             Day_Number.setText("-");
@@ -193,42 +202,83 @@ public class MyGridAdapter extends ArrayAdapter {
             if (DayNo==eventCalendar.get(Calendar.DAY_OF_MONTH)&& displayMonth==eventCalendar.get(Calendar.MONTH)+1
             && displayYear == eventCalendar.get(Calendar.YEAR)) {
                 arrayList.add(events.get(i).getEVENT());
-                if (arrayList.size() == 1) {
-                    String video = events.get(i).getVIDEO();
+                eventCalendar.set(displayYear, displayMonth - 1, DayNo); // Establecer la fecha del calendario
+                ArrayList<Events> eventsForDate = CollectEventByDate(convertDateToString(eventCalendar.getTime()), idCal);
+
+                if (eventsForDate.size() == 1) {
+                    String video = eventsForDate.get(0).getVIDEO();
                     String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
                     Link1.setText(truncatedVideo);
-                    Event1.setText(events.get(i).getEVENT());
-                    if(events.get(i).getIMAGEN()==null){
-                        EventImage.setVisibility(View.GONE);
+                    Event1.setText(eventsForDate.get(0).getEVENT());
+                    if(eventsForDate.get(0).getIMAGEN()==null){
+                        EventImage1.setVisibility(View.GONE);
                     }
-                    EventImage.setImageURI(events.get(i).getIMAGEN());
-                    Glide.with(getContext()).load(events.get(i).getIMAGEN()).into(EventImage);
+                    EventImage1.setImageURI(eventsForDate.get(0).getIMAGEN());
+                    Glide.with(getContext()).load(eventsForDate.get(0).getIMAGEN()).into(EventImage1);
                     Event2.setText("");
                     Link2.setText("");
-                }else if(arrayList.size() == 2){
-                    if(events.get(0).getIMAGEN()!=null){
-                        EventImage.setImageURI(events.get(0).getIMAGEN());
-                        Glide.with(getContext()).load(events.get(0).getIMAGEN()).into(EventImage);
-                    }else if (events.get(1).getIMAGEN()!=null){
-                        EventImage.setImageURI(events.get(1).getIMAGEN());
-                        Glide.with(getContext()).load(events.get(1).getIMAGEN()).into(EventImage);
-                    }else {
-                        EventImage.setVisibility(View.GONE);
+                    EventImage2.setVisibility(View.GONE);
+                }else if(eventsForDate.size() == 2){
+                    if(eventsForDate.get(0).getIMAGEN()!=null){
+                        EventImage1.setImageURI(eventsForDate.get(0).getIMAGEN());
+                        Glide.with(getContext()).load(eventsForDate.get(0).getIMAGEN()).into(EventImage1);
+                    }else{
+                        EventImage1.setVisibility(View.GONE);
                     }
-                    String video = events.get(0).getVIDEO();
+                    if (eventsForDate.get(1).getIMAGEN()!=null){
+                        EventImage2.setImageURI(eventsForDate.get(1).getIMAGEN());
+                        Glide.with(getContext()).load(eventsForDate.get(1).getIMAGEN()).into(EventImage2);
+                    }else {
+                        EventImage2.setVisibility(View.GONE);
+                    }
+                    String video = eventsForDate.get(0).getVIDEO();
                     String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
                     Link1.setText(truncatedVideo);
-                    String video2 = events.get(1).getVIDEO();
+                    String video2 = eventsForDate.get(1).getVIDEO();
                     String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
                     Link2.setText(truncatedVideo2);
-                    Event1.setText(events.get(0).getEVENT());
-                    Event2.setText(events.get(1).getEVENT());
+                    Event1.setText(eventsForDate.get(0).getEVENT());
+                    Event2.setText(eventsForDate.get(1).getEVENT());
                 }
             }
         }
         return view;
     }
 
+    private String convertDateToString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    private ArrayList<Events> CollectEventByDate(String date, Integer id){
+        ArrayList<Events> arrayList = new ArrayList<>();
+        dbOpenHelper = new DBOpenHelper(getContext());
+        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+        Cursor cursor = dbOpenHelper.ReadEvents(date,id,database);
+        while ( cursor.moveToNext()){
+            //Integer Id = cursor.getInt(cursor.getColumnIndex("ID")+0);
+            String event = cursor.getString(cursor.getColumnIndex(DBStructure.EVENT)+0);
+            String Date = cursor.getString(cursor.getColumnIndex(DBStructure.DATE)+0);
+            String Month = cursor.getString(cursor.getColumnIndex(DBStructure.MONTH)+0);
+            String Year = cursor.getString(cursor.getColumnIndex(DBStructure.YEAR)+0);
+            //Uri Image = Uri.parse(cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0));
+            String imageString = cursor.getString(cursor.getColumnIndex(DBStructure.IMAGEN)+0);
+            //Integer idCal = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID)+0);
+            Uri Image = null;
+            if (imageString != null) {
+                Image = Uri.parse(imageString);
+            }
+            String Video = cursor.getString(cursor.getColumnIndex(DBStructure.VIDEO)+0);
+            //Events events = new Events(event,Date,Month, Year, Image, Video,idCal);
+            Events events = new Events(event,Date,Month, Year, Image, Video);
+            arrayList.add(events);
+
+        }
+        cursor.close();
+        dbOpenHelper.close();
+
+        return arrayList;
+    }
 
 
     private Date ConvertStringToDate(String eventDate){

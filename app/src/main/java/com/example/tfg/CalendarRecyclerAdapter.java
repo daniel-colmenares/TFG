@@ -69,14 +69,14 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
                 editor.putString("email", calendars.getEMAIL());
                 editor.putInt("ID", calendars.getID());
                 editor.putString("cellColor",calendars.getCOLOR());
-                editor.putString("letra",calendars.getLETRA());
+                editor.putString("letraCal",calendars.getLETRA());
                 editor.apply();
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("name",calendars.getNAME());
                 intent.putExtra("email",calendars.getEMAIL());
                 intent.putExtra("ID",calendars.getID());
                 intent.putExtra("color",calendars.getCOLOR());
-                intent.putExtra("letra",calendars.getLETRA());
+                intent.putExtra("letraCal",calendars.getLETRA());
                 context.startActivity(intent);
 
             }
