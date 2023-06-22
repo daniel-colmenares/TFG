@@ -67,10 +67,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
         cerrarsesion = findViewById(R.id.botoncerrarsesion);
         mAuth = FirebaseAuth.getInstance();
-
-
-        //editTextBuscar = findViewById(R.id.editText_buscar);
-        //buttonFiltrar = findViewById(R.id.buttonfiltrar);
+        //calendarRecyclerAdapter = new CalendarRecyclerAdapter(getApplicationContext(),arrayList,esAdmin);
 
         recogerDatos();
 

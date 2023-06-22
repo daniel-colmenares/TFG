@@ -126,6 +126,7 @@ public class CustomCalendarView extends LinearLayout{
             if (uri!=null) {
                 Glide.with(context).load(uri).into(imageViewGal);
                 imageViewGal.setVisibility(View.VISIBLE);
+                buttonPicto.setVisibility(View.GONE);
                 uriImagen = uri;
             }else {
                 Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
@@ -228,7 +229,11 @@ public class CustomCalendarView extends LinearLayout{
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SaveEvent(idCal,EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                        if (EventName.getText().toString().equals("") && uriImagen==null && EventVideo.getText().toString().equals("")){
+                            Toast.makeText(activity, "Un evento no puede estar vacío", Toast.LENGTH_SHORT).show();
+                        }else {
+                            SaveEvent(idCal,EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                        }
                         SetUpCalendar();
                         alertDialog.dismiss();
                     }
@@ -273,14 +278,24 @@ public class CustomCalendarView extends LinearLayout{
                     return;
                 }
                 guardarComoPDF(activity.getWindow().getDecorView().getRootView());
+                Toast.makeText(context, "Guardado como pdf", Toast.LENGTH_SHORT).show();
             }
         });
+        if (!esAdmin){
+            personalizar.setVisibility(View.GONE);
+        }
         personalizar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PersonalizarCalendario.class);
-                intent.putExtra("ID",calendars.getID());
-                context.startActivity(intent);
+                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("esAdmin", esAdmin);
+                editor.apply();
+                if (esAdmin) {
+                    Intent intent = new Intent(context, PersonalizarCalendario.class);
+                    intent.putExtra("ID",calendars.getID());
+                    context.startActivity(intent);
+                }
             }
         });
     }
@@ -324,6 +339,7 @@ public class CustomCalendarView extends LinearLayout{
                                 Glide.with(context).load("https://api.arasaac.org/api/pictograms/"+listaId.get(position)).into(imageViewPicto);
                                 uriImagen = Uri.parse("https://api.arasaac.org/api/pictograms/"+listaId.get(position));
                                 imageViewPicto.setVisibility(View.VISIBLE);
+                                buttonGaleria.setVisibility(View.GONE);
                             }
                         });
                         // Mostrar el diálogo

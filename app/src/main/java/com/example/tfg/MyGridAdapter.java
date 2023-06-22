@@ -206,9 +206,13 @@ public class MyGridAdapter extends ArrayAdapter {
                 ArrayList<Events> eventsForDate = CollectEventByDate(convertDateToString(eventCalendar.getTime()), idCal);
 
                 if (eventsForDate.size() == 1) {
-                    String video = eventsForDate.get(0).getVIDEO();
-                    String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
-                    Link1.setText(truncatedVideo);
+                    if (eventsForDate.get(0).getVIDEO()!=null) {
+                        String video = eventsForDate.get(0).getVIDEO();
+                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo);
+                    }else {
+                        Link1.setText("");
+                    }
                     Event1.setText(eventsForDate.get(0).getEVENT());
                     if(eventsForDate.get(0).getIMAGEN()==null){
                         EventImage1.setVisibility(View.GONE);
@@ -231,14 +235,29 @@ public class MyGridAdapter extends ArrayAdapter {
                     }else {
                         EventImage2.setVisibility(View.GONE);
                     }
-                    String video = eventsForDate.get(0).getVIDEO();
-                    String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
-                    Link1.setText(truncatedVideo);
-                    String video2 = eventsForDate.get(1).getVIDEO();
-                    String truncatedVideo2 = video2.substring(0, Math.min(video2.length(), 5)) + "...";
-                    Link2.setText(truncatedVideo2);
+                    if (eventsForDate.get(0).getVIDEO().equals("")) {
+                        Link1.setText("");
+                    }else {
+                        String video = eventsForDate.get(0).getVIDEO();
+                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo);
+                    }
+                    if (eventsForDate.get(1).getVIDEO().equals("")) {
+                        Link2.setText("");
+                    }else {
+                        String video = eventsForDate.get(1).getVIDEO();
+                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link2.setText(truncatedVideo);
+                    }
                     Event1.setText(eventsForDate.get(0).getEVENT());
                     Event2.setText(eventsForDate.get(1).getEVENT());
+
+                    if (eventsForDate.get(1).getIMAGEN()==null) {
+                        EventImage2.setImageDrawable(null);
+                    }
+                    if (eventsForDate.get(0).getIMAGEN()==null) {
+                        EventImage1.setImageDrawable(null);
+                    }
                 }
             }
         }
