@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
@@ -48,19 +49,24 @@ public class SelectCalendarActivity extends AppCompatActivity {
     TextView textViewAdmin;
     Calendars calendars;
     ArrayList<Calendars> arrayList;
-    Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes;
+    Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes, mas, menos;
     String colorCal, letraCal;
 
 
     EditText editTextBuscar;
     Button buttonFiltrar;
     CalendarRecyclerAdapter calendarRecyclerAdapter;
+    List<Calendars> listaMostrada;
+    int cantidadMaximaCalendarios, indiceInicioMostrado;
+    List<Calendars> listaCalendarios;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
+        mas = findViewById(R.id.mas);
+        menos = findViewById(R.id.menos);
         textViewAdmin = findViewById(R.id.textViewCambiarRol);
         ajustesBotton = findViewById(R.id.ajustesbutton);
         crearcalendario = findViewById(R.id.button_crearcalendario);
@@ -70,6 +76,73 @@ public class SelectCalendarActivity extends AppCompatActivity {
         //calendarRecyclerAdapter = new CalendarRecyclerAdapter(getApplicationContext(),arrayList,esAdmin);
 
         recogerDatos();
+
+        /*SQLiteDatabase databaselista = dbOpenHelper.getReadableDatabase();
+        listaCalendarios = new ArrayList<>();
+        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
+        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), databaselista);
+
+        while (cursor.moveToNext()) {
+            Integer Id = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
+            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
+            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
+            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
+            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
+            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
+            Calendars calendar = new Calendars(Name, Email, Fecha, Id, Color, Letra);
+            listaCalendarios.add(calendar);
+
+        }
+        cursor.close();
+        dbOpenHelper.close();
+
+        cantidadMaximaCalendarios = 5;
+        listaMostrada = new ArrayList<>(cantidadMaximaCalendarios);
+        indiceInicioMostrado = 0;
+
+        CalendarRecyclerAdapter adapter = new CalendarRecyclerAdapter(getApplicationContext(), (ArrayList<Calendars>) listaMostrada,esAdmin);
+        show_calendarlist.setAdapter(adapter);
+
+
+        if (listaCalendarios.size() > cantidadMaximaCalendarios) {
+            mas.setVisibility(View.VISIBLE);
+            mas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Actualiza el índice de inicio mostrado y la lista mostrada
+                    indiceInicioMostrado += cantidadMaximaCalendarios;
+                    actualizarListaMostrada();
+
+                    // Muestra el botón "-"
+                    mas.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            mas.setVisibility(View.GONE);
+        }
+
+        if (indiceInicioMostrado > 0) {
+            menos.setVisibility(View.VISIBLE);
+            menos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Actualiza el índice de inicio mostrado y la lista mostrada
+                    indiceInicioMostrado -= cantidadMaximaCalendarios;
+                    actualizarListaMostrada();
+
+                    // Oculta el botón "-" si se ha vuelto al principio de la lista
+                    if (indiceInicioMostrado == 0) {
+                        menos.setVisibility(View.GONE);
+                    }
+                }
+            });
+        } else {
+            menos.setVisibility(View.GONE);
+        }
+
+
+        actualizarListaMostrada();
+        */
 
 
 
@@ -277,7 +350,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         esAdmin = prefs.getBoolean("esAdmin", false);
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                        calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
                         //calendarRecyclerAdapter.filterList(arrayList);
                     }
@@ -352,7 +425,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 MonthYearPickerDialog pd = MonthYearPickerDialog.newInstance(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
                                 pd.setListener(new DatePickerDialog.OnDateSetListener() {
                                     @Override
-                                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                                    public void onDateSet(DatePicker view1, int selectedYear, int selectedMonth, int selectedDay) {
                                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                                         // Filtrar los calendarios por mes y año de creación
                                         ArrayList<Calendars> filteredList = new ArrayList<>();
@@ -395,7 +468,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 } else {
                                     textViewAdmin.setText("USUARIO");
                                 }
-                                CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                                calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                                 show_calendarlist.setAdapter(calendarRecyclerAdapter);
                                 onResume();
                         }
@@ -454,7 +527,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         esAdmin = prefs.getBoolean("esAdmin", false);
         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        CalendarRecyclerAdapter calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
+        calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
         if (esAdmin) {
             textViewAdmin.setText("ADMININSTRADOR");
@@ -463,6 +536,13 @@ public class SelectCalendarActivity extends AppCompatActivity {
             textViewAdmin.setText("USUARIO");
         }
     }
+
+    /*private void actualizarListaMostrada() {
+        listaMostrada.clear();
+        int indiceFinMostrado = Math.min(indiceInicioMostrado + cantidadMaximaCalendarios, listaCalendarios.size());
+        listaMostrada.addAll(listaCalendarios.subList(indiceInicioMostrado, indiceFinMostrado));
+        calendarRecyclerAdapter.notifyDataSetChanged();
+    }*/
 
     @Override
     protected void onResume() {

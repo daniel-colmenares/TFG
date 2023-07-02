@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.annotation.SuppressLint;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -88,7 +89,7 @@ public class CustomCalendarView extends LinearLayout{
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf,
             letra_calendario, buttonPicto, buttonGaleria, personalizar,
-            confirmarPersonalizar;
+            confirmarPersonalizar, buttonsettings;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
@@ -124,6 +125,8 @@ public class CustomCalendarView extends LinearLayout{
         activity = (MainActivity)context;
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia = activity.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri!=null) {
+                int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                context.getContentResolver().takePersistableUriPermission(uri,flag);
                 Glide.with(context).load(uri).into(imageViewGal);
                 imageViewGal.setVisibility(View.VISIBLE);
                 buttonPicto.setVisibility(View.GONE);
@@ -152,12 +155,62 @@ public class CustomCalendarView extends LinearLayout{
         pictogramService = APIUtils.getPictoService();
 
 
-        elegirCalendario.setOnClickListener(new OnClickListener() {
+        buttonsettings.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                activity.onBackPressed();
+                final Dialog dialog = new Dialog(view.getContext());
+                dialog.setContentView(R.layout.settings_calendario);
+                dialog.setCancelable(true);
+
+                // Obtener referencias a las vistas dentro del diálogo
+                elegirCalendario = dialog.findViewById(R.id.buttonCambiarCalendario);
+                pdf = dialog.findViewById(R.id.pdf);
+                personalizar = dialog.findViewById(R.id.personalizar);
+                elegirCalendario.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, SelectCalendarActivity.class);
+
+                        // Opcional: Puedes pasar datos adicionales a la nueva actividad usando putExtra()
+                        // intent.putExtra("key", value);
+
+                        // Iniciar la actividad SelectCalendarActivity
+                        context.startActivity(intent);
+                    }
+                });
+                pdf.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!Environment.isExternalStorageManager()) {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            activity.startActivity(intent);
+                            return;
+                        }
+                        guardarComoPDF(activity.getWindow().getDecorView().getRootView());
+                        Toast.makeText(context, "Guardado como pdf", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                if (!esAdmin){
+                    personalizar.setVisibility(View.GONE);
+                }
+                personalizar.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("esAdmin", esAdmin);
+                        editor.apply();
+                        if (esAdmin) {
+                            Intent intent = new Intent(context, PersonalizarCalendario.class);
+                            intent.putExtra("ID",calendars.getID());
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
+
         prevBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -269,35 +322,7 @@ public class CustomCalendarView extends LinearLayout{
                 return true;
             }
         });
-        pdf.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!Environment.isExternalStorageManager()) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                    activity.startActivity(intent);
-                    return;
-                }
-                guardarComoPDF(activity.getWindow().getDecorView().getRootView());
-                Toast.makeText(context, "Guardado como pdf", Toast.LENGTH_SHORT).show();
-            }
-        });
-        if (!esAdmin){
-            personalizar.setVisibility(View.GONE);
-        }
-        personalizar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences prefs = context.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("esAdmin", esAdmin);
-                editor.apply();
-                if (esAdmin) {
-                    Intent intent = new Intent(context, PersonalizarCalendario.class);
-                    intent.putExtra("ID",calendars.getID());
-                    context.startActivity(intent);
-                }
-            }
-        });
+
     }
 
 
@@ -496,9 +521,7 @@ public class CustomCalendarView extends LinearLayout{
         prevBtn = view.findViewById(R.id.previousBtn);
         CurrentDate=view.findViewById(R.id.current_Date);
         gridView = view.findViewById(R.id.gridView);
-        elegirCalendario = view.findViewById(R.id.buttonCambiarCalendario);
-        pdf = view.findViewById(R.id.pdf);
-        personalizar = view.findViewById(R.id.personalizar);
+        buttonsettings = view.findViewById(R.id.buttonsettings);
     }
 
     public void SetUpCalendar() {

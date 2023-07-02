@@ -4,51 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
+    android:layout_height="101dp"
     android:background="@drawable/cell_border">
 
     <TextView
         android:id="@+id/calendar_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
         android:gravity="center"
-         />
+        android:textStyle="bold"
+        android:textSize="14dp" />
 
     <TextView
         android:id="@+id/events_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13dp"
         android:layout_marginStart="1dp"
-        />
+        android:textSize="9dp" />
 
     <ImageView
         android:id="@+id/imagenEvento1"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="21dp"
+        android:layout_gravity="center"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/link1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
         android:layout_marginStart="1dp"
-        />
+        android:textSize="7dp"
+        android:clickable="true"/>
 
     <TextView
         android:id="@+id/evento2"
+        android:layout_marginStart="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13dp"
-        android:paddingLeft="3dp"
-         />
+        android:textSize="9dp" />
 
     <ImageView
         android:id="@+id/imagenEvento2"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:layout_height="21dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -57,7 +57,8 @@
         android:layout_height="wrap_content"
         android:paddingStart="3dp"
         android:textAlignment="viewStart"
-        android:textSize="10dp" />
+        android:clickable="true"
+        android:textSize="7dp" />
 
 
 </LinearLayout>

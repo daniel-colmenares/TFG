@@ -206,7 +206,7 @@ public class MyGridAdapter extends ArrayAdapter {
                 ArrayList<Events> eventsForDate = CollectEventByDate(convertDateToString(eventCalendar.getTime()), idCal);
 
                 if (eventsForDate.size() == 1) {
-                    if (eventsForDate.get(0).getVIDEO()!=null) {
+                    if (!(eventsForDate.get(0).getVIDEO().equals(""))) {
                         String video = eventsForDate.get(0).getVIDEO();
                         String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
                         Link1.setText(truncatedVideo);
@@ -253,10 +253,10 @@ public class MyGridAdapter extends ArrayAdapter {
                     Event2.setText(eventsForDate.get(1).getEVENT());
 
                     if (eventsForDate.get(1).getIMAGEN()==null) {
-                        EventImage2.setImageDrawable(null);
+                        EventImage2.setVisibility(View.GONE);
                     }
                     if (eventsForDate.get(0).getIMAGEN()==null) {
-                        EventImage1.setImageDrawable(null);
+                        EventImage1.setVisibility(View.GONE);
                     }
                 }
             }
