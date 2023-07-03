@@ -322,6 +322,7 @@ public class CustomCalendarView extends LinearLayout{
                 return true;
             }
         });
+        nombreCalView.setBackgroundColor(Color.parseColor(cellColor));
 
     }
 

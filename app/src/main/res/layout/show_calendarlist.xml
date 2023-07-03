@@ -10,30 +10,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardElevation="12sp"
-        app:contentPadding="@dimen/cardview_compat_inset_shadow"
-        >
+        app:contentPadding="@dimen/cardview_compat_inset_shadow">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="47dp"
+            android:orientation="vertical"
+            android:background="@drawable/cell_border_purple">
 
             <TextView
                 android:id="@+id/calendarname"
                 android:layout_width="233dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
                 android:text="Calendario"
                 android:textColor="@android:color/holo_purple"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/vercalendario"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
+                android:layout_width="48dp"
+                android:layout_height="21dp"
                 android:layout_below="@+id/calendarname"
                 android:layout_alignParentEnd="@id/eliminarcalendario"
-                android:layout_marginTop="-12dp"
+                android:layout_marginTop="-5dp"
+                android:layout_marginEnd="-1dp"
                 android:layout_toStartOf="@+id/eliminarcalendario"
                 android:background="@color/green"
                 android:drawableBottom="@drawable/ic_ojo"
@@ -41,23 +44,26 @@
 
             <Button
                 android:id="@+id/eliminarcalendario"
-                android:layout_width="98dp"
-                android:layout_height="37dp"
+                android:layout_width="48dp"
+                android:layout_height="21dp"
                 android:layout_below="@+id/calendarname"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="-12dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginTop="-5dp"
+                android:layout_marginEnd="3dp"
                 android:background="@color/red"
                 android:drawableBottom="@drawable/ic_basura"
                 android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/fechacalendario"
-                android:layout_width="match_parent"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="11dp"
+                android:layout_marginTop="2dp"
                 android:gravity="end"
-                android:textSize="10sp"
-                android:text="Fecha" />
+                android:text="Fecha"
+                android:textSize="10sp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
