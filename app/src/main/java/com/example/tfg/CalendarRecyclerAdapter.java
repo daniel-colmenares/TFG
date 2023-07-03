@@ -3,6 +3,7 @@ package com.example.tfg;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.content.DialogInterface;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -95,6 +97,27 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
                         Integer Id = calendars.getID();
                         dbOpenHelper.deleteCalendar(Id,database);
+
+                        /*arrayList = new ArrayList<>();
+                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                        SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
+                        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
+                        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
+
+                        while (cursor.moveToNext()) {
+                            Integer Id1 = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
+                            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
+                            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
+                            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
+                            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
+                            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
+                            Calendars calendar = new Calendars(Name, Email, Fecha, Id1, Color, Letra);
+                            arrayList.add(calendar);
+
+                        }
+                        cursor.close();
+                        dbOpenHelper.close();*/
+                        //calendarRecyclerAdapter.notifyDataSetChanged();
                         //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
 
 // Acciones a realizar al hacer clic en el botón "OK"

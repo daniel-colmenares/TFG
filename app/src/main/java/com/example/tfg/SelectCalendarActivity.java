@@ -242,6 +242,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         builder1.setView(addView);
                         alertDialog = builder1.create();
                         alertDialog.show();
+                        //alertDialog.dismiss();
                     }
                 });
                 selec_fuente.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +313,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         //String nombreCalendario = nombreCal.getText().toString();
+                        /*android.app.AlertDialog.Builder builder3 = new android.app.AlertDialog.Builder(view.getContext());
+                        builder3.setCancelable(true);
+                        alertDialog = builder3.create();*/
                         String email = getIntent().getStringExtra("email");
                         Date currentDate = new Date();
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -326,8 +330,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(view.getContext(), "El nombre del calendario no puede ser nulo", Toast.LENGTH_SHORT).show();
                         }
-                        alertDialog.dismiss();
-
                         arrayList = new ArrayList<>();
                         dbOpenHelper = new DBOpenHelper(view.getContext());
                         SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
@@ -362,9 +364,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         alertDialog.dismiss();
+                        //onBackPressed();
                     }
                 });
-
             }
         });
 
