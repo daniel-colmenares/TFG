@@ -26,6 +26,11 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -273,10 +278,30 @@ public class CustomCalendarView extends LinearLayout{
 
                     }
                 });
-                buttonPicto.setOnClickListener(new OnClickListener() {
+                buttonPicto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mostrarDialogoLista(view.getContext());
+                        // Verificar la disponibilidad de conexión WiFi
+                        ConnectivityManager connectivityManager = (ConnectivityManager) view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkRequest networkRequest = new NetworkRequest.Builder()
+                                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                                .build();
+
+                        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+                            @Override
+                            public void onAvailable(Network network) {
+                                // Hay conexión WiFi, mostrar el diálogo de la lista
+                                mostrarDialogoLista(view.getContext());
+                            }
+
+                            @Override
+                            public void onLost(Network network) {
+                                // No hay conexión WiFi, mostrar mensaje de error
+                                Toast.makeText(view.getContext(), "Error: Para usar pictogramas, por favor conectate a una WiFi", Toast.LENGTH_SHORT).show();
+                            }
+                        };
+
+                        connectivityManager.registerNetworkCallback(networkRequest, networkCallback);
                     }
                 });
                 AddEvent.setOnClickListener(new OnClickListener() {

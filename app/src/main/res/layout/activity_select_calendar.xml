@@ -22,7 +22,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycled_selectcalendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="295dp"
         android:layout_marginTop="28dp"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
@@ -30,8 +30,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="5"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        tools:itemCount="6"
         tools:listitem="@layout/show_calendarlist" />
 
     <Button

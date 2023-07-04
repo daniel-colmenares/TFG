@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecyclerAdapter.MyViewHolder> {
 
     Context context;
+    private View.OnClickListener onItemClickListener;
     ArrayList<Calendars> arrayList;
     DBOpenHelper dbOpenHelper;
     private ArrayList<Calendars> arrayListFull;
@@ -83,60 +84,13 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
 
             }
         });
-        holder.eliminarCalendario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Borrar calendario " + calendars.getNAME());
-                builder.setMessage("Seguro?");
+        holder.eliminarCalendario.setTag(position);
+        holder.eliminarCalendario.setOnClickListener(onItemClickListener);
 
-// Botón "OK"
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dbOpenHelper = new DBOpenHelper(context);
-                        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
-                        Integer Id = calendars.getID();
-                        dbOpenHelper.deleteCalendar(Id,database);
+    }
 
-                        /*arrayList = new ArrayList<>();
-                        dbOpenHelper = new DBOpenHelper(view.getContext());
-                        SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
-                        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
-                        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
-
-                        while (cursor.moveToNext()) {
-                            Integer Id1 = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
-                            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
-                            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
-                            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
-                            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
-                            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
-                            Calendars calendar = new Calendars(Name, Email, Fecha, Id1, Color, Letra);
-                            arrayList.add(calendar);
-
-                        }
-                        cursor.close();
-                        dbOpenHelper.close();*/
-                        //calendarRecyclerAdapter.notifyDataSetChanged();
-                        //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
-
-// Acciones a realizar al hacer clic en el botón "OK"
-                    }
-                });
-// Botón "Cancelar"
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-// Acciones a realizar al hacer clic en el botón "Cancelar"
-                    }
-                });
-
-// Crear y mostrar el AlertDialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-
+    public void setOnItemClickListener(View.OnClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @Override

@@ -159,6 +159,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 EditText nombreCalLayout = addView.findViewById(R.id.editTextNombreCalendario);
                 Button confirmarCal = addView.findViewById(R.id.button_crearcalendario);
                 Button buttonCancelar = addView.findViewById(R.id.buttonCancelar);
+                builder.setView(addView);
+                android.app.AlertDialog alertDialogCrear = builder.create();
+                alertDialogCrear.show();
 
                 selec_color.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -326,7 +329,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         if (!nombreCalLayout.getText().toString().equals("")) {
                             String calendarName = nombreCalLayout.getText().toString();
                             dbOpenHelper.SaveCalendar(calendarName, email, currentDateString, colorCal, letraCal, database);
-                            alertDialog.dismiss();
+                            alertDialogCrear.dismiss();
                         } else {
                             Toast.makeText(view.getContext(), "El nombre del calendario no puede ser nulo", Toast.LENGTH_SHORT).show();
                         }
@@ -354,16 +357,73 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                        calendarRecyclerAdapter.setOnItemClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int position = (int) view.getTag();
+                                Calendars calendars = arrayList.get(position);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                builder.setTitle("Borrar calendario " + calendars.getNAME());
+                                builder.setMessage("Seguro?");
+
+// Botón "OK"
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                                        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+                                        Integer Id = calendars.getID();
+                                        dbOpenHelper.deleteCalendar(Id,database);
+
+                                        arrayList = new ArrayList<>();
+                                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                                        SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
+                                        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
+                                        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
+
+                                        while (cursor.moveToNext()) {
+                                            Integer Id1 = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
+                                            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
+                                            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
+                                            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
+                                            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
+                                            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
+                                            Calendars calendar = new Calendars(Name, Email, Fecha, Id1, Color, Letra);
+                                            arrayList.add(calendar);
+
+                                        }
+                                        cursor.close();
+                                        dbOpenHelper.close();
+                                        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                        esAdmin = prefs.getBoolean("esAdmin", false);
+                                        show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                        calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                                        show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                                        //calendarRecyclerAdapter.notifyDataSetChanged();
+                                        //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
+
+// Acciones a realizar al hacer clic en el botón "OK"
+                                    }
+                                });
+// Botón "Cancelar"
+                                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+// Acciones a realizar al hacer clic en el botón "Cancelar"
+                                    }
+                                });
+
+// Crear y mostrar el AlertDialog
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+                            }
+                        });
                         //calendarRecyclerAdapter.filterList(arrayList);
                     }
                 });
-                builder.setView(addView);
-                alertDialog = builder.create();
-                alertDialog.show();
                 buttonCancelar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialog.dismiss();
+                        alertDialogCrear.dismiss();
                         //onBackPressed();
                     }
                 });
@@ -537,6 +597,66 @@ public class SelectCalendarActivity extends AppCompatActivity {
         } else {
             textViewAdmin.setText("USUARIO");
         }
+        calendarRecyclerAdapter.setOnItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = (int) view.getTag();
+                Calendars calendars = arrayList.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Borrar calendario " + calendars.getNAME());
+                builder.setMessage("Seguro?");
+
+// Botón "OK"
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+                        Integer Id = calendars.getID();
+                        dbOpenHelper.deleteCalendar(Id,database);
+
+                        arrayList = new ArrayList<>();
+                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                        SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
+                        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
+                        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
+
+                        while (cursor.moveToNext()) {
+                            Integer Id1 = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
+                            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
+                            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
+                            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
+                            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
+                            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
+                            Calendars calendar = new Calendars(Name, Email, Fecha, Id1, Color, Letra);
+                            arrayList.add(calendar);
+
+                        }
+                        cursor.close();
+                        dbOpenHelper.close();
+                        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        esAdmin = prefs.getBoolean("esAdmin", false);
+                        show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                        show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                        //calendarRecyclerAdapter.notifyDataSetChanged();
+                        //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
+
+// Acciones a realizar al hacer clic en el botón "OK"
+                    }
+                });
+// Botón "Cancelar"
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+// Acciones a realizar al hacer clic en el botón "Cancelar"
+                    }
+                });
+
+// Crear y mostrar el AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     /*private void actualizarListaMostrada() {

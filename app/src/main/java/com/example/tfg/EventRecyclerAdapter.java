@@ -107,8 +107,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 // Borrar evento de la lista y actualizar la vista
                             arrayList.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, arrayList.size());
+
                         }
 
                     });
