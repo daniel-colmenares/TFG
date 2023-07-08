@@ -1,103 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/lightpurple">
+    android:background="@color/blue">
 
     <TextView
+        android:id="@+id/mostrarfecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@drawable/cell_border_purple"
-        android:textColor="@color/black"
-        android:id="@+id/mostrarfecha"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:text="Fecha"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <EditText
-        android:hint="Escribe evento"
+        android:id="@+id/eventname"
+        android:layout_width="206dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/mostrarfecha"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="1dp"
+        android:background="@color/lightblue"
+        android:hint="Nombre del evento"
+        android:inputType="text"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:background="@color/calendarpurple"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:inputType="text"
-        android:id="@+id/eventname"/>
-
-    <!--android:onClick="popTimePicker"-->
-
+        android:textSize="15sp" />
 
     <Button
-        android:id="@+id/buttonGaleria"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="AÑADIR IMAGEN/VIDEO DE GALERIA"
-        android:background="@color/green"
-        android:textColor="@color/white"/>
+        android:id="@+id/button2"
+        android:layout_width="75dp"
+        android:layout_height="43dp"
+        android:layout_alignTop="@id/eventname"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="-9dp"
+        android:background="@color/blue"
+        android:drawableBottom="@drawable/ic_event"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="75dp"
+        android:layout_height="43dp"
+        android:layout_alignTop="@+id/button2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="141dp"
+        android:background="@color/blue"
+        android:drawableBottom="@drawable/ic_link" />
 
     <ImageView
         android:id="@+id/imageViewGaleria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/avatars"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/buttonPicto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="BUSCAR PICTOGRAMA"
-        android:background="@color/blue"
-        android:textColor="@color/white"/>
-
+        android:layout_below="@id/eventname"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageViewPicto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/avatars"
-        android:visibility="gone"/>
+        android:layout_below="@id/imageViewGaleria"
+        android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/editTextFiltroPicto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:background="@color/purple"
-        android:hint="Escribe pictograma aquí"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"/>
+    <Button
+        android:id="@+id/buttonFoto"
+        android:layout_width="142dp"
+        android:layout_height="79dp"
+        android:layout_below="@id/imageViewPicto"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/cell_border_purple"
+        android:drawableBottom="@drawable/ic_picture"/>
 
     <EditText
         android:id="@+id/eventvideo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:background="@color/calendarpurple"
-        android:hint="Añadir url de video"
-        android:textColorHint="@color/white"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonFoto"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="1dp"
+        android:background="@color/lightblue"
+        android:hint="Url de video"
         android:inputType="text"
-        android:textSize="20sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/addevent"
         android:layout_width="131dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_below="@id/eventvideo"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@color/purple"
+        android:background="@color/darkblue"
         android:text="Guardar"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-
-</LinearLayout>
+</RelativeLayout>

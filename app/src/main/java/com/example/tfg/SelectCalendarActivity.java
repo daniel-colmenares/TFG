@@ -49,7 +49,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     TextView textViewAdmin;
     Calendars calendars;
     ArrayList<Calendars> arrayList;
-    Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes, mas, menos;
+    Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes;
     String colorCal, letraCal;
 
 
@@ -70,6 +70,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         crearcalendario = findViewById(R.id.button_crearcalendario);
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
         cerrarsesion = findViewById(R.id.botoncerrarsesion);
+        cambiarRol = findViewById(R.id.buttonCambiarRol);
         mAuth = FirebaseAuth.getInstance();
         //calendarRecyclerAdapter = new CalendarRecyclerAdapter(getApplicationContext(),arrayList,esAdmin);
 
@@ -428,13 +429,37 @@ public class SelectCalendarActivity extends AppCompatActivity {
             }
         });
 
+        cambiarRol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                esAdmin = !esAdmin;
+                SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("esAdmin", esAdmin);
+                editor.apply();
+                if (esAdmin) {
+                    crearcalendario.setVisibility(View.VISIBLE);
+                } else {
+                    crearcalendario.setVisibility(View.INVISIBLE);
+                }
+                if (esAdmin) {
+                    textViewAdmin.setText("ADMININSTRADOR");
+
+                } else {
+                    textViewAdmin.setText("USUARIO");
+                }
+                calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                onResume();
+            }
+        });
         ajustesBotton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Ajustes");
+                builder.setTitle("AJUSTES");
                 final String[] opciones = {"Filtrar calendarios por nombre", "Filtrar calendarios por fecha",
-                        "Reset filtro de calendarios", "Cambiar rol"};
+                        "Reset filtro de calendarios"};
 
                 builder.setItems(opciones, new DialogInterface.OnClickListener() {
                     @Override
@@ -511,26 +536,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
                             case "Reset filtro de calendarios":
                                 calendarRecyclerAdapter.filterList(arrayList);
                                 break;
-                            case "Cambiar rol":
-                                esAdmin = !esAdmin;
-                                SharedPreferences prefs = getApplicationContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putBoolean("esAdmin", esAdmin);
-                                editor.apply();
-                                if (esAdmin) {
-                                    crearcalendario.setVisibility(View.VISIBLE);
-                                } else {
-                                    crearcalendario.setVisibility(View.INVISIBLE);
-                                }
-                                if (esAdmin) {
-                                    textViewAdmin.setText("ADMININSTRADOR");
-
-                                } else {
-                                    textViewAdmin.setText("USUARIO");
-                                }
-                                calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
-                                show_calendarlist.setAdapter(calendarRecyclerAdapter);
-                                onResume();
                         }
                         // Aquí puedes realizar las acciones correspondientes a la opción seleccionada
                     }

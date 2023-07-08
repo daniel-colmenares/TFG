@@ -94,7 +94,7 @@ public class CustomCalendarView extends LinearLayout{
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf,
             letra_calendario, buttonPicto, buttonGaleria, personalizar,
-            confirmarPersonalizar, buttonsettings;
+            confirmarPersonalizar, buttonsettings, buttonImagen;
     TextView CurrentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
@@ -247,9 +247,7 @@ public class CustomCalendarView extends LinearLayout{
                 View addView = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_newevent_layout, null);
                 EditText EventName = addView.findViewById(R.id.eventname);
                 EditText EventVideo = addView.findViewById(R.id.eventvideo);
-                filtroPicto = addView.findViewById(R.id.editTextFiltroPicto);
-                buttonGaleria = addView.findViewById(R.id.buttonGaleria);
-                buttonPicto = addView.findViewById(R.id.buttonPicto);
+                buttonImagen = addView.findViewById(R.id.buttonFoto);
                 imageViewGal = addView.findViewById(R.id.imageViewGaleria);
                 imageViewPicto = addView.findViewById(R.id.imageViewPicto);
                 Button AddEvent = addView.findViewById(R.id.addevent);
@@ -271,37 +269,49 @@ public class CustomCalendarView extends LinearLayout{
                     Toast.makeText(activity, "No se puede añadir mas de 2 eventos por dia", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                buttonGaleria.setOnClickListener(new OnClickListener() {
+                buttonImagen.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-
-                    }
-                });
-                buttonPicto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Verificar la disponibilidad de conexión WiFi
-                        ConnectivityManager connectivityManager = (ConnectivityManager) view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                        NetworkRequest networkRequest = new NetworkRequest.Builder()
-                                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                                .build();
-
-                        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+                        final Dialog dialog1 = new Dialog(view.getContext());
+                        dialog1.setContentView(R.layout.dialog_foto);
+                        dialog1.setCancelable(true);
+                        filtroPicto = dialog1.findViewById(R.id.editTextPicto);
+                        buttonGaleria = dialog1.findViewById(R.id.buttonGaleria);
+                        buttonPicto = dialog1.findViewById(R.id.buttonPicto);
+                        buttonGaleria.setOnClickListener(new OnClickListener() {
                             @Override
-                            public void onAvailable(Network network) {
-                                // Hay conexión WiFi, mostrar el diálogo de la lista
-                                mostrarDialogoLista(view.getContext());
-                            }
+                            public void onClick(View view) {
+                                pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
 
+                            }
+                        });
+                        buttonPicto.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onLost(Network network) {
-                                // No hay conexión WiFi, mostrar mensaje de error
-                                Toast.makeText(view.getContext(), "Error: Para usar pictogramas, por favor conectate a una WiFi", Toast.LENGTH_SHORT).show();
-                            }
-                        };
+                            public void onClick(View view) {
+                                // Verificar la disponibilidad de conexión WiFi
+                                ConnectivityManager connectivityManager = (ConnectivityManager) view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                NetworkRequest networkRequest = new NetworkRequest.Builder()
+                                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                                        .build();
 
-                        connectivityManager.registerNetworkCallback(networkRequest, networkCallback);
+                                ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+                                    @Override
+                                    public void onAvailable(Network network) {
+                                        // Hay conexión WiFi, mostrar el diálogo de la lista
+                                        mostrarDialogoLista(view.getContext());
+                                    }
+
+                                    @Override
+                                    public void onLost(Network network) {
+                                        // No hay conexión WiFi, mostrar mensaje de error
+                                        Toast.makeText(view.getContext(), "Error: Para usar pictogramas, por favor conectate a una WiFi", Toast.LENGTH_SHORT).show();
+                                    }
+                                };
+
+                                connectivityManager.registerNetworkCallback(networkRequest, networkCallback);
+                            }
+                        });
+                        dialog1.show();
                     }
                 });
                 AddEvent.setOnClickListener(new OnClickListener() {
@@ -344,7 +354,6 @@ public class CustomCalendarView extends LinearLayout{
                 return true;
             }
         });
-        nombreCalView.setBackgroundColor(Color.parseColor(cellColor));
 
     }
 

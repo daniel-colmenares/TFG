@@ -82,22 +82,24 @@
         android:id="@+id/textViewCambiarRol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginBottom="60dp"
         android:text="TextView"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintStart_toEndOf="@+id/buttonCambiarRol" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCambiarRol"
         android:layout_width="89dp"
         android:layout_height="59dp"
+        android:layout_marginStart="40dp"
         android:background="@color/blue"
         android:drawableBottom="@drawable/ic_user"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/botoncerrarsesion"
-        tools:layout_editor_absoluteX="49dp" />
+        app:layout_constraintVertical_bias="0.506" />
 
     <TextView
         android:id="@+id/textView"
