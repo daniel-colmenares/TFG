@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="MIS CALENDARIOS"
+        android:text="EASY CALENDAR"
         android:textStyle="bold"
-        android:textColor="@color/purple"
+        android:textColor="@color/darkblue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -36,74 +36,106 @@
 
     <Button
         android:id="@+id/button_crearcalendario"
-        android:layout_width="81dp"
-        android:layout_height="43dp"
-        android:background="@color/calendargreen"
+        android:layout_width="89dp"
+        android:layout_height="59dp"
+        android:background="@color/blue"
         android:drawableLeft="@drawable/ic_new"
         android:drawableRight="@drawable/ic_calendar"
         android:gravity="center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.154"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
+        app:layout_constraintVertical_bias="0.162" />
 
     <Button
         android:id="@+id/botoncerrarsesion"
-        android:layout_width="84dp"
-        android:layout_height="39dp"
-        android:background="@color/calendarred"
+        android:layout_width="89dp"
+        android:layout_height="59dp"
+        android:background="@color/blue"
         android:drawableBottom="@drawable/ic_logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.791"
-        app:layout_constraintStart_toEndOf="@+id/ajustesbutton"
+        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
-        app:layout_constraintVertical_bias="0.752" />
+        app:layout_constraintVertical_bias="0.581" />
 
     <Button
         android:id="@+id/ajustesbutton"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:background="@color/purple"
+        android:layout_width="89dp"
+        android:layout_height="59dp"
+        android:background="@color/blue"
         android:drawableBottom="@drawable/ic_configuracion"
         android:gravity="center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_crearcalendario"
-        app:layout_constraintVertical_bias="0.505" />
+        app:layout_constraintVertical_bias="0.238" />
 
     <TextView
         android:id="@+id/textViewCambiarRol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="64dp"
         android:text="TextView"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/button" />
 
     <Button
-        android:id="@+id/mas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
+        android:id="@+id/button"
+        android:layout_width="89dp"
+        android:layout_height="59dp"
+        android:background="@color/blue"
+        android:drawableBottom="@drawable/ic_user"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botoncerrarsesion"
+        tools:layout_editor_absoluteX="49dp" />
 
-    <Button
-        android:id="@+id/menos"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="56dp"
-        android:text="Button"
+        android:text="AÑADIR CALENDARIO"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar" />
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toEndOf="@+id/button_crearcalendario"
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
+        app:layout_constraintVertical_bias="0.619" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AJUSTES"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toEndOf="@+id/ajustesbutton"
+        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
+        app:layout_constraintVertical_bias="0.707" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:text="CERRAR SESIÓN"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCambiarRol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toEndOf="@+id/botoncerrarsesion" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

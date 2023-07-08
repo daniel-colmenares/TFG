@@ -338,12 +338,9 @@ public class CustomCalendarView extends LinearLayout{
                         CollectEventByDate(date,idCal));
                 recyclerView.setAdapter(eventRecyclerAdapter);
                 eventRecyclerAdapter.notifyDataSetChanged();
-
                 builder.setView(showView);
                 alertDialog = builder.create();
                 alertDialog.show();
-
-
                 return true;
             }
         });

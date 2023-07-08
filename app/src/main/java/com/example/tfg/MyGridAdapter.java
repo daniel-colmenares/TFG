@@ -155,6 +155,7 @@ public class MyGridAdapter extends ArrayAdapter {
         //TextView NombreCal = view.findViewById(R.id.NombreCalView);
         if (monthDate.getTime()==0){
             Day_Number.setText("-");
+            view.setBackgroundColor(Color.parseColor("#9C9EA0"));
         }else {
             Day_Number.setText(String.valueOf(DayNo));
             if (fuenteLetra.equals("monospace")){

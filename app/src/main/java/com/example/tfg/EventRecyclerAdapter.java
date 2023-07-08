@@ -56,6 +56,7 @@ import java.util.ArrayList;
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.MyViewHolder> {
 
     Context context;
+    private View.OnClickListener onItemClickListener;
     ArrayList<Events> arrayList;
 
     public EventRecyclerAdapter(Context context, ArrayList<Events> arrayList) {
@@ -77,44 +78,45 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.DateText.setText(events.getDATE());
         Glide.with(context).load(events.getIMAGEN()).into(holder.Imagen);
         holder.Video.setText(events.getVIDEO());
+
         holder.Borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("¿Está seguro de que desea eliminar este evento?");
-                    builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("¿Está seguro de que desea eliminar este evento?");
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                            // Obtener objeto Events correspondiente
-                            Events eventToDelete = arrayList.get(position);
+                        // Obtener objeto Events correspondiente
+                        Events eventToDelete = arrayList.get(position);
 
-                            // Obtener id del evento a borrar
-                            DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
-                            // Borrar evento de la base de datos
-                            SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-                            Integer eventId = dbOpenHelper.getEventId(eventToDelete.getEVENT(), eventToDelete.getDATE(), database);
-                            database.beginTransaction();
-                            try {
-                                dbOpenHelper.deleteEvent(eventId, database);
-                                database.setTransactionSuccessful();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            } finally {
-                                database.endTransaction();
-                            }
-                            database.close();
+                        // Obtener id del evento a borrar
+                        DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
+                        // Borrar evento de la base de datos
+                        SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
+                        Integer eventId = dbOpenHelper.getEventId(eventToDelete.getEVENT(), eventToDelete.getDATE(), database);
+                        database.beginTransaction();
+                        try {
+                            dbOpenHelper.deleteEvent(eventId, database);
+                            database.setTransactionSuccessful();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            database.endTransaction();
+                        }
+                        database.close();
 
 // Borrar evento de la lista y actualizar la vista
-                            arrayList.remove(position);
+                        arrayList.remove(position);
 
-                        }
+                    }
 
-                    });
-                    builder.setNegativeButton("No", null);
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                });
+                builder.setNegativeButton("No", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
         holder.Video.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +130,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         });
 
     }
+
+    /*public void setOnItemClickListener(View.OnClickListener listener) {
+        this.onItemClickListener = listener;
+    }*/
 
     @Override
     public int getItemCount() {

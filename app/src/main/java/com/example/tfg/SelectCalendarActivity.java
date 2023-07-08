@@ -65,8 +65,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
-        mas = findViewById(R.id.mas);
-        menos = findViewById(R.id.menos);
         textViewAdmin = findViewById(R.id.textViewCambiarRol);
         ajustesBotton = findViewById(R.id.ajustesbutton);
         crearcalendario = findViewById(R.id.button_crearcalendario);

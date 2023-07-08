@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@android:color/holo_orange_dark"
+        android:background="@color/blue"
         android:orientation="horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:text="@string/back"
-            android:textColor="@color/blue"
+            android:textColor="@color/darkblue"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:text="@string/forward"
-            android:textColor="@color/blue"
+            android:textColor="@color/darkblue"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="41dp"
             android:layout_gravity="center"
-            android:background="@android:color/holo_orange_dark"
+            android:background="@color/blue"
             android:drawableBottom="@drawable/ic_configuracion"
             android:gravity="center"
             android:text="Button" />
@@ -68,84 +68,84 @@
         android:orientation="horizontal"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/blue"
         >
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="DOM"
+            android:text="DOMINGO"
             android:id="@+id/domingo"
-            android:background="@color/pink"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="7sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="LUN"
+            android:text="LUNES"
             android:id="@+id/lunes"
-            android:background="@color/blue"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="11sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="MAR"
+            android:text="MARTES"
             android:id="@+id/martes"
-            android:background="@color/green"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="9sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="MIE"
+            android:text="MIERCOLES"
             android:id="@+id/miercoles"
-            android:background="@color/yellow"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="7sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="JUE"
+            android:text="JUEVES"
             android:id="@+id/jueves"
-            android:background="@color/purple"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="11sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="VIE"
+            android:text="VIERNES"
             android:id="@+id/viernes"
-            android:background="@color/red"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="9sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="SAB"
+            android:text="SABADO"
             android:id="@+id/sabado"
-            android:background="@color/turquesa"
-            android:textColor="@color/black"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="9sp"/>
     </LinearLayout>
 
     <TextView
@@ -156,7 +156,7 @@
         android:gravity="center"
         android:text="TextView"
         android:textAllCaps="true"
-        android:textColor="@color/purple"
+        android:textColor="@color/darkblue"
         android:textStyle="bold" />
 
     <GridView
