@@ -3,6 +3,7 @@ package com.example.tfg;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -80,7 +81,7 @@ public class MyGridAdapter extends ArrayAdapter {
         int displayYear = dateCalendar.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH)+1;
         int currentYear = currentDate.get(Calendar.YEAR);
-        //int currentDay = currentDate.get(Calendar.DAY_OF_WEEK);
+        int currentDay = currentDate.get(Calendar.DAY_OF_WEEK);
 
 
         View view = convertView;
@@ -105,43 +106,6 @@ public class MyGridAdapter extends ArrayAdapter {
 
 
 
-        /*lunes = view.findViewById(R.id.lunes);
-        martes = view.findViewById(R.id.martes);
-        miercoles = view.findViewById(R.id.miercoles);
-        jueves = view.findViewById(R.id.jueves);
-        viernes = view.findViewById(R.id.viernes);
-        sabado = view.findViewById(R.id.sabado);
-        domingo = view.findViewById(R.id.domingo);
-
-        if (currentDay==Calendar.MONDAY){
-            lunes.setTypeface(null, Typeface.BOLD);
-
-        }
-        else if (currentDay==Calendar.TUESDAY){
-            martes.setTypeface(null, Typeface.BOLD);
-
-        }
-        if (currentDay==Calendar.WEDNESDAY){
-            miercoles.setTypeface(null, Typeface.BOLD);
-
-        }
-        if (currentDay==Calendar.THURSDAY){
-            jueves.setTypeface(null, Typeface.BOLD);
-
-        }
-        if (currentDay==Calendar.FRIDAY){
-            viernes.setTypeface(null, Typeface.BOLD);
-
-        }
-        if (currentDay==Calendar.SATURDAY){
-            sabado.setTypeface(null, Typeface.BOLD);
-
-        }
-        if (currentDay==Calendar.SUNDAY){
-            domingo.setTypeface(null, Typeface.BOLD);
-
-        }
-        */
         SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         Integer idCal = prefs.getInt("ID", 99);
 
@@ -211,6 +175,14 @@ public class MyGridAdapter extends ArrayAdapter {
                         String video = eventsForDate.get(0).getVIDEO();
                         String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
                         Link1.setText(truncatedVideo);
+                        /*Link1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Abrir el reproductor de video o el navegador web para reproducir el video
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(video));
+                                getContext().startActivity(intent);
+                            }
+                        });*/
                     }else {
                         Link1.setText("");
                     }

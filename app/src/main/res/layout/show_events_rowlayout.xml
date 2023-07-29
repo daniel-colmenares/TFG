@@ -46,6 +46,15 @@
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <Button
+                android:id="@+id/edit"
+                android:layout_width="103dp"
+                android:layout_gravity="center"
+                android:layout_height="41dp"
+                android:drawableBottom="@drawable/ic_personalizar"
+                android:background="@android:color/holo_orange_dark"
+                />
+
             <TextView
                 android:id="@+id/videourl"
                 android:layout_width="match_parent"
@@ -63,8 +72,17 @@
                 android:layout_height="41dp"
                 android:layout_gravity="center"
                 android:background="@color/red"
-                android:drawableBottom="@drawable/ic_basura"
+                android:drawableBottom="@drawable/ic_basura_evento"
                 android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="103dp"
+                android:layout_height="41dp"
+                android:background="@color/blue"
+                android:drawableBottom="@drawable/ic_confirm"
+                android:layout_gravity="right"/>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

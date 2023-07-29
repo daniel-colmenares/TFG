@@ -86,17 +86,6 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="DOMINGO"
-            android:id="@+id/domingo"
-            android:background="@color/darkblue"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:textSize="7sp"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
             android:text="LUNES"
             android:id="@+id/lunes"
             android:background="@color/darkblue"
@@ -154,6 +143,17 @@
             android:layout_weight="1"
             android:text="SABADO"
             android:id="@+id/sabado"
+            android:background="@color/darkblue"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="7sp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:text="DOMINGO"
+            android:id="@+id/domingo"
             android:background="@color/darkblue"
             android:textColor="@color/white"
             android:textAlignment="center"

@@ -96,11 +96,15 @@ public class CustomCalendarView extends LinearLayout{
             letra_calendario, buttonPicto, buttonGaleria, personalizar,
             confirmarPersonalizar, buttonsettings, buttonImagen;
     TextView CurrentDate;
+
+    Calendar currentDate;
     GridView gridView;
     private static final int MAX_CALENDARDAYS=42;
     Calendar calendar = Calendar.getInstance(Locale.forLanguageTag("es-ES"));
     Context context;
     String cellColor, letraCal;
+
+    TextView lunes, martes, miercoles, jueves, viernes, sabado, domingo;
     Boolean esAdmin;
     Calendars calendars;
     List<Date> dates= new ArrayList<>();
@@ -141,6 +145,44 @@ public class CustomCalendarView extends LinearLayout{
             }
         });
 
+        Calendar dateCalendar = Calendar.getInstance();
+        int currentDay = dateCalendar.get(Calendar.DAY_OF_WEEK);
+        lunes = findViewById(R.id.lunes);
+        martes = findViewById(R.id.martes);
+        miercoles = findViewById(R.id.miercoles);
+        jueves = findViewById(R.id.jueves);
+        viernes = findViewById(R.id.viernes);
+        sabado = findViewById(R.id.sabado);
+        domingo = findViewById(R.id.domingo);
+
+        if (currentDay==Calendar.MONDAY){
+            lunes.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
+        else if (currentDay==Calendar.TUESDAY){
+            martes.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
+        else if (currentDay==Calendar.WEDNESDAY){
+            miercoles.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
+        else if (currentDay==Calendar.THURSDAY){
+            jueves.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
+        else if (currentDay==Calendar.FRIDAY){
+            viernes.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
+        else if (currentDay==Calendar.SATURDAY){
+            sabado.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
+        else if (currentDay==Calendar.SUNDAY){
+            domingo.setBackgroundColor(Color.parseColor("#8181F7"));
+
+        }
 
         SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         String nombre = prefs.getString("name","");
@@ -259,10 +301,11 @@ public class CustomCalendarView extends LinearLayout{
                 String date1 = eventDateFormat.format(dates.get(position));
                 List<Events> events = CollectEventByDate(date1,idCal);
                 if(events.size()==1 && events.get(0).getIMAGEN()!=null){
-                    buttonPicto.setVisibility(View.GONE);
+                    buttonImagen.setVisibility(View.GONE);
+                    //buttonPicto.setVisibility(View.GONE);
                     //imageViewGal.setVisibility(INVISIBLE);
-                    filtroPicto.setVisibility(View.GONE);
-                    buttonGaleria.setVisibility(View.GONE);
+                    //filtroPicto.setVisibility(View.GONE);
+                    //buttonGaleria.setVisibility(View.GONE);
                     //imageViewPicto.setVisibility(INVISIBLE);
                 }
                 if(events.size()==2){
@@ -564,17 +607,26 @@ public class CustomCalendarView extends LinearLayout{
         dates.clear();
         Calendar monthCalendar = (Calendar) calendar.clone();
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        int FirstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+// Establecer el primer día de la semana en lunes (2)
+        monthCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+
+        int FirstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - monthCalendar.getFirstDayOfWeek();
+        if (FirstDayOfMonth < 0) {
+            // Si el primer día de la semana es domingo, ajustar para que sea lunes
+            FirstDayOfMonth += 7;
+        }
         monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayOfMonth);
-        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()),id);
+
+        CollectEventsPerMonth(monthFormat.format(calendar.getTime()), yearFormat.format(calendar.getTime()), id);
 
         while (dates.size() < MAX_CALENDARDAYS) {
             Date dateToAdd = monthCalendar.getTime();
             if (monthCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
-                // add the date to the list only if it belongs to the current month
+                // agregar la fecha a la lista solo si pertenece al mes actual
                 dates.add(dateToAdd);
             } else {
-                // add a null value to the list for dates that belong to other months
+                // agregar un valor nulo a la lista para las fechas que pertenecen a otros meses
                 dates.add(null);
             }
             monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
