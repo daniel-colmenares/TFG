@@ -8,15 +8,14 @@
         android:id="@+id/monospace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
         android:background="@color/white"
         android:fontFamily="monospace"
         android:text="HOLA!"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.177" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/serif"
@@ -29,34 +28,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monospace"
-        app:layout_constraintVertical_bias="0.661" />
+        app:layout_constraintTop_toBottomOf="@+id/times" />
 
     <Button
         android:id="@+id/times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
         android:background="@color/white"
         android:text="Hola!"
-        app:layout_constraintBottom_toTopOf="@+id/serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monospace"
-        app:layout_constraintVertical_bias="0.671" />
+        app:layout_constraintTop_toBottomOf="@+id/cursivestandard" />
 
     <Button
         android:id="@+id/cursivestandard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:background="@color/white"
         android:text="HOLA!"
-        app:layout_constraintBottom_toTopOf="@+id/times"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monospace"
-        app:layout_constraintVertical_bias="0.44" />
+        app:layout_constraintTop_toBottomOf="@+id/monospace" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

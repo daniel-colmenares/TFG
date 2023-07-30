@@ -46,7 +46,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     android.app.AlertDialog alertDialog;
     DBOpenHelper dbOpenHelper;
     Boolean esAdmin;
-    TextView textViewAdmin;
+    TextView textViewAdmin, textViewAñadir;
     Calendars calendars;
     ArrayList<Calendars> arrayList;
     Button crearcalendario, cerrarsesion, cambiarRol, ajustesBotton, confirmarAjustes;
@@ -66,6 +66,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
         textViewAdmin = findViewById(R.id.textViewCambiarRol);
+        textViewAñadir = findViewById(R.id.textView);
         ajustesBotton = findViewById(R.id.ajustesbutton);
         crearcalendario = findViewById(R.id.button_crearcalendario);
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
@@ -439,8 +440,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 editor.apply();
                 if (esAdmin) {
                     crearcalendario.setVisibility(View.VISIBLE);
+                    textViewAñadir.setVisibility(View.VISIBLE);
                 } else {
                     crearcalendario.setVisibility(View.INVISIBLE);
+                    textViewAñadir.setVisibility(View.INVISIBLE);
                 }
                 if (esAdmin) {
                     textViewAdmin.setText("ADMININSTRADOR");

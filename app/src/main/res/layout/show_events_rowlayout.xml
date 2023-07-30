@@ -30,15 +30,33 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/eventname"
+            <ViewSwitcher
+                android:id="@+id/nameViewSwitcher"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Evento"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="40sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
+
+                <!-- TextView (Inicialmente visible) -->
+                <TextView
+                    android:id="@+id/eventname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Evento"
+                    android:textColor="@android:color/holo_purple"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+
+                <!-- EditText (Inicialmente oculto) -->
+                <EditText
+                    android:id="@+id/editEventName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Evento"
+                    android:textColor="@android:color/holo_purple"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+            </ViewSwitcher>
 
             <ImageView
                 android:id="@+id/imagenEvento"
@@ -53,18 +71,38 @@
                 android:layout_height="41dp"
                 android:drawableBottom="@drawable/ic_personalizar"
                 android:background="@android:color/holo_orange_dark"
+                android:onClick="onEditButtonClick"
                 />
 
-            <TextView
-                android:id="@+id/videourl"
+            <ViewSwitcher
+                android:id="@+id/urlViewSwitcher"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Video/multimedia"
-                android:textColor="@android:color/holo_blue_bright"
-                android:textSize="40sp"
-                android:textStyle="bold"
-                android:autoLink="web"/>
+                android:layout_height="wrap_content">
+
+                <!-- TextView (Inicialmente visible) -->
+                <TextView
+                    android:id="@+id/videourl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Video/multimedia"
+                    android:textColor="@android:color/holo_blue_bright"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:autoLink="web"/>
+
+                <!-- EditText (Inicialmente oculto) -->
+                <EditText
+                    android:id="@+id/editVideoUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Video/multimedia"
+                    android:textColor="@android:color/holo_blue_bright"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:autoLink="web"/>
+            </ViewSwitcher>
 
             <Button
                 android:id="@+id/borrarevento"
@@ -81,7 +119,8 @@
                 android:layout_height="41dp"
                 android:background="@color/blue"
                 android:drawableBottom="@drawable/ic_confirm"
-                android:layout_gravity="right"/>
+                android:layout_gravity="right"
+                android:onClick="onSaveButtonClick"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

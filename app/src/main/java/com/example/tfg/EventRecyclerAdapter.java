@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 //import com.theartofdev.edmodo.cropper.CropImage;
@@ -136,47 +137,19 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 }
             }
         });
-        /*holder.Edit.setOnClickListener(new View.OnClickListener() {
+        holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Mostrar los elementos EditText y ocultar los TextView
-                holder.Event.setVisibility(View.GONE);
-                holder.Video.setVisibility(View.GONE);
-                holder.editEvent.setVisibility(View.VISIBLE);
-                holder.editVideo.setVisibility(View.VISIBLE);
 
-                // Inicializar los elementos EditText con los valores actuales de los TextView
-                holder.editEvent.setText(holder.Event.getText().toString());
-                holder.editVideo.setText(holder.Video.getText().toString());
-
-                // Hacer visible el botón de confirmar
-                holder.Confirm.setVisibility(View.VISIBLE);
             }
         });
-        */
 
-        /*holder.Confirm.setOnClickListener(new View.OnClickListener() {
+
+        holder.Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Obtener los nuevos valores de los EditText
-                String newEventName = holder.editEvent.getText().toString();
-                String newVideoUrl = holder.editVideo.getText().toString();
-
-                // Actualizar los TextView con los nuevos valores
-                holder.Event.setText(newEventName);
-                holder.Video.setText(newVideoUrl);
-
-                // Ocultar los elementos EditText y hacer visible los TextView nuevamente
-                holder.editEvent.setVisibility(View.GONE);
-                holder.editVideo.setVisibility(View.GONE);
-                holder.Event.setVisibility(View.VISIBLE);
-                holder.Video.setVisibility(View.VISIBLE);
-
-                // Ocultar el botón de confirmar
-                holder.Confirm.setVisibility(View.GONE);
             }
         });
-*/
     }
 
     /*public void setOnItemClickListener(View.OnClickListener listener) {
@@ -188,11 +161,15 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         return arrayList.size();
     }
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView DateText, Event, Video;
         EditText editEvent, editVideo;
         Button Borrar, Edit, Confirm;
         ImageView Imagen;
+
+        private String currentEventName;
+        private String currentVideoUrl;
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
@@ -203,15 +180,44 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Borrar = itemView.findViewById(R.id.borrarevento);
             Edit = itemView.findViewById(R.id.edit);
             Confirm = itemView.findViewById(R.id.confirm);
+            editEvent = itemView.findViewById(R.id.editEventName);
+            editVideo = itemView.findViewById(R.id.editVideoUrl);
 
-            // Obtener las referencias de los elementos EditText en el layout
-            //editEvent = (EditText) Event;
-            //editVideo = (EditText) Video;
+            currentEventName = Event.getText().toString();
+            currentVideoUrl = Video.getText().toString();
 
-            // Ocultar los elementos EditText inicialmente
-            //editEvent.setVisibility(View.GONE);
-            //editVideo.setVisibility(View.GONE);
+        }
 
+        public void onEditButtonClick(View view) {
+            ViewSwitcher nameViewSwitcher = view.findViewById(R.id.nameViewSwitcher);
+            nameViewSwitcher.showNext();
+
+            ViewSwitcher urlViewSwitcher = view.findViewById(R.id.urlViewSwitcher);
+            urlViewSwitcher.showNext();
+
+            editEvent.setText(currentEventName);
+            editVideo.setText(currentVideoUrl);
+        }
+
+        public void onSaveButtonClick(View view) {
+            // Obtener los nuevos valores ingresados por el usuario
+            String newEventName = editEvent.getText().toString();
+            String newVideoUrl = editVideo.getText().toString();
+
+            // Actualizar los TextView con los nuevos valores
+            Event.setText(newEventName);
+            Video.setText(newVideoUrl);
+
+            // Guardar los nuevos valores en las variables de instancia
+            currentEventName = newEventName;
+            currentVideoUrl = newVideoUrl;
+
+            // Alternar nuevamente la vista para ocultar los EditText
+            ViewSwitcher nameViewSwitcher = view.findViewById(R.id.nameViewSwitcher);
+            nameViewSwitcher.showNext();
+
+            ViewSwitcher urlViewSwitcher = view.findViewById(R.id.urlViewSwitcher);
+            urlViewSwitcher.showNext();
         }
 
     }

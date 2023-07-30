@@ -118,6 +118,8 @@ public class CustomCalendarView extends LinearLayout{
     AlertDialog alertDialog;
     ImageView imageViewGal, imageViewPicto;
 
+    RecyclerView recyclerView;
+
     Uri uriImagen;
     MainActivity activity;
 
@@ -383,7 +385,7 @@ public class CustomCalendarView extends LinearLayout{
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View showView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_layout,null);
-                RecyclerView recyclerView = showView.findViewById(R.id.EventsRV);
+                recyclerView = showView.findViewById(R.id.EventsRV);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
@@ -400,7 +402,20 @@ public class CustomCalendarView extends LinearLayout{
 
     }
 
+    public void onEditButtonClick(View view) {
+        EventRecyclerAdapter.MyViewHolder holder = (EventRecyclerAdapter.MyViewHolder) recyclerView.findContainingViewHolder(view);
+        if (holder != null) {
+            holder.onEditButtonClick(view);
+        }
+    }
 
+    // Método para el botón "confirm"
+    public void onSaveButtonClick(View view) {
+        EventRecyclerAdapter.MyViewHolder holder = (EventRecyclerAdapter.MyViewHolder) recyclerView.findContainingViewHolder(view);
+        if (holder != null) {
+            holder.onSaveButtonClick(view);
+        }
+    }
 
 
     private void mostrarDialogoLista(Context context) {

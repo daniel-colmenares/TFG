@@ -68,9 +68,9 @@
             android:layout_height="41dp"
             android:layout_gravity="center"
             android:background="@color/blue"
-            android:drawableBottom="@drawable/ic_configuracion"
+            android:drawableBottom="@drawable/ic_configuracion_2"
             android:gravity="center"
-            android:text="Button" />
+             />
 
     </LinearLayout>
 
