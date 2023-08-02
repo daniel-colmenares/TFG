@@ -28,21 +28,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLoginTitulo"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLoginPassword"
-         />
-
-    <EditText
-        android:id="@+id/editTextLoginPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Introduzca contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLoginCorreo"
         app:layout_constraintBottom_toTopOf="@+id/buttonLoginIniciarSesion"
          />
+
 
     <Button
         android:id="@+id/buttonLoginIniciarSesion"
@@ -53,7 +41,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLoginCorreo"
         app:layout_constraintBottom_toTopOf="@id/buttonLoginRegistro"
          />
 

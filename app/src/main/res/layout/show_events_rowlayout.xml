@@ -41,7 +41,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Evento"
                     android:textColor="@android:color/holo_purple"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -52,10 +51,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Evento"
                     android:textColor="@android:color/holo_purple"
                     android:textSize="40sp"
-                    android:textStyle="bold" />
+                    android:inputType="text"
+                    android:clickable="true"
+                    android:textStyle="bold"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
             </ViewSwitcher>
 
             <ImageView
@@ -85,7 +88,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Video/multimedia"
                     android:textColor="@android:color/holo_blue_bright"
                     android:textSize="40sp"
                     android:textStyle="bold"
@@ -97,11 +99,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Video/multimedia"
                     android:textColor="@android:color/holo_blue_bright"
                     android:textSize="40sp"
                     android:textStyle="bold"
-                    android:autoLink="web"/>
+                    android:autoLink="web"
+                    android:inputType="text"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
             </ViewSwitcher>
 
             <Button

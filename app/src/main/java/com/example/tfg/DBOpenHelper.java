@@ -71,6 +71,16 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         database.update(DBStructure.CALENDAR_TABLE_NAME, contentValues, selection, selectionArgs);
     }
 
+    public void updateEvent(Integer id, String name, String video, SQLiteDatabase database) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBStructure.EVENT, name);
+        contentValues.put(DBStructure.VIDEO, video);
+        String selection =  "ID = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+
+        database.update(DBStructure.EVENT_TABLE_NAME, contentValues, selection, selectionArgs);
+    }
+
     public int getEventId(String eventName, String date, SQLiteDatabase database) {
         int eventId = -1;
         Cursor cursor = database.rawQuery("SELECT ID FROM " + DBStructure.EVENT_TABLE_NAME + " WHERE " + DBStructure.EVENT + " = ? AND " + DBStructure.DATE + " = ?", new String[]{eventName, date});

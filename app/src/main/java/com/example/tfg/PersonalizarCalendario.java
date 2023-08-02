@@ -49,7 +49,19 @@ public class PersonalizarCalendario extends AppCompatActivity {
                 Button morado = addView.findViewById(R.id.button_morado);
                 Button rosa = addView.findViewById(R.id.button_rosa);
                 Button verde = addView.findViewById(R.id.button_verde);
+                Button blanco = addView.findViewById(R.id.button_blanco);
 
+                blanco.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cellColor = "#FFFFFF";
+                        SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("cellColor", cellColor);
+                        editor.apply();
+                        alertDialog.dismiss();
+                    }
+                });
                 azul.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

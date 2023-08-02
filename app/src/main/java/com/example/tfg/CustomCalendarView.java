@@ -402,21 +402,6 @@ public class CustomCalendarView extends LinearLayout{
 
     }
 
-    public void onEditButtonClick(View view) {
-        EventRecyclerAdapter.MyViewHolder holder = (EventRecyclerAdapter.MyViewHolder) recyclerView.findContainingViewHolder(view);
-        if (holder != null) {
-            holder.onEditButtonClick(view);
-        }
-    }
-
-    // Método para el botón "confirm"
-    public void onSaveButtonClick(View view) {
-        EventRecyclerAdapter.MyViewHolder holder = (EventRecyclerAdapter.MyViewHolder) recyclerView.findContainingViewHolder(view);
-        if (holder != null) {
-            holder.onSaveButtonClick(view);
-        }
-    }
-
 
     private void mostrarDialogoLista(Context context) {
 
@@ -516,7 +501,6 @@ public class CustomCalendarView extends LinearLayout{
     }
 
     private Bitmap getBitmapFromView(View view) {
-        view = gridView;
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);

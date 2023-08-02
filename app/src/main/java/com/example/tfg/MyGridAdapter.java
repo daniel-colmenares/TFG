@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MyGridAdapter extends ArrayAdapter {
     List<Date> dates;
@@ -88,21 +89,28 @@ public class MyGridAdapter extends ArrayAdapter {
         if (view==null){
             view = inflater.inflate(R.layout.single_cell_layout,parent,false);
         }
-        view.setBackgroundColor(Color.parseColor(cellColor));
+        //view.setBackgroundColor(Color.parseColor(cellColor));
         //view.setBackgroundResource(R.drawable.cell_border);
+        if (Objects.equals(cellColor, "#04B404")){
+            view.setBackgroundResource(R.drawable.cell_border_verde);
+        }
+        if (Objects.equals(cellColor, "#8181F7")){
+            view.setBackgroundResource(R.drawable.cell_border_azul);
+        }
+        if (Objects.equals(cellColor, "#D358F7")){
+            view.setBackgroundResource(R.drawable.cell_border_morado);
+        }
+        if (Objects.equals(cellColor, "#FA5858")){
+            view.setBackgroundResource(R.drawable.cell_border_rojo);
+        }
+        if (Objects.equals(cellColor, "#F5A9D0")){
+            view.setBackgroundResource(R.drawable.cell_border_rosa);
+        }
+        if (Objects.equals(cellColor, "#D7DF01")){
+            view.setBackgroundResource(R.drawable.cell_border_amarillo);
+        }
 
-        // Obtener el color del fondo de la celda
-        /*int backgroundColor = Color.parseColor(cellColor);
 
-// Obtener el borde definido en el archivo de forma "cell_border.xml"
-        Drawable borderDrawable = AppCompatResources.getDrawable(getContext(),R.drawable.cell_border);
-
-// Crear una capa que combina el color de fondo y el borde
-        Drawable[] layers = {borderDrawable, new ColorDrawable(backgroundColor)};
-        LayerDrawable layerDrawable = new LayerDrawable(layers);
-
-// Establecer el fondo de la vista como la capa combinada
-        view.setBackground(layerDrawable);*/
 
 
 

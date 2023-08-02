@@ -28,7 +28,7 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="4dp"
         android:ems="10"
-        android:hint="nombre de usuario"
+        android:hint="E-mail"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editTextRegistroContrasenna"
         app:layout_constraintEnd_toEndOf="@+id/editTextRegistroContrasenna"

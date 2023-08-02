@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,30 +59,44 @@ public class LoginActivity extends AppCompatActivity {
         inicializarComponentes();
     }
 
+
     private void inicializarComponentes() {
         textViewLoginTitulo = findViewById(R.id.textViewLoginTitulo);
         editTextLoginCorreo = findViewById(R.id.editTextLoginCorreo);
-        editTextLoginPassword = findViewById(R.id.editTextLoginPassword);
         buttonLoginRegistro = findViewById(R.id.buttonLoginRegistro);
         buttonLoginIniciarSesion = findViewById(R.id.buttonLoginIniciarSesion);
+        SharedPreferences sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
         listView = (ListView) findViewById(R.id.listView);
         userService = APIUtils.getPictoService();
 
 
 
+
         buttonLoginIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signInWithEmailAndPassword(editTextLoginCorreo.getText().toString(), editTextLoginPassword.getText().toString())
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                mAuth.fetchSignInMethodsForEmail(editTextLoginCorreo.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                                 if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    realizarLogin(user);
+                                    SignInMethodQueryResult result = task.getResult();
+                                    List<String> signInMethods = result.getSignInMethods();
+                                    if (signInMethods != null && !signInMethods.isEmpty()) {
+                                        // El correo tiene una cuenta asociada
+                                        String user = editTextLoginCorreo.getText().toString();
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("correo", editTextLoginCorreo.getText().toString());
+                                        editor.apply();
+                                        realizarLogin(user);
+                                    } else {
+                                        // El correo no tiene una cuenta asociada
+                                        Toast.makeText(LoginActivity.this, "El correo no tiene una cuenta asociada.", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Login fallido", Toast.LENGTH_SHORT).show();
+                                    // Hubo un error al verificar el correo
+                                    Toast.makeText(LoginActivity.this, "Error al verificar el correo.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -106,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            String user = editTextLoginCorreo.getText().toString();
                                             realizarLogin(user);
                                         } else {
                                             Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
@@ -127,15 +145,17 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        SharedPreferences sharedPreferences = getSharedPreferences("mi_preferences", Context.MODE_PRIVATE);
+        String currentUser = sharedPreferences.getString("correo", "");
+
+        if (!currentUser.isEmpty()) {
             realizarLogin(currentUser);
         }
     }
 
-    private void realizarLogin(FirebaseUser currentUser) {
+    private void realizarLogin(String currentUser) {
         Intent intent = new Intent(getApplicationContext(), SelectCalendarActivity.class);
-        intent.putExtra("email",currentUser.getEmail());
+        intent.putExtra("email",currentUser);
         startActivity(intent);
         finish();
         //pasar los datos con un bundle
