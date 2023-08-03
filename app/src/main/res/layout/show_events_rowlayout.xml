@@ -30,11 +30,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <ViewSwitcher
-                android:id="@+id/nameViewSwitcher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <!-- TextView (Inicialmente visible) -->
                 <TextView
                     android:id="@+id/eventname"
@@ -54,12 +49,10 @@
                     android:textColor="@android:color/holo_purple"
                     android:textSize="40sp"
                     android:inputType="text"
-                    android:clickable="true"
                     android:textStyle="bold"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     />
-            </ViewSwitcher>
 
             <ImageView
                 android:id="@+id/imagenEvento"
@@ -76,12 +69,6 @@
                 android:background="@android:color/holo_orange_dark"
                 android:onClick="onEditButtonClick"
                 />
-
-            <ViewSwitcher
-                android:id="@+id/urlViewSwitcher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <!-- TextView (Inicialmente visible) -->
                 <TextView
                     android:id="@+id/videourl"
@@ -104,10 +91,9 @@
                     android:textStyle="bold"
                     android:autoLink="web"
                     android:inputType="text"
-                    android:clickable="true"
                     android:focusable="true"
                     android:focusableInTouchMode="true"/>
-            </ViewSwitcher>
+
 
             <Button
                 android:id="@+id/borrarevento"

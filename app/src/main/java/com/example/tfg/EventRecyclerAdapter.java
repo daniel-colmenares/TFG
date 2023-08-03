@@ -86,9 +86,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.DateText.setText(events.getDATE());
         Glide.with(context).load(events.getIMAGEN()).into(holder.Imagen);
         holder.Video.setText(events.getVIDEO());
+        editEvent.setVisibility(View.GONE);
+        editVideo.setVisibility(View.GONE);
 
-
-        editEvent.requestFocus();
 
         holder.Borrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,8 +191,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Confirm = itemView.findViewById(R.id.confirm);
             editEvent = itemView.findViewById(R.id.editEventName);
             editVideo = itemView.findViewById(R.id.editVideoUrl);
-            nameViewSwitcher = itemView.findViewById(R.id.nameViewSwitcher);
-            urlViewSwitcher = itemView.findViewById(R.id.urlViewSwitcher);
 
             currentEventName = Event.getText().toString();
             currentVideoUrl = Video.getText().toString();
@@ -202,13 +200,14 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
         public void onEditButtonClick() {
+            editEvent.requestFocus();
             // Establecer el contenido del EditText antes de solicitar el foco y mostrar el teclado
             editEvent.setText(currentEventName);
             editVideo.setText(currentVideoUrl);
-            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editEvent, InputMethodManager.SHOW_IMPLICIT);
-            nameViewSwitcher.showNext();
-            urlViewSwitcher.showNext();
+            Event.setVisibility(View.GONE);
+            Video.setVisibility(View.GONE);
+            editEvent.setVisibility(View.VISIBLE);
+            editVideo.setVisibility(View.VISIBLE);
         }
 
         public void onSaveButtonClick(Events events) {
@@ -241,9 +240,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
             // Alternar nuevamente la vista para ocultar los EditText
-            nameViewSwitcher.showNext();
 
-            urlViewSwitcher.showNext();
         }
 
     }
