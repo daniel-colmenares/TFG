@@ -17,7 +17,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:isScrollContainer="false"
             android:orientation="vertical">
 
             <TextView
@@ -41,18 +40,14 @@
                     android:textStyle="bold" />
 
                 <!-- EditText (Inicialmente oculto) -->
-                <EditText
-                    android:id="@+id/editEventName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/holo_purple"
-                    android:textSize="40sp"
-                    android:inputType="text"
-                    android:textStyle="bold"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    />
+
+            <EditText
+                android:id="@+id/editEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="" />
 
             <ImageView
                 android:id="@+id/imagenEvento"
@@ -90,9 +85,7 @@
                     android:textSize="40sp"
                     android:textStyle="bold"
                     android:autoLink="web"
-                    android:inputType="text"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"/>
+                    android:inputType="text" />
 
 
             <Button

@@ -39,6 +39,8 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 //import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -88,6 +90,15 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.Video.setText(events.getVIDEO());
         editEvent.setVisibility(View.GONE);
         editVideo.setVisibility(View.GONE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        editEvent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
+            }
+        });
 
 
         holder.Borrar.setOnClickListener(new View.OnClickListener() {
@@ -146,11 +157,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
         holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 holder.onEditButtonClick();
+                editEvent.setText(events.EVENT);
+                editVideo.setText(events.VIDEO);
+
             }
         });
-
-
         holder.Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,11 +171,15 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 holder.onSaveButtonClick(eventToUpdate);
             }
         });
+
+
+
     }
 
     /*public void setOnItemClickListener(View.OnClickListener listener) {
         this.onItemClickListener = listener;
     }*/
+
 
     @Override
     public int getItemCount() {
@@ -170,12 +187,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     }
 
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView DateText, Event, Video;
         Button Borrar, Edit, Confirm;
         ImageView Imagen;
-        ViewSwitcher nameViewSwitcher;
-        ViewSwitcher urlViewSwitcher;
+        EditText prueba;
 
         private String currentEventName;
         private String currentVideoUrl;
@@ -191,7 +208,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Confirm = itemView.findViewById(R.id.confirm);
             editEvent = itemView.findViewById(R.id.editEventName);
             editVideo = itemView.findViewById(R.id.editVideoUrl);
-
             currentEventName = Event.getText().toString();
             currentVideoUrl = Video.getText().toString();
 
@@ -200,14 +216,17 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
         public void onEditButtonClick() {
-            editEvent.requestFocus();
-            // Establecer el contenido del EditText antes de solicitar el foco y mostrar el teclado
+            // Mostrar los valores actuales en los EditText
             editEvent.setText(currentEventName);
             editVideo.setText(currentVideoUrl);
+
+            // Alternar las vistas para mostrar los EditText y ocultar los TextView
             Event.setVisibility(View.GONE);
             Video.setVisibility(View.GONE);
             editEvent.setVisibility(View.VISIBLE);
             editVideo.setVisibility(View.VISIBLE);
+            Edit.setVisibility(View.GONE);
+            Borrar.setVisibility(View.GONE);
         }
 
         public void onSaveButtonClick(Events events) {
@@ -215,6 +234,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             String newEventName = editEvent.getText().toString();
             String newVideoUrl = editVideo.getText().toString();
 
+            if (newEventName.isEmpty()){
+                newEventName = currentEventName;
+            }
+            if (newVideoUrl.isEmpty()){
+                newVideoUrl = currentVideoUrl;
+            }
             // Actualizar los TextView con los nuevos valores
             Event.setText(newEventName);
             Video.setText(newVideoUrl);
@@ -240,6 +265,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
             // Alternar nuevamente la vista para ocultar los EditText
+            editEvent.setVisibility(View.GONE);
+            editVideo.setVisibility(View.GONE);
+            Event.setVisibility(View.VISIBLE);
+            Video.setVisibility(View.VISIBLE);
+            Edit.setVisibility(View.VISIBLE);
+            Borrar.setVisibility(View.VISIBLE);
 
         }
 

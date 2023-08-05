@@ -8,6 +8,10 @@
     android:background="@color/lightblue"
     android:layout_margin="1dp">
 
+    <EditText
+        android:id="@+id/pruebarecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         tools:itemCount="3"
@@ -16,7 +20,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/EventsRV"
         android:layout_margin="1dp"
-        android:layout_marginTop="0dp"/>
+        android:layout_marginTop="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="beforeDescendants"/>
+
+
 
 
 </LinearLayout>
