@@ -3,19 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="450dp">
 
     <TextView
         android:id="@+id/textViewRegistroTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp"
         android:text="REGISTRO"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextRegistroNombreUsuario"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,11 +23,10 @@
         android:id="@+id/editTextRegistroNombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="4dp"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textPersonName"
+        android:layout_marginTop="35dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextRegistroContrasenna"
         app:layout_constraintEnd_toEndOf="@+id/editTextRegistroContrasenna"
         app:layout_constraintTop_toBottomOf="@+id/textViewRegistroTitulo" />
@@ -41,24 +38,42 @@
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegistroCompletarRegistro"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRegistroNombreUsuario" />
 
     <Button
         android:id="@+id/buttonRegistroCompletarRegistro"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="34dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginBottom="25dp"
         android:background="@color/green"
-        android:text="Registrarme"
+        android:text="CREAR CUENTA"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="\u2022 La contraseña debe tener al menos 4 caracteres."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRegistroContrasenna" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="\u2022 Sólo se pedirá la contraseña para crear la cuenta,para inciar sesión sólo será necesario el e-mail."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

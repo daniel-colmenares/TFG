@@ -34,9 +34,9 @@
 
     <Button
         android:id="@+id/buttonLoginIniciarSesion"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:text="Iniciar Sesion"
+        android:text="Iniciar Sesión"
         android:background="@color/blue"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,9 +47,9 @@
 
     <Button
         android:id="@+id/buttonLoginRegistro"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:text="Registrar"
+        android:text="Registrarme"
         android:background="@color/green"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"

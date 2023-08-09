@@ -47,13 +47,22 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="" />
+                android:text=""
+                />
 
             <ImageView
                 android:id="@+id/imagenEvento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/editImagen"
+                android:layout_width="142dp"
+                android:layout_height="79dp"
+                android:background="@color/lightblue"
+                android:drawableBottom="@drawable/ic_picture"
+                android:layout_gravity="center"/>
 
             <Button
                 android:id="@+id/edit"

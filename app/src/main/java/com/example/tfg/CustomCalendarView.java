@@ -94,7 +94,7 @@ public class CustomCalendarView extends LinearLayout{
     PictogramService pictogramService;
     ArrayList<Calendars> arrayList;
     DBOpenHelper dbOpenHelper;
-
+    TextView personalizarTV;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     Button nextBtn, prevBtn, elegirCalendario, color_calendario, pdf,
             letra_calendario, buttonPicto, buttonGaleria, personalizar,
@@ -214,11 +214,14 @@ public class CustomCalendarView extends LinearLayout{
                 final Dialog dialog = new Dialog(view.getContext());
                 dialog.setContentView(R.layout.settings_calendario);
                 dialog.setCancelable(true);
-
+                personalizarTV = dialog.findViewById(R.id.textView10);
                 // Obtener referencias a las vistas dentro del diálogo
                 elegirCalendario = dialog.findViewById(R.id.buttonCambiarCalendario);
                 pdf = dialog.findViewById(R.id.pdf);
                 personalizar = dialog.findViewById(R.id.personalizar);
+                if (!esAdmin){
+                    personalizarTV.setVisibility(GONE);
+                }
                 elegirCalendario.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -331,7 +334,7 @@ public class CustomCalendarView extends LinearLayout{
                             @Override
                             public void onClick(View view) {
                                 pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-
+                                dialog1.dismiss();
                             }
                         });
                         buttonPicto.setOnClickListener(new View.OnClickListener() {
@@ -389,7 +392,6 @@ public class CustomCalendarView extends LinearLayout{
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 View showView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_layout, null);
-                EditText prueba = showView.findViewById(R.id.pruebarecycler);
                 recyclerView = showView.findViewById(R.id.EventsRV);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
