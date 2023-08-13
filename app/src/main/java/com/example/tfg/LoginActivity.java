@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 
@@ -76,7 +78,14 @@ public class LoginActivity extends AppCompatActivity {
         buttonLoginIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.fetchSignInMethodsForEmail(editTextLoginCorreo.getText().toString())
+                String correo = editTextLoginCorreo.getText().toString();
+
+                if (correo.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Ingrese un correo electrónico válido.", Toast.LENGTH_SHORT).show();
+                    return; // Salir del método si el campo de correo está vacío
+                }
+
+                mAuth.fetchSignInMethodsForEmail(correo)
                         .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                             @Override
                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
@@ -85,11 +94,10 @@ public class LoginActivity extends AppCompatActivity {
                                     List<String> signInMethods = result.getSignInMethods();
                                     if (signInMethods != null && !signInMethods.isEmpty()) {
                                         // El correo tiene una cuenta asociada
-                                        String user = editTextLoginCorreo.getText().toString();
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("correo", editTextLoginCorreo.getText().toString());
+                                        editor.putString("correo", correo);
                                         editor.apply();
-                                        realizarLogin(user);
+                                        realizarLogin(correo);
                                     } else {
                                         // El correo no tiene una cuenta asociada
                                         Toast.makeText(LoginActivity.this, "El correo no tiene una cuenta asociada.", Toast.LENGTH_SHORT).show();
@@ -102,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
-
         buttonLoginRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
                 buttonRegistroCompletarRegistro.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         mAuth.createUserWithEmailAndPassword(editTextRegistroNombreUsuario.getText().toString(), editTextRegistroContrasenna.getText().toString())
                                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -127,7 +133,17 @@ public class LoginActivity extends AppCompatActivity {
                                             String user = editTextLoginCorreo.getText().toString();
                                             realizarLogin(user);
                                         } else {
-                                            Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                            Exception exception = task.getException();
+                                            if (exception instanceof FirebaseAuthUserCollisionException) {
+                                                // Ya existe una cuenta con el mismo correo
+                                                Toast.makeText(LoginActivity.this, "Ya existe una cuenta con este correo.", Toast.LENGTH_SHORT).show();
+                                            } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                                // Correo o contraseña inválidos
+                                                Toast.makeText(LoginActivity.this, "Correo o contraseña inválidos.", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                // Otro error al crear la cuenta
+                                                Toast.makeText(LoginActivity.this, "Error, no se ha creado la cuenta." + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                         dialog.dismiss();
                                     }

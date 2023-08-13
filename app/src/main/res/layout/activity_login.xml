@@ -12,11 +12,12 @@
         android:layout_height="wrap_content"
         android:text="BIENVENIDO"
         android:textColor="@color/black"
+        android:textStyle="italic"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLoginCorreo"
+        android:layout_marginTop="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <EditText
         android:id="@+id/editTextLoginCorreo"
@@ -50,7 +51,7 @@
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:text="Registrarme"
-        android:background="@color/green"
+        android:background="@color/lightblue"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,4 +67,18 @@
         tools:layout_editor_absoluteX="0dp">
 
     </ListView>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="412dp"
+        android:layout_height="151dp"
+        android:gravity="center"
+        android:text="EASY CALENDAR"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

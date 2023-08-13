@@ -207,12 +207,14 @@ public class MyGridAdapter extends ArrayAdapter {
                     if(eventsForDate.get(0).getIMAGEN()!=null){
                         EventImage1.setImageURI(eventsForDate.get(0).getIMAGEN());
                         Glide.with(getContext()).load(eventsForDate.get(0).getIMAGEN()).into(EventImage1);
+                        //EventImage2.setVisibility(View.GONE);
                     }else{
                         EventImage1.setVisibility(View.GONE);
                     }
                     if (eventsForDate.get(1).getIMAGEN()!=null){
                         EventImage2.setImageURI(eventsForDate.get(1).getIMAGEN());
                         Glide.with(getContext()).load(eventsForDate.get(1).getIMAGEN()).into(EventImage2);
+                        //EventImage1.setVisibility(View.GONE);
                     }else {
                         EventImage2.setVisibility(View.GONE);
                     }

@@ -145,8 +145,10 @@ public class CustomCalendarView extends LinearLayout{
                 Glide.with(context).load(uri).into(imageViewGal);
                 imageViewGal.setVisibility(View.VISIBLE);
                 buttonPicto.setVisibility(View.GONE);
+                buttonImagen.setVisibility(GONE);
                 uriImagen = uri;
             }else {
+                imageViewGal.setVisibility(GONE);
                 Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
             }
         });
@@ -228,7 +230,9 @@ public class CustomCalendarView extends LinearLayout{
                         Intent intent = new Intent(context, SelectCalendarActivity.class);
 
                         // Opcional: Puedes pasar datos adicionales a la nueva actividad usando putExtra()
-                        // intent.putExtra("key", value);
+                        SharedPreferences prefs = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                        String email = prefs.getString("email", "");
+                        intent.putExtra("email", email);
 
                         // Iniciar la actividad SelectCalendarActivity
                         context.startActivity(intent);
@@ -311,11 +315,6 @@ public class CustomCalendarView extends LinearLayout{
                 List<Events> events = CollectEventByDate(date1,idCal);
                 if(events.size()==1 && events.get(0).getIMAGEN()!=null){
                     buttonImagen.setVisibility(View.GONE);
-                    //buttonPicto.setVisibility(View.GONE);
-                    //imageViewGal.setVisibility(INVISIBLE);
-                    //filtroPicto.setVisibility(View.GONE);
-                    //buttonGaleria.setVisibility(View.GONE);
-                    //imageViewPicto.setVisibility(INVISIBLE);
                 }
                 if(events.size()==2){
                     Toast.makeText(activity, "No se puede añadir mas de 2 eventos por dia", Toast.LENGTH_SHORT).show();
@@ -359,8 +358,8 @@ public class CustomCalendarView extends LinearLayout{
                                         Toast.makeText(view.getContext(), "Error: Para usar pictogramas, por favor conectate a una WiFi", Toast.LENGTH_SHORT).show();
                                     }
                                 };
-
                                 connectivityManager.registerNetworkCallback(networkRequest, networkCallback);
+                                dialog1.dismiss();
                             }
                         });
                         dialog1.show();
@@ -372,7 +371,11 @@ public class CustomCalendarView extends LinearLayout{
                         if (EventName.getText().toString().equals("") && uriImagen==null && EventVideo.getText().toString().equals("")){
                             Toast.makeText(activity, "Un evento no puede estar vacío", Toast.LENGTH_SHORT).show();
                         }else {
-                            SaveEvent(idCal,EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                            if (uriImagen==null){
+                                SaveEvent(idCal,EventName.getText().toString(), null, date, month, year, EventVideo.getText().toString());
+                            }else {
+                                SaveEvent(idCal,EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                            }
                         }
                         SetUpCalendar();
                         alertDialog.dismiss();
@@ -402,9 +405,7 @@ public class CustomCalendarView extends LinearLayout{
                 eventRecyclerAdapter.notifyDataSetChanged();
                 builder.setView(showView);
                 alertDialog = builder.create();
-                //alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 alertDialog.show();
-
                 return true;
             }
         });
@@ -449,6 +450,7 @@ public class CustomCalendarView extends LinearLayout{
                                 uriImagen = Uri.parse("https://api.arasaac.org/api/pictograms/"+listaId.get(position));
                                 imageViewPicto.setVisibility(View.VISIBLE);
                                 buttonGaleria.setVisibility(View.GONE);
+                                buttonImagen.setVisibility(GONE);
                             }
                         });
                         // Mostrar el diálogo

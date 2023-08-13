@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -506,6 +505,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void recogerDatos() {
         arrayList = new ArrayList<>();

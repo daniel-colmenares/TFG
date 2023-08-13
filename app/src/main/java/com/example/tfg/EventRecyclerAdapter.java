@@ -133,8 +133,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 }
             }
         });
-
-
         holder.Borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,13 +163,14 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 // Borrar evento de la lista y actualizar la vista
                         arrayList.remove(position);
-
+                        notifyDataSetChanged();
+                        dialog.dismiss();
                     }
-
                 });
                 builder.setNegativeButton("No", null);
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                builder.setView(view);
             }
         });
         holder.Video.setOnClickListener(new View.OnClickListener() {
