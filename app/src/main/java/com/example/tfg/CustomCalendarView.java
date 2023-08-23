@@ -412,7 +412,7 @@ public class CustomCalendarView extends LinearLayout{
                 recyclerView = showView.findViewById(R.id.EventsRV);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setHasFixedSize(true);
+               
                 eventRecyclerAdapter = new EventRecyclerAdapter(showView.getContext(),
                         CollectEventByDate(date, idCal), pickMediaAdapter, CustomCalendarView.this);
                 recyclerView.setAdapter(eventRecyclerAdapter);
@@ -420,6 +420,8 @@ public class CustomCalendarView extends LinearLayout{
                 builder.setView(showView);
                 alertDialog = builder.create();
                 alertDialog.show();
+                alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
                 return true;
             }
         });

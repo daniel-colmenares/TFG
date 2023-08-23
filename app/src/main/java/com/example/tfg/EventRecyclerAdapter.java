@@ -80,18 +80,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public void manejarModificacionImagen(Uri uriImagen) {
 
         arrayList.get(posicion).setIMAGEN(uriImagen);
-        notifyDataSetChanged();
-
-        /*if (uriImagen!=null) {
-            int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-            context.getContentResolver().takePersistableUriPermission(uriImagen,flag);
-            Glide.with(context).load(uriImagen).into(holder.Imagen);
-            holder.Imagen.setVisibility(View.VISIBLE);
-            buttonPicto.setVisibility(View.GONE);
-            uriImagen = uriImagen;
-        }else {
-            Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
-        }*/
+        this.uriImagen = uriImagen;
+        notifyItemChanged(posicion, "imagen");
     }
 
     @NonNull
@@ -99,6 +89,25 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_events_rowlayout,parent,false);
         return new MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            this.onBindViewHolder(holder, position);
+        } else {
+            for (Object payload : payloads) {
+                if (payload.equals("imagen")) {
+                    holder.onEditButtonClick(position);
+                    Events events = arrayList.get(position);
+                    holder.editEvent.setText(events.EVENT);
+                    holder.editVideo.setText(events.VIDEO);
+                    Glide.with(context).load(uriImagen).into(holder.Imagen);
+                }
+            }
+        }
+
+        super.onBindViewHolder(holder, position, payloads);
     }
 
     @Override
@@ -184,13 +193,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             }
         });
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
         holder.editEvent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                    //activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    v.requestFocus();
                 }
             }
         });
@@ -198,12 +207,13 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                    //activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                    v.requestFocus();
                 }
             }
         });
+
+
         holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,7 +317,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                     Imagen.setVisibility(View.VISIBLE);
                                     editEvent.setVisibility(View.VISIBLE);
                                     editVideo.setVisibility(View.VISIBLE);
-                                    buttonGaleria.setVisibility(View.GONE);
                                 }
                             });
                             // Mostrar el diálogo
@@ -341,7 +350,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 public void onClick(View view) {
                     posicion = position;
                     pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-                    Imagen.setVisibility(View.VISIBLE);
+                    //Imagen.setVisibility(View.VISIBLE);
                     dialog1.dismiss();
                 }
             });
@@ -398,6 +407,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                     showPhotoSelectionDialog(context, position);
                 }
             });
+
         }
 
         public void onSaveButtonClick(Events events) {
@@ -412,9 +422,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             if (newVideoUrl.isEmpty()){
                 newVideoUrl = currentVideoUrl;
             }
-            if (newImagenUri.equals(Uri.EMPTY)){
+            /*if (newImagenUri.equals(Uri.EMPTY)){
                 newImagenUri = currentImagenUri;
-            }
+            }*/
             // Actualizar los TextView con los nuevos valores
             Event.setText(newEventName);
             Video.setText(newVideoUrl);

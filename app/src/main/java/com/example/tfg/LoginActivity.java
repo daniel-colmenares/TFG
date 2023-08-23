@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -125,29 +126,35 @@ public class LoginActivity extends AppCompatActivity {
                 buttonRegistroCompletarRegistro.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        try {
                         mAuth.createUserWithEmailAndPassword(editTextRegistroNombreUsuario.getText().toString(), editTextRegistroContrasenna.getText().toString())
                                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            String user = editTextLoginCorreo.getText().toString();
-                                            realizarLogin(user);
-                                        } else {
-                                            Exception exception = task.getException();
-                                            if (exception instanceof FirebaseAuthUserCollisionException) {
-                                                // Ya existe una cuenta con el mismo correo
-                                                Toast.makeText(LoginActivity.this, "Ya existe una cuenta con este correo.", Toast.LENGTH_SHORT).show();
-                                            } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-                                                // Correo o contraseña inválidos
-                                                Toast.makeText(LoginActivity.this, "Correo o contraseña inválidos.", Toast.LENGTH_SHORT).show();
+
+                                            if (task.isSuccessful()) {
+                                                String user = editTextLoginCorreo.getText().toString();
+                                                realizarLogin(user);
                                             } else {
-                                                // Otro error al crear la cuenta
-                                                Toast.makeText(LoginActivity.this, "Error, no se ha creado la cuenta." + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Exception exception = task.getException();
+                                                if (exception instanceof FirebaseAuthUserCollisionException) {
+                                                    // Ya existe una cuenta con el mismo correo
+                                                    Toast.makeText(LoginActivity.this, "Ya existe una cuenta con este correo.", Toast.LENGTH_SHORT).show();
+                                                } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                                                    // Correo o contraseña inválidos
+                                                    Toast.makeText(LoginActivity.this, "Correo o contraseña inválidos.", Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                } else {
+                                                    // Otro error al crear la cuenta
+                                                    Toast.makeText(LoginActivity.this, "Error, no se ha creado la cuenta.", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
-                                        }
-                                        dialog.dismiss();
+                                            dialog.dismiss();
                                     }
                                 });
+                        } catch (Exception e) {
+                            Toast.makeText(LoginActivity.this, "Error. Verifique las creedenciales.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

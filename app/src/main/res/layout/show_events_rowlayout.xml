@@ -57,7 +57,7 @@
             <ImageView
                 android:id="@+id/imagenEvento"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="140dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <Button
