@@ -76,13 +76,14 @@
         android:id="@+id/textViewCambiarRol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
+
         android:gravity="center"
         android:text="TextView"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonCambiarRol"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonCambiarRol" />
+        app:layout_constraintStart_toEndOf="@+id/buttonCambiarRol"
+        app:layout_constraintTop_toTopOf="@+id/buttonCambiarRol" />
 
     <Button
         android:id="@+id/buttonCambiarRol"
@@ -99,28 +100,29 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="AÑADIR CALENDARIO"
         android:textColor="@color/black"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toBottomOf="@+id/button_crearcalendario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toEndOf="@+id/button_crearcalendario"
-        app:layout_constraintTop_toBottomOf="@+id/recycled_selectcalendar"
-        app:layout_constraintVertical_bias="0.619" />
+        app:layout_constraintTop_toTopOf="@+id/button_crearcalendario" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AJUSTES"
         android:layout_marginBottom="40dp"
+        android:text="AJUSTES"
+        android:layout_marginTop="25dp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/ajustesbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toEndOf="@+id/ajustesbutton"
-        app:layout_constraintVertical_bias="0.707" />
+        app:layout_constraintTop_toTopOf="@+id/ajustesbutton"
+         />
 
     <TextView
         android:id="@+id/textView4"
@@ -132,7 +134,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textViewCambiarRol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toEndOf="@+id/botoncerrarsesion" />
+        app:layout_constraintStart_toEndOf="@+id/botoncerrarsesion"
+        app:layout_constraintTop_toTopOf="@+id/botoncerrarsesion" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -359,6 +359,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                         public void onAvailable(Network network) {
                             // Hay conexión WiFi, mostrar el diálogo de la lista
                             mostrarDialogoLista(view.getContext());
+                            Toast.makeText(view.getContext(), "Cargando pictogramas, espere unos segundos...", Toast.LENGTH_LONG).show();
                             dialog1.dismiss();
                         }
 

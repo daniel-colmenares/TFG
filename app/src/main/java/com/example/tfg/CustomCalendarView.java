@@ -361,6 +361,7 @@ public class CustomCalendarView extends LinearLayout{
                                     public void onAvailable(Network network) {
                                         // Hay conexión WiFi, mostrar el diálogo de la lista
                                         mostrarDialogoLista(view.getContext());
+                                        Toast.makeText(view.getContext(), "Cargando pictogramas, espere unos segundos...", Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
@@ -412,7 +413,6 @@ public class CustomCalendarView extends LinearLayout{
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
-
                 eventRecyclerAdapter = new EventRecyclerAdapter(showView.getContext(),
                         CollectEventByDate(date, idCal), pickMediaAdapter, CustomCalendarView.this);
                 recyclerView.setAdapter(eventRecyclerAdapter);
