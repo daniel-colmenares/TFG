@@ -64,11 +64,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBStructure.EVENT, name);
         contentValues.put(DBStructure.VIDEO, video);
-        contentValues.put(DBStructure.IMAGEN, uri.toString());
+        if (uri != null) {
+            contentValues.put(DBStructure.IMAGEN,uri.toString());
+        }
         String selection =  "ID = ?";
         String[] selectionArgs = { String.valueOf(id) };
 
-        database.update(DBStructure.CALENDAR_TABLE_NAME, contentValues, selection, selectionArgs);
+        database.update(DBStructure.EVENT_TABLE_NAME, contentValues, selection, selectionArgs);
     }
 
     public void updateEvent(Integer id, String name, String video, SQLiteDatabase database) {

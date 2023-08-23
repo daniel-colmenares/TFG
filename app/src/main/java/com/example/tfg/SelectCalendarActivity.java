@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +16,7 @@ import android.database.Cursor;
 import android.database.Observable;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.hardware.SensorListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -30,15 +34,25 @@ import com.google.android.gms.common.internal.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import android.os.Handler;
 
 public class SelectCalendarActivity extends AppCompatActivity {
+
+
+     //implements  SensorEventListener
 
     RecyclerView show_calendarlist;
     private FirebaseAuth mAuth;
@@ -58,6 +72,11 @@ public class SelectCalendarActivity extends AppCompatActivity {
     List<Calendars> listaMostrada;
     int cantidadMaximaCalendarios, indiceInicioMostrado;
     List<Calendars> listaCalendarios;
+    ///////////
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private Sensor magnetometer;
+    /////////////////
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -71,10 +90,19 @@ public class SelectCalendarActivity extends AppCompatActivity {
         show_calendarlist = findViewById(R.id.recycled_selectcalendar);
         cerrarsesion = findViewById(R.id.botoncerrarsesion);
         cambiarRol = findViewById(R.id.buttonCambiarRol);
+        ///////////////
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        //////////////
+        //RxBleClient rxBleClient = RxBleClient.create(this);
         mAuth = FirebaseAuth.getInstance();
         //calendarRecyclerAdapter = new CalendarRecyclerAdapter(getApplicationContext(),arrayList,esAdmin);
-
         recogerDatos();
+
+
+
+
 
 
 
@@ -330,6 +358,66 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                                        calendarRecyclerAdapter.setOnItemClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                int position = (int) view.getTag();
+                                                Calendars calendars = arrayList.get(position);
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                                                builder.setTitle("Borrar calendario " + calendars.getNAME());
+                                                builder.setMessage("Seguro?");
+
+// Botón "OK"
+                                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                                                        SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
+                                                        Integer Id = calendars.getID();
+                                                        dbOpenHelper.deleteCalendar(Id,database);
+
+                                                        arrayList = new ArrayList<>();
+                                                        dbOpenHelper = new DBOpenHelper(view.getContext());
+                                                        SQLiteDatabase database1 = dbOpenHelper.getReadableDatabase();
+                                                        //Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("ID"), database1);
+                                                        Cursor cursor = dbOpenHelper.getCalendarsByUser(getIntent().getStringExtra("email"), database1);
+
+                                                        while (cursor.moveToNext()) {
+                                                            Integer Id1 = cursor.getInt(cursor.getColumnIndex(DBStructure.CALENDAR_ID) + 0);
+                                                            String Name = cursor.getString(cursor.getColumnIndex(DBStructure.NAME) + 0);
+                                                            String Email = cursor.getString(cursor.getColumnIndex(DBStructure.EMAIL) + 0);
+                                                            String Fecha = cursor.getString(cursor.getColumnIndex(DBStructure.FECHA_CREACION) + 0);
+                                                            String Color = cursor.getString(cursor.getColumnIndex(DBStructure.COLOR) + 0);
+                                                            String Letra = cursor.getString(cursor.getColumnIndex(DBStructure.LETRA) + 0);
+                                                            Calendars calendar = new Calendars(Name, Email, Fecha, Id1, Color, Letra);
+                                                            arrayList.add(calendar);
+
+                                                        }
+                                                        cursor.close();
+                                                        dbOpenHelper.close();
+                                                        SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
+                                                        esAdmin = prefs.getBoolean("esAdmin", false);
+                                                        show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                                        calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                                                        show_calendarlist.setAdapter(calendarRecyclerAdapter);
+                                                        //calendarRecyclerAdapter.notifyDataSetChanged();
+                                                        //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
+
+// Acciones a realizar al hacer clic en el botón "OK"
+                                                    }
+                                                });
+// Botón "Cancelar"
+                                                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+// Acciones a realizar al hacer clic en el botón "Cancelar"
+                                                    }
+                                                });
+
+// Crear y mostrar el AlertDialog
+                                                AlertDialog dialog = builder.create();
+                                                dialog.show();
+                                            }
+                                        });
                                         //calendarRecyclerAdapter.notifyDataSetChanged();
                                         //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
 
@@ -507,6 +595,76 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        // Register the sensor listeners when the activity is in the foreground
+        sensorManager.registerListener((SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener((SensorEventListener) this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister the sensor listeners when the activity is paused or stopped
+        sensorManager.unregisterListener((SensorEventListener) this);
+    }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            // Handle magnetometer data
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            // Implement your logic to handle gesture events based on magnetometer data
+            if (isShakeGesture(x, y, z)) {
+                // Handle shake gesture (e.g., perform an action)
+                cerrarsesion.performClick();
+                Toast.makeText(this, "HOLA", Toast.LENGTH_SHORT).show();
+            } else if (isTiltRightGesture(x, y, z)) {
+                cambiarRol.performClick();
+                Toast.makeText(this, "HEY", Toast.LENGTH_SHORT).show();
+                // Handle tilt to the right gesture (e.g., perform an action)
+            } else if (isTiltLeftGesture(x, y, z)) {
+                crearcalendario.performClick();
+                Toast.makeText(this, "HA", Toast.LENGTH_SHORT).show();
+                // Handle tilt to the left gesture (e.g., perform an action)
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    private boolean isShakeGesture(float x, float y, float z) {
+        float thresholdX = 1.0f;  // Adjust as needed
+        float thresholdY = 1.0f;  // Adjust as needed
+        float thresholdZ = 1.0f;
+        // Implement your shake gesture logic
+        // For example, check if the change in magnetic field values exceeds a threshold
+        return (Math.abs(x) > thresholdX || Math.abs(y) > thresholdY || Math.abs(z) > thresholdZ);
+    }
+
+    private boolean isTiltRightGesture(float x, float y, float z) {
+        // Implement your tilt to the right gesture logic
+        // For example, check if the x value is above a threshold and y value is close to 0
+        float thresholdTilt = 1.0f;
+        float thresholdY = 1.0f;
+        return (x > thresholdTilt && Math.abs(y) < thresholdY);
+    }
+
+    private boolean isTiltLeftGesture(float x, float y, float z) {
+        float thresholdTilt = 1.0f;
+        float thresholdY = 1.0f;
+        // Implement your tilt to the left gesture logic
+        // For example, check if the x value is below a negative threshold and y value is close to 0
+        return (x < -thresholdTilt && Math.abs(y) < thresholdY);
+    }
+    */
+
     private void recogerDatos() {
         arrayList = new ArrayList<>();
         dbOpenHelper = new DBOpenHelper(this);
@@ -552,6 +710,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
                         Integer Id = calendars.getID();
                         dbOpenHelper.deleteCalendar(Id,database);
+                        //arrayList.remove(position);
+                        //calendarRecyclerAdapter.notifyItemRemoved(position);
+                        //calendarRecyclerAdapter.notifyItemRangeChanged(position, arrayList.size());
 
                         arrayList = new ArrayList<>();
                         dbOpenHelper = new DBOpenHelper(view.getContext());
@@ -572,18 +733,16 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         }
                         cursor.close();
                         dbOpenHelper.close();
+                        calendarRecyclerAdapter.notifyDataSetChanged();
                         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         esAdmin = prefs.getBoolean("esAdmin", false);
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
+                        //calendarRecyclerAdapter.updateDataset(arrayList);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
-                        //calendarRecyclerAdapter.notifyDataSetChanged();
                         //dbOpenHelper.getCalendarsByUser(calendars.getEMAIL(),database);
-
-// Acciones a realizar al hacer clic en el botón "OK"
                     }
                 });
-// Botón "Cancelar"
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -605,9 +764,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
         calendarRecyclerAdapter.notifyDataSetChanged();
     }*/
 
-    @Override
+    /*@Override
     protected void onResume() {
         recogerDatos();
         super.onResume();
-    }
+    }*/
 }

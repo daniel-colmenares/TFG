@@ -45,9 +45,13 @@
                 android:id="@+id/editEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:textColor="@android:color/holo_purple"
+                android:ems="20"
                 android:inputType="text"
+                android:gravity="center"
                 android:text=""
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 />
 
             <ImageView
@@ -93,8 +97,10 @@
                     android:textColor="@android:color/holo_blue_bright"
                     android:textSize="40sp"
                     android:textStyle="bold"
-                    android:autoLink="web"
-                    android:inputType="text" />
+                    android:ems="20"
+                    android:inputType="text"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
 
 
             <Button

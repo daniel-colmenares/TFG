@@ -1,25 +1,23 @@
 package com.example.tfg;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,54 +25,28 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.example.tfg.remote.APIUtils;
 import com.example.tfg.remote.Modelo;
 import com.example.tfg.remote.PictogramService;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 //import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
+
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -82,12 +54,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdapter.MyViewHolder> {
-    EditText editEvent, editVideo;
-    Button editImagen;
     PictogramService pictogramService;
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     Context context;
     private View.OnClickListener onItemClickListener;
+    CustomCalendarView customCalendarView;
     ArrayList<Events> arrayList;
     Button buttonPicto, buttonGaleria;
     EditText filtroPicto;
@@ -95,9 +66,32 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     Boolean esAdmin;
     Uri uriImagen;
 
-    public EventRecyclerAdapter(Context context, ArrayList<Events> arrayList) {
+    CustomCalendarView activ;
+
+    int posicion = -1;
+
+    public EventRecyclerAdapter(Context context, ArrayList<Events> arrayList, ActivityResultLauncher<PickVisualMediaRequest> pickMedia, CustomCalendarView activ) {
         this.context = context;
         this.arrayList = arrayList;
+        this.pickMedia = pickMedia;
+        this.activ = activ;
+    }
+
+    public void manejarModificacionImagen(Uri uriImagen) {
+
+        arrayList.get(posicion).setIMAGEN(uriImagen);
+        notifyDataSetChanged();
+
+        /*if (uriImagen!=null) {
+            int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+            context.getContentResolver().takePersistableUriPermission(uriImagen,flag);
+            Glide.with(context).load(uriImagen).into(holder.Imagen);
+            holder.Imagen.setVisibility(View.VISIBLE);
+            buttonPicto.setVisibility(View.GONE);
+            uriImagen = uriImagen;
+        }else {
+            Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
+        }*/
     }
 
     @NonNull
@@ -111,6 +105,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         SharedPreferences prefs1 = context.getSharedPreferences("CalendarioUsuario", 0);
         esAdmin = prefs1.getBoolean("esAdmin", false);
+        activity = (MainActivity) context;
+        //customCalendarView = holder.itemView.findViewById(R.id.custom_calendar_view);
         Events events = arrayList.get(position);
         holder.Event.setText(events.getEVENT());
         holder.DateText.setText(events.getDATE());
@@ -121,18 +117,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             holder.Borrar.setVisibility(View.GONE);
             holder.Confirm.setVisibility(View.GONE);
         }
-        editEvent.setVisibility(View.GONE);
-        editVideo.setVisibility(View.GONE);
-        editImagen.setVisibility(View.GONE);
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        editEvent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                }
-            }
-        });
+        holder.editEvent.setVisibility(View.GONE);
+        holder.editVideo.setVisibility(View.GONE);
+        holder.editImagen.setVisibility(View.GONE);
         holder.Borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,14 +152,23 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                         arrayList.remove(position);
                         notifyDataSetChanged();
                         dialog.dismiss();
+                        activ.SetUpCalendar();
                     }
+
                 });
                 builder.setNegativeButton("No", null);
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 builder.setView(view);
+
             }
         });
+        /*holder.editImagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
+            }
+        });*/
         holder.Video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,15 +183,36 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 }
             }
         });
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        holder.editEvent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    v.requestFocus();
+                }
+            }
+        });
+        holder.editVideo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    v.requestFocus();
+                }
+            }
+        });
         holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                holder.onEditButtonClick();
-                editEvent.setText(events.EVENT);
-                editVideo.setText(events.VIDEO);
-
+                holder.onEditButtonClick(position);
+                holder.editEvent.setText(events.EVENT);
+                holder.editVideo.setText(events.VIDEO);
             }
+
         });
         holder.Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,8 +239,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView DateText, Event, Video;
+        EditText editEvent, editVideo;
         Button Borrar, Edit, Confirm;
+        Button editImagen;
         ImageView Imagen;
+        private Uri currentImagenUri;
         private String currentEventName;
         private String currentVideoUrl;
 
@@ -241,25 +261,14 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             editImagen = itemView.findViewById(R.id.editImagen);
             currentEventName = Event.getText().toString();
             currentVideoUrl = Video.getText().toString();
-            activity = (MainActivity) context;
-            /*pickMedia = activity.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-                if (uri!=null) {
-                    int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                    context.getContentResolver().takePersistableUriPermission(uri,flag);
-                    Glide.with(context).load(uri).into(Imagen);
-                    Imagen.setVisibility(View.VISIBLE);
-                    buttonPicto.setVisibility(View.GONE);
-                    uriImagen = uri;
-                }else {
-                    Toast.makeText(activity, "Problema encontrado", Toast.LENGTH_SHORT).show();
-                }
-            });
-            */
+            currentImagenUri = uriImagen;
+
+
 
 
         }
 
-        /*
+
         private void mostrarDialogoLista(Context context) {
             pictogramService = APIUtils.getPictoService();
             Call<List<Modelo>> call;
@@ -296,6 +305,8 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                                     Glide.with(context).load("https://api.arasaac.org/api/pictograms/"+listaId.get(position)).into(Imagen);
                                     uriImagen = Uri.parse("https://api.arasaac.org/api/pictograms/"+listaId.get(position));
                                     Imagen.setVisibility(View.VISIBLE);
+                                    editEvent.setVisibility(View.VISIBLE);
+                                    editVideo.setVisibility(View.VISIBLE);
                                     buttonGaleria.setVisibility(View.GONE);
                                 }
                             });
@@ -314,9 +325,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                 }
             });
         }
-        */
 
-        /*private void showPhotoSelectionDialog(Context context) {
+
+        private void showPhotoSelectionDialog(Context context, int position) {
+            editEvent.setVisibility(View.VISIBLE);
+            editVideo.setVisibility(View.VISIBLE);
             final Dialog dialog1 = new Dialog(context);
             dialog1.setContentView(R.layout.dialog_foto);
             dialog1.setCancelable(true);
@@ -326,8 +339,10 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             buttonGaleria.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    posicion = position;
                     pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-
+                    Imagen.setVisibility(View.VISIBLE);
+                    dialog1.dismiss();
                 }
             });
             buttonPicto.setOnClickListener(new View.OnClickListener() {
@@ -344,6 +359,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
                         public void onAvailable(Network network) {
                             // Hay conexión WiFi, mostrar el diálogo de la lista
                             mostrarDialogoLista(view.getContext());
+                            dialog1.dismiss();
                         }
 
                         @Override
@@ -358,29 +374,36 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             });
             dialog1.show();
         }
-        */
 
-        public void onEditButtonClick() {
+
+
+        public void onEditButtonClick(int position) {
             // Mostrar los valores actuales en los EditText
             editEvent.setText(currentEventName);
             editVideo.setText(currentVideoUrl);
-
+            //editImagen.setText(currentImagenUri.toString());
             // Alternar las vistas para mostrar los EditText y ocultar los TextView
             Event.setVisibility(View.GONE);
             Video.setVisibility(View.GONE);
-            Imagen.setVisibility(View.GONE);
+            //Imagen.setVisibility(View.GONE);
             editEvent.setVisibility(View.VISIBLE);
             editVideo.setVisibility(View.VISIBLE);
             editImagen.setVisibility(View.VISIBLE);
             Edit.setVisibility(View.GONE);
             Borrar.setVisibility(View.GONE);
-            //showPhotoSelectionDialog(context);
+            editImagen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPhotoSelectionDialog(context, position);
+                }
+            });
         }
 
         public void onSaveButtonClick(Events events) {
             // Obtener los nuevos valores ingresados por el usuario
             String newEventName = editEvent.getText().toString();
             String newVideoUrl = editVideo.getText().toString();
+            Uri newImagenUri = uriImagen;
 
             if (newEventName.isEmpty()){
                 newEventName = currentEventName;
@@ -388,13 +411,18 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             if (newVideoUrl.isEmpty()){
                 newVideoUrl = currentVideoUrl;
             }
+            if (newImagenUri.equals(Uri.EMPTY)){
+                newImagenUri = currentImagenUri;
+            }
             // Actualizar los TextView con los nuevos valores
             Event.setText(newEventName);
             Video.setText(newVideoUrl);
+            Imagen.setImageURI(uriImagen);
 
             // Guardar los nuevos valores en las variables de instancia
             currentEventName = newEventName;
             currentVideoUrl = newVideoUrl;
+            currentImagenUri = newImagenUri;
 
             DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
             // Borrar evento de la base de datos
@@ -402,7 +430,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Integer eventId = dbOpenHelper.getEventId(events.getEVENT(), events.getDATE(), database);
             database.beginTransaction();
             try {
-                dbOpenHelper.updateEvent(eventId,newEventName,newVideoUrl, database);
+                dbOpenHelper.updateEvent(eventId,newEventName,newVideoUrl,newImagenUri, database);
                 database.setTransactionSuccessful();
             } catch (Exception e) {
                 e.printStackTrace();

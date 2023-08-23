@@ -91,6 +91,8 @@ import retrofit2.Response;
 
 
 public class CustomCalendarView extends LinearLayout{
+
+    EventRecyclerAdapter eventRecyclerAdapter;
     PictogramService pictogramService;
     ArrayList<Calendars> arrayList;
     DBOpenHelper dbOpenHelper;
@@ -127,6 +129,8 @@ public class CustomCalendarView extends LinearLayout{
     Uri uriImagen;
     MainActivity activity;
 
+    ActivityResultLauncher<PickVisualMediaRequest> pickMediaAdapter;
+
     //Button changeColorButton = findViewById(R.id.color_calendario);
     public CustomCalendarView(Context context) {
         super(context);
@@ -138,6 +142,13 @@ public class CustomCalendarView extends LinearLayout{
         InitializeLayout();
 
         activity = (MainActivity)context;
+
+
+
+        pickMediaAdapter = activity.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+            eventRecyclerAdapter.manejarModificacionImagen(uri);
+        });
+
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia = activity.registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
             if (uri!=null) {
                 int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
@@ -368,14 +379,16 @@ public class CustomCalendarView extends LinearLayout{
                 AddEvent.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (EventName.getText().toString().equals("") && uriImagen==null && EventVideo.getText().toString().equals("")){
+                        if (EventName.getText().toString().equals("") && uriImagen == null && EventVideo.getText().toString().equals("")) {
                             Toast.makeText(activity, "Un evento no puede estar vacío", Toast.LENGTH_SHORT).show();
-                        }else {
-                            if (uriImagen==null){
-                                SaveEvent(idCal,EventName.getText().toString(), null, date, month, year, EventVideo.getText().toString());
-                            }else {
-                                SaveEvent(idCal,EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
+                        } else {
+                            if (uriImagen == null) {
+                                SaveEvent(idCal, EventName.getText().toString(), null, date, month, year, EventVideo.getText().toString());
+                            } else {
+                                SaveEvent(idCal, EventName.getText().toString(), uriImagen, date, month, year, EventVideo.getText().toString());
                             }
+                            // Clear uriImagen after saving the event
+                            uriImagen = null;
                         }
                         SetUpCalendar();
                         alertDialog.dismiss();
@@ -399,8 +412,9 @@ public class CustomCalendarView extends LinearLayout{
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(showView.getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setHasFixedSize(true);
-                EventRecyclerAdapter eventRecyclerAdapter = new EventRecyclerAdapter(showView.getContext(),
-                        CollectEventByDate(date, idCal));
+
+                eventRecyclerAdapter = new EventRecyclerAdapter(showView.getContext(),
+                        CollectEventByDate(date, idCal), pickMediaAdapter, CustomCalendarView.this);
                 recyclerView.setAdapter(eventRecyclerAdapter);
                 eventRecyclerAdapter.notifyDataSetChanged();
                 builder.setView(showView);
