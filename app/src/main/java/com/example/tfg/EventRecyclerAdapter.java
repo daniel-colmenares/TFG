@@ -126,6 +126,9 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             holder.Borrar.setVisibility(View.GONE);
             holder.Confirm.setVisibility(View.GONE);
         }
+        if (events.getIMAGEN()==null){
+            holder.Imagen.setVisibility(View.GONE);
+        }
         holder.editEvent.setVisibility(View.GONE);
         holder.editVideo.setVisibility(View.GONE);
         holder.editImagen.setVisibility(View.GONE);
@@ -172,12 +175,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
             }
         });
-        /*holder.editImagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
-            }
-        });*/
         holder.Video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -388,6 +385,11 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
         public void onEditButtonClick(int position) {
+            if(arrayList.get(position).getIMAGEN()==null){
+                editImagen.setVisibility(View.GONE);
+            }else {
+                editImagen.setVisibility(View.VISIBLE);
+            }
             // Mostrar los valores actuales en los EditText
             editEvent.setText(currentEventName);
             editVideo.setText(currentVideoUrl);
@@ -398,7 +400,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             //Imagen.setVisibility(View.GONE);
             editEvent.setVisibility(View.VISIBLE);
             editVideo.setVisibility(View.VISIBLE);
-            editImagen.setVisibility(View.VISIBLE);
             Edit.setVisibility(View.GONE);
             Borrar.setVisibility(View.GONE);
             editImagen.setOnClickListener(new View.OnClickListener() {
@@ -443,6 +444,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             try {
                 dbOpenHelper.updateEvent(eventId,newEventName,newVideoUrl,newImagenUri, database);
                 database.setTransactionSuccessful();
+                activ.SetUpCalendar();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

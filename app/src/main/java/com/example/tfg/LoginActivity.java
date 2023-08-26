@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                             if (task.isSuccessful()) {
                                                 String user = editTextLoginCorreo.getText().toString();
-                                                realizarLogin(user);
+                                                realizarLogin1(user);
                                             } else {
                                                 Exception exception = task.getException();
                                                 if (exception instanceof FirebaseAuthUserCollisionException) {
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 });
                         } catch (Exception e) {
-                            Toast.makeText(LoginActivity.this, "Error. Verifique las creedenciales.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Error. Verifique las credenciales.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -178,6 +178,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private void realizarLogin(String currentUser) {
         Intent intent = new Intent(getApplicationContext(), SelectCalendarActivity.class);
+        intent.putExtra("email",currentUser);
+        startActivity(intent);
+        finish();
+        //pasar los datos con un bundle
+
+    }
+
+    private void realizarLogin1(String currentUser) {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.putExtra("email",currentUser);
         startActivity(intent);
         finish();
