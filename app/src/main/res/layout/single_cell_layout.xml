@@ -25,7 +25,7 @@
     <ImageView
         android:id="@+id/imagenEvento1"
         android:layout_width="match_parent"
-        android:layout_height="21dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -48,7 +48,7 @@
         android:id="@+id/imagenEvento2"
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:layout_height="21dp"
+        android:layout_height="35dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

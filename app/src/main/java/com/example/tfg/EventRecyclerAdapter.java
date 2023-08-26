@@ -444,12 +444,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             try {
                 dbOpenHelper.updateEvent(eventId,newEventName,newVideoUrl,newImagenUri, database);
                 database.setTransactionSuccessful();
-                activ.SetUpCalendar();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 database.endTransaction();
             }
+            activ.SetUpCalendar();
             database.close();
             // Alternar nuevamente la vista para ocultar los EditText
             editEvent.setVisibility(View.GONE);

@@ -71,10 +71,9 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
         android:text="TIPO DE LETRA"
         app:layout_constraintBottom_toBottomOf="@+id/buttonLetra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toEndOf="@+id/buttonLetra"
         app:layout_constraintTop_toTopOf="@+id/buttonLetra" />
 
@@ -82,10 +81,9 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
         android:text="COLOR"
         app:layout_constraintBottom_toBottomOf="@+id/buttonColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toEndOf="@+id/buttonColor"
         app:layout_constraintTop_toTopOf="@+id/buttonColor" />
 
@@ -93,9 +91,9 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
         android:text="VOLVER"
         app:layout_constraintBottom_toBottomOf="@+id/buttonCancelar"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonCancelar"
         app:layout_constraintTop_toTopOf="@+id/buttonCancelar" />
 
@@ -103,10 +101,9 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
         android:text="AÑADIR CALENDARIO"
         app:layout_constraintBottom_toBottomOf="@+id/button_crearcalendario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toEndOf="@+id/button_crearcalendario"
         app:layout_constraintTop_toTopOf="@+id/button_crearcalendario" />
 
