@@ -187,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void realizarLogin1(String currentUser) {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Toast.makeText(this, "Cuenta creada corectamente.", Toast.LENGTH_SHORT).show();
         intent.putExtra("email",currentUser);
         startActivity(intent);
         finish();
