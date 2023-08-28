@@ -457,7 +457,12 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             editImagen.setVisibility(View.GONE);
             Event.setVisibility(View.VISIBLE);
             Video.setVisibility(View.VISIBLE);
-            Imagen.setVisibility(View.VISIBLE);
+            if (events.getIMAGEN()==null){
+                Imagen.setVisibility(View.GONE);
+            }
+            else{
+                Imagen.setVisibility(View.VISIBLE);
+            }
             Edit.setVisibility(View.VISIBLE);
             Borrar.setVisibility(View.VISIBLE);
 

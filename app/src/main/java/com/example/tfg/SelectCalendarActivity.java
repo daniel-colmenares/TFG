@@ -443,8 +443,29 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 buttonCancelar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialogCrear.dismiss();
-                        //onBackPressed();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Confirmación");
+                        builder.setMessage("¿Estás seguro de que quieres volver?");
+
+                        // Agregar el botón "Sí"
+                        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialogCrear.dismiss(); // Cierra el diálogo original si el usuario confirma
+                            }
+                        });
+
+                        // Agregar el botón "No"
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // No se hace nada, el diálogo original permanece abierto
+                                dialog.dismiss();
+                            }
+                        });
+
+                        // Mostrar el diálogo de confirmación
+                        builder.show();
                     }
                 });
             }
@@ -466,10 +487,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     textViewAñadir.setVisibility(View.INVISIBLE);
                 }
                 if (esAdmin) {
-                    textViewAdmin.setText("ADMININSTRADOR");
+                    textViewAdmin.setText("CAMBIAR A VISUALIZACIÓN");
 
                 } else {
-                    textViewAdmin.setText("USUARIO");
+                    textViewAdmin.setText("CAMBIAR A EDICIÓN");
                 }
                 calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                 show_calendarlist.setAdapter(calendarRecyclerAdapter);
@@ -689,10 +710,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
         calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
         if (esAdmin) {
-            textViewAdmin.setText("ADMININSTRADOR");
+            textViewAdmin.setText("CAMBIAR A VISUALIZACIÓN");
 
         } else {
-            textViewAdmin.setText("USUARIO");
+            textViewAdmin.setText("CAMBIAR A EDICIÓN");
         }
         calendarRecyclerAdapter.setOnItemClickListener(new View.OnClickListener() {
             @Override
