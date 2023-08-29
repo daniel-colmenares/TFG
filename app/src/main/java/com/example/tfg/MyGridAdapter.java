@@ -119,9 +119,11 @@ public class MyGridAdapter extends ArrayAdapter {
 
         TextView Day_Number = view.findViewById(R.id.calendar_day);
         TextView Event1 = view.findViewById(R.id.events_id);
-        TextView Link1 = view.findViewById(R.id.link1);
+        //TextView Link1 = view.findViewById(R.id.link1);
         TextView Event2 = view.findViewById(R.id.evento2);
-        TextView Link2 = view.findViewById(R.id.link2);
+        TextView url1 = view.findViewById(R.id.textView13);
+        TextView url2 = view.findViewById(R.id.textView14);
+        //TextView Link2 = view.findViewById(R.id.link2);
         ImageView EventImage1 = view.findViewById(R.id.imagenEvento1);
         ImageView EventImage2 = view.findViewById(R.id.imagenEvento2);
         //TextView NombreCal = view.findViewById(R.id.NombreCalView);
@@ -135,8 +137,8 @@ public class MyGridAdapter extends ArrayAdapter {
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
                 Event2.setTypeface(typeface);
-                Link1.setTypeface(typeface);
-                Link2.setTypeface(typeface);
+                url1.setTypeface(typeface);
+                url2.setTypeface(typeface);
                //NombreCal.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("serif")){
@@ -144,8 +146,8 @@ public class MyGridAdapter extends ArrayAdapter {
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
                 Event2.setTypeface(typeface);
-                Link1.setTypeface(typeface);
-                Link2.setTypeface(typeface);
+                url1.setTypeface(typeface);
+                url2.setTypeface(typeface);
                 //NombreCal.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("times")){
@@ -154,8 +156,8 @@ public class MyGridAdapter extends ArrayAdapter {
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
                 Event2.setTypeface(typeface);
-                Link1.setTypeface(typeface);
-                Link2.setTypeface(typeface);
+                url1.setTypeface(typeface);
+                url2.setTypeface(typeface);
                 //NombreCal.setTypeface(typeface);
             }
             else if (fuenteLetra.equals("comicsans")){
@@ -163,8 +165,8 @@ public class MyGridAdapter extends ArrayAdapter {
                 Day_Number.setTypeface(typeface);
                 Event1.setTypeface(typeface);
                 Event2.setTypeface(typeface);
-                Link1.setTypeface(typeface);
-                Link2.setTypeface(typeface);
+                url1.setTypeface(typeface);
+                url2.setTypeface(typeface);
                 //NombreCal.setTypeface(typeface);
             }
         }
@@ -180,19 +182,15 @@ public class MyGridAdapter extends ArrayAdapter {
 
                 if (eventsForDate.size() == 1) {
                     if (!(eventsForDate.get(0).getVIDEO().equals(""))) {
-                        String video = eventsForDate.get(0).getVIDEO();
-                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
-                        Link1.setText(truncatedVideo);
-                        /*Link1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Abrir el reproductor de video o el navegador web para reproducir el video
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(video));
-                                getContext().startActivity(intent);
-                            }
-                        });*/
+                        //String video = eventsForDate.get(0).getVIDEO();
+                        /*String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo);*/
+                        //url1.setVisibility(View.VISIBLE);
+                        url1.setText("LINK");
                     }else {
-                        Link1.setText("");
+                       // Link1.setText("");
+                        //url1.setVisibility(View.GONE);
+                        url1.setText("");
                     }
                     Event1.setText(eventsForDate.get(0).getEVENT());
                     if(eventsForDate.get(0).getIMAGEN()==null){
@@ -201,7 +199,8 @@ public class MyGridAdapter extends ArrayAdapter {
                     EventImage1.setImageURI(eventsForDate.get(0).getIMAGEN());
                     Glide.with(getContext()).load(eventsForDate.get(0).getIMAGEN()).into(EventImage1);
                     Event2.setText("");
-                    Link2.setText("");
+                    //Link2.setText("");
+                    url2.setText("");
                     EventImage2.setVisibility(View.GONE);
                 }else if(eventsForDate.size() == 2){
                     if(eventsForDate.get(0).getIMAGEN()!=null){
@@ -219,18 +218,26 @@ public class MyGridAdapter extends ArrayAdapter {
                         EventImage2.setVisibility(View.GONE);
                     }
                     if (eventsForDate.get(0).getVIDEO().equals("")) {
-                        Link1.setText("");
+                        url1.setText("");
+                        //url1.setVisibility(View.GONE);
                     }else {
-                        String video = eventsForDate.get(0).getVIDEO();
-                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
-                        Link1.setText(truncatedVideo);
+                        //String video = eventsForDate.get(0).getVIDEO();
+                        /*String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        Link1.setText(truncatedVideo);*/
+                        //url1.setVisibility(View.VISIBLE);
+                        url1.setText("LINK");
                     }
                     if (eventsForDate.get(1).getVIDEO().equals("")) {
-                        Link2.setText("");
+                        //Link2.setText("");
+                        //url2.setVisibility(View.GONE);
+                        url2.setText("");
                     }else {
                         String video = eventsForDate.get(1).getVIDEO();
-                        String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
+                        /*String truncatedVideo = video.substring(0, Math.min(video.length(), 5)) + "...";
                         Link2.setText(truncatedVideo);
+                        */
+                        //url2.setVisibility(View.VISIBLE);
+                        url2.setText("LINK");
                     }
                     Event1.setText(eventsForDate.get(0).getEVENT());
                     Event2.setText(eventsForDate.get(1).getEVENT());

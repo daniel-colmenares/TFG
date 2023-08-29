@@ -90,14 +90,10 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
 
     }
 
-    public void updateDataset(ArrayList<Calendars> newData) {
-        arrayList.clear();
-        arrayList.addAll(newData);
-        notifyDataSetChanged();
-    }
     public void setOnItemClickListener(View.OnClickListener listener) {
         this.onItemClickListener = listener;
     }
+
     @Override
     public int getItemCount() {
         return arrayList.size();

@@ -125,13 +125,19 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             holder.Edit.setVisibility(View.GONE);
             holder.Borrar.setVisibility(View.GONE);
             holder.Confirm.setVisibility(View.GONE);
+            holder.Video.setVisibility(View.GONE);
         }
         if (events.getIMAGEN()==null){
             holder.Imagen.setVisibility(View.GONE);
         }
+        if (events.getVIDEO().equals("")){
+            holder.Play.setVisibility(View.GONE);
+        }
+
         holder.editEvent.setVisibility(View.GONE);
         holder.editVideo.setVisibility(View.GONE);
         holder.editImagen.setVisibility(View.GONE);
+        holder.Confirm.setVisibility(View.GONE);
         holder.Borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,7 +181,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
             }
         });
-        holder.Video.setOnClickListener(new View.OnClickListener() {
+        holder.Play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String url = events.VIDEO;
@@ -247,7 +253,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView DateText, Event, Video;
         EditText editEvent, editVideo;
-        Button Borrar, Edit, Confirm;
+        Button Borrar, Edit, Confirm, Play;
         Button editImagen;
         ImageView Imagen;
         private Uri currentImagenUri;
@@ -262,6 +268,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Video = itemView.findViewById(R.id.videourl);
             Borrar = itemView.findViewById(R.id.borrarevento);
             Edit = itemView.findViewById(R.id.edit);
+            Play = itemView.findViewById(R.id.buttonPlay);
             Confirm = itemView.findViewById(R.id.confirm);
             editEvent = itemView.findViewById(R.id.editEventName);
             editVideo = itemView.findViewById(R.id.editVideoUrl);
@@ -269,10 +276,6 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             currentEventName = Event.getText().toString();
             currentVideoUrl = Video.getText().toString();
             currentImagenUri = uriImagen;
-
-
-
-
         }
 
 
@@ -385,6 +388,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
 
         public void onEditButtonClick(int position) {
+            Confirm.setVisibility(View.VISIBLE);
             if(arrayList.get(position).getIMAGEN()==null){
                 editImagen.setVisibility(View.GONE);
             }else {
@@ -465,6 +469,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             }
             Edit.setVisibility(View.VISIBLE);
             Borrar.setVisibility(View.VISIBLE);
+            Confirm.setVisibility(View.GONE);
 
         }
 

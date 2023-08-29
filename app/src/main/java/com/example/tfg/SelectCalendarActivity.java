@@ -99,6 +99,13 @@ public class SelectCalendarActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         //calendarRecyclerAdapter = new CalendarRecyclerAdapter(getApplicationContext(),arrayList,esAdmin);
         recogerDatos();
+        if (esAdmin) {
+            crearcalendario.setVisibility(View.VISIBLE);
+            textViewAñadir.setVisibility(View.VISIBLE);
+        } else {
+            crearcalendario.setVisibility(View.INVISIBLE);
+            textViewAñadir.setVisibility(View.INVISIBLE);
+        }
 
 
 
@@ -314,7 +321,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         cursor.close();
                         dbOpenHelper.close();
                         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        esAdmin = prefs.getBoolean("esAdmin", false);
+                        esAdmin = prefs.getBoolean("esAdmin", true);
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
@@ -355,7 +362,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                         cursor.close();
                                         dbOpenHelper.close();
                                         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                                        esAdmin = prefs.getBoolean("esAdmin", false);
+                                        esAdmin = prefs.getBoolean("esAdmin", true);
                                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
@@ -366,7 +373,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                                 Calendars calendars = arrayList.get(position);
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                                                 builder.setTitle("Borrar calendario " + calendars.getNAME());
-                                                builder.setMessage("Seguro?");
+                                                builder.setMessage("¿Estás Seguro?");
 
 // Botón "OK"
                                                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -396,7 +403,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                                         cursor.close();
                                                         dbOpenHelper.close();
                                                         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                                                        esAdmin = prefs.getBoolean("esAdmin", false);
+                                                        esAdmin = prefs.getBoolean("esAdmin", true);
                                                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                                                         show_calendarlist.setAdapter(calendarRecyclerAdapter);
@@ -706,7 +713,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         cursor.close();
         dbOpenHelper.close();
         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-        esAdmin = prefs.getBoolean("esAdmin", false);
+        esAdmin = prefs.getBoolean("esAdmin", true);
         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         calendarRecyclerAdapter = new CalendarRecyclerAdapter(this, arrayList, esAdmin);
         show_calendarlist.setAdapter(calendarRecyclerAdapter);
@@ -757,7 +764,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         dbOpenHelper.close();
                         calendarRecyclerAdapter.notifyDataSetChanged();
                         SharedPreferences prefs = getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
-                        esAdmin = prefs.getBoolean("esAdmin", false);
+                        esAdmin = prefs.getBoolean("esAdmin", true);
                         show_calendarlist.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         calendarRecyclerAdapter = new CalendarRecyclerAdapter(view.getContext(), arrayList, esAdmin);
                         //calendarRecyclerAdapter.updateDataset(arrayList);

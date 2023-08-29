@@ -348,15 +348,15 @@ public class CustomCalendarView extends LinearLayout{
         });
         SharedPreferences prefs1 = activity.getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
         esAdmin = prefs1.getBoolean("esAdmin", false);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //Calendars calendars = arrayList.get(position);
                 if (!esAdmin){
-                    return;
+                    return true;
                 }
                 if (dates.get(position) == null) {
-                    return;
+                    return true;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
@@ -374,13 +374,15 @@ public class CustomCalendarView extends LinearLayout{
                 fecha.setText(date);
                 String date1 = eventDateFormat.format(dates.get(position));
                 List<Events> events = CollectEventByDate(date1,idCal);
-                if(events.size()==1 && events.get(0).getIMAGEN()!=null){
+                /*if(events.size()==1 && events.get(0).getIMAGEN()!=null){
                     buttonImagen.setVisibility(View.GONE);
-                }
+                }*/
                 if(events.size()==2){
                     Toast.makeText(activity, "No se puede añadir mas de 2 eventos por dia", Toast.LENGTH_SHORT).show();
-                    return;
+                    return true;
                 }
+
+
                 buttonImagen.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -448,12 +450,17 @@ public class CustomCalendarView extends LinearLayout{
                 builder.setView(addView);
                 alertDialog = builder.create();
                 alertDialog.show();
+
+                return true;
             }
 
         });
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (dates.get(position) == null) {
+                    return;
+                }
                 String date = eventDateFormat.format(dates.get(position));
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -472,7 +479,6 @@ public class CustomCalendarView extends LinearLayout{
                 alertDialog.show();
                 alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 
-                return true;
             }
         });
 

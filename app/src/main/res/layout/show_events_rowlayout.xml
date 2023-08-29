@@ -66,30 +66,33 @@
                 android:layout_height="79dp"
                 android:background="@color/lightblue"
                 android:drawableBottom="@drawable/ic_picture"
+                android:layout_marginTop="2dp"
                 android:layout_gravity="center"/>
 
+            <!-- TextView (Inicialmente visible) -->
             <Button
-                android:id="@+id/edit"
-                android:layout_width="103dp"
+                android:id="@+id/buttonPlay"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:background="@color/calendargreen"
                 android:layout_gravity="center"
-                android:layout_height="41dp"
-                android:drawableBottom="@drawable/ic_personalizar"
-                android:background="@android:color/holo_orange_dark"
-                android:onClick="onEditButtonClick"
+                android:drawableBottom="@drawable/ic_play"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 />
-                <!-- TextView (Inicialmente visible) -->
-                <TextView
-                    android:id="@+id/videourl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/holo_blue_bright"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
-                    android:autoLink="web"/>
+
+            <TextView
+                android:id="@+id/videourl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
                 <!-- EditText (Inicialmente oculto) -->
-                <EditText
+
+            <EditText
                     android:id="@+id/editVideoUrl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,6 +105,16 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"/>
 
+
+            <Button
+                android:id="@+id/edit"
+                android:layout_width="103dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center"
+                android:background="@android:color/holo_orange_dark"
+                android:drawableBottom="@drawable/ic_personalizar"
+                android:onClick="onEditButtonClick"
+                android:layout_marginBottom="3dp"/>
 
             <Button
                 android:id="@+id/borrarevento"
