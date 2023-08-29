@@ -31,8 +31,8 @@
 
             <Button
                 android:id="@+id/vercalendario"
-                android:layout_width="48dp"
-                android:layout_height="21dp"
+                android:layout_width="60dp"
+                android:layout_height="27dp"
                 android:layout_below="@+id/calendarname"
                 android:layout_alignParentEnd="@id/eliminarcalendario"
                 android:layout_marginTop="-5dp"
@@ -44,8 +44,8 @@
 
             <Button
                 android:id="@+id/eliminarcalendario"
-                android:layout_width="48dp"
-                android:layout_height="21dp"
+                android:layout_width="60dp"
+                android:layout_height="27dp"
                 android:layout_below="@+id/calendarname"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="-5dp"

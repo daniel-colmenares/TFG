@@ -145,11 +145,11 @@ public class PersonalizarCalendario extends AppCompatActivity {
                 View addView = LayoutInflater.from(view.getContext()).inflate(R.layout.listafuentes_calendario, null);
                 Button monospace = addView.findViewById(R.id.monospace);
                 Button serif = addView.findViewById(R.id.serif);
-                Button cursivestandard = addView.findViewById(R.id.times);
-                Button times = addView.findViewById(R.id.cursivestandard);
-                Typeface typeface1 = Typeface.createFromAsset(getAssets(), "fonts/cursivestandard.ttf");
+                Button times = addView.findViewById(R.id.times);
+                Button comicsans = addView.findViewById(R.id.comicsans);
+                Typeface typeface1 = Typeface.createFromAsset(getAssets(), "fonts/comicsans.ttf");
                 Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/times.ttf");
-                cursivestandard.setTypeface(typeface1);
+                comicsans.setTypeface(typeface1);
                 times.setTypeface(typeface2);
 
                 monospace.setOnClickListener(new View.OnClickListener() {
@@ -174,10 +174,10 @@ public class PersonalizarCalendario extends AppCompatActivity {
                         alertDialog.dismiss();
                     }
                 });
-                cursivestandard.setOnClickListener(new View.OnClickListener() {
+                comicsans.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        letraCal = "cursivestandard";
+                        letraCal = "comicsans";
                         SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("letraCal", letraCal);

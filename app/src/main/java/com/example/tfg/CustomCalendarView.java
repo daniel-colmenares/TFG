@@ -84,6 +84,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -217,6 +218,55 @@ public class CustomCalendarView extends LinearLayout{
         SQLiteDatabase database = dbOpenHelper.getReadableDatabase();
         dbOpenHelper.getCalendarsByID(calendars.getID(),database);
         nombreCalView.setText("CALENDARIO "+nombre);
+
+        if (Objects.equals(calendars.LETRA, "comicsans")){
+            Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/comicsans.ttf");
+            nombreCalView.setTypeface(typeface);
+            lunes.setTypeface(typeface);
+            martes.setTypeface(typeface);
+            miercoles.setTypeface(typeface);
+            jueves.setTypeface(typeface);
+            viernes.setTypeface(typeface);
+            sabado.setTypeface(typeface);
+            domingo.setTypeface(typeface);
+            CurrentDate.setTypeface(typeface);
+        }
+        if (Objects.equals(calendars.LETRA, "monospace")){
+            Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
+            nombreCalView.setTypeface(typeface);
+            lunes.setTypeface(typeface);
+            martes.setTypeface(typeface);
+            miercoles.setTypeface(typeface);
+            jueves.setTypeface(typeface);
+            viernes.setTypeface(typeface);
+            sabado.setTypeface(typeface);
+            domingo.setTypeface(typeface);
+            CurrentDate.setTypeface(typeface);
+        }
+        if (Objects.equals(calendars.LETRA, "serif")){
+            Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+            nombreCalView.setTypeface(typeface);
+            lunes.setTypeface(typeface);
+            martes.setTypeface(typeface);
+            miercoles.setTypeface(typeface);
+            jueves.setTypeface(typeface);
+            viernes.setTypeface(typeface);
+            sabado.setTypeface(typeface);
+            domingo.setTypeface(typeface);
+            CurrentDate.setTypeface(typeface);
+        }
+        if (Objects.equals(calendars.LETRA, "times")){
+            Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/times.ttf");
+            nombreCalView.setTypeface(typeface);
+            lunes.setTypeface(typeface);
+            martes.setTypeface(typeface);
+            miercoles.setTypeface(typeface);
+            jueves.setTypeface(typeface);
+            viernes.setTypeface(typeface);
+            sabado.setTypeface(typeface);
+            domingo.setTypeface(typeface);
+            CurrentDate.setTypeface(typeface);
+        }
 
         pictogramService = APIUtils.getPictoService();
 

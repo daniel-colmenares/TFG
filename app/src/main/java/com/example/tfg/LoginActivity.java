@@ -120,14 +120,15 @@ public class LoginActivity extends AppCompatActivity {
                 Dialog dialog = new Dialog(LoginActivity.this);
                 dialog.setContentView(R.layout.dialog_registro);
                 editTextRegistroNombreUsuario = dialog.findViewById(R.id.editTextRegistroNombreUsuario);
-                editTextRegistroContrasenna = dialog.findViewById(R.id.editTextRegistroContrasenna);
+                //editTextRegistroContrasenna = dialog.findViewById(R.id.editTextRegistroContrasenna);
                 buttonRegistroCompletarRegistro = dialog.findViewById(R.id.buttonRegistroCompletarRegistro);
+                String contraseña = "holahola";
 
                 buttonRegistroCompletarRegistro.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         try {
-                        mAuth.createUserWithEmailAndPassword(editTextRegistroNombreUsuario.getText().toString(), editTextRegistroContrasenna.getText().toString())
+                        mAuth.createUserWithEmailAndPassword(editTextRegistroNombreUsuario.getText().toString(), contraseña)
                                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {

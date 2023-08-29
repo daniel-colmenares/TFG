@@ -217,10 +217,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         Button monospace = addView.findViewById(R.id.monospace);
                         Button serif = addView.findViewById(R.id.serif);
                         Button times = addView.findViewById(R.id.times);
-                        Button cursivestandard = addView.findViewById(R.id.cursivestandard);
-                        Typeface typeface1 = Typeface.createFromAsset(getAssets(), "fonts/cursivestandard.ttf");
+                        Button comicsans = addView.findViewById(R.id.comicsans);
+                        Typeface typeface1 = Typeface.createFromAsset(getAssets(), "fonts/comicsans.ttf");
                         Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/times.ttf");
-                        cursivestandard.setTypeface(typeface1);
+                        comicsans.setTypeface(typeface1);
                         times.setTypeface(typeface2);
 
                         monospace.setOnClickListener(new View.OnClickListener() {
@@ -245,10 +245,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 alertDialog.dismiss();
                             }
                         });
-                        cursivestandard.setOnClickListener(new View.OnClickListener() {
+                        comicsans.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                letraCal = "cursivestandard";
+                                letraCal = "comicsans";
                                 SharedPreferences prefs = view.getContext().getSharedPreferences("CalendarioUsuario", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("letraCal", letraCal);
@@ -289,6 +289,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         if (!nombreCalLayout.getText().toString().equals("")) {
                             String calendarName = nombreCalLayout.getText().toString();
                             dbOpenHelper.SaveCalendar(calendarName, email, currentDateString, colorCal, letraCal, database);
+                            Toast.makeText(SelectCalendarActivity.this, "Calendario creado", Toast.LENGTH_SHORT).show();
                             alertDialogCrear.dismiss();
                         } else {
                             Toast.makeText(view.getContext(), "El nombre del calendario no puede ser nulo", Toast.LENGTH_SHORT).show();
