@@ -288,7 +288,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                         alertDialog = builder3.create();*/
                         String email = getIntent().getStringExtra("email");
                         Date currentDate = new Date();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                         String currentDateString = dateFormat.format(currentDate);
                         // Haz algo con el nombre introducido por el usuario
                         dbOpenHelper = new DBOpenHelper(view.getContext());
@@ -509,9 +509,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("AJUSTES");
+                builder.setTitle("FILTROS");
                 final String[] opciones = {"Filtrar calendarios por nombre", "Filtrar calendarios por fecha",
-                        "Reset filtro de calendarios"};
+                        "Eliminar filtro de calendarios"};
 
                 builder.setItems(opciones, new DialogInterface.OnClickListener() {
                     @Override
@@ -563,7 +563,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 pd.setListener(new DatePickerDialog.OnDateSetListener() {
                                     @Override
                                     public void onDateSet(DatePicker view1, int selectedYear, int selectedMonth, int selectedDay) {
-                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                                         // Filtrar los calendarios por mes y año de creación
                                         ArrayList<Calendars> filteredList = new ArrayList<>();
                                         for (Calendars calendar : arrayList) {
@@ -585,7 +585,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                                 });
                                 pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
                                 break;
-                            case "Reset filtro de calendarios":
+                            case "Eliminar filtro de calendarios":
                                 calendarRecyclerAdapter.filterList(arrayList);
                                 break;
                         }

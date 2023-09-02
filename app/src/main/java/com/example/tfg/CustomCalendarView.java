@@ -119,7 +119,7 @@ public class CustomCalendarView extends LinearLayout{
     SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy",Locale.forLanguageTag("es-ES"));
     SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM",Locale.forLanguageTag("es-ES"));
     SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy",Locale.forLanguageTag("es-ES"));
-    SimpleDateFormat eventDateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.forLanguageTag("es-ES"));
+    SimpleDateFormat eventDateFormat = new SimpleDateFormat("dd-MM-yyyy",Locale.forLanguageTag("es-ES"));
     MyGridAdapter myGridAdapter;
     EditText filtroPicto;
     AlertDialog alertDialog;

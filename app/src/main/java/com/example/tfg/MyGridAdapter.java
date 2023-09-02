@@ -255,7 +255,7 @@ public class MyGridAdapter extends ArrayAdapter {
     }
 
     private String convertDateToString(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return sdf.format(date);
     }
 
@@ -291,7 +291,7 @@ public class MyGridAdapter extends ArrayAdapter {
 
 
     private Date ConvertStringToDate(String eventDate){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("es-ES"));
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.forLanguageTag("es-ES"));
         Date date = null;
         try {
             date=format.parse(eventDate);

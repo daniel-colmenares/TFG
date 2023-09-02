@@ -389,6 +389,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
 
         public void onEditButtonClick(int position) {
             Confirm.setVisibility(View.VISIBLE);
+            Play.setVisibility(View.GONE);
             if(arrayList.get(position).getIMAGEN()==null){
                 editImagen.setVisibility(View.GONE);
             }else {
@@ -470,6 +471,7 @@ public class EventRecyclerAdapter extends RecyclerView.Adapter<EventRecyclerAdap
             Edit.setVisibility(View.VISIBLE);
             Borrar.setVisibility(View.VISIBLE);
             Confirm.setVisibility(View.GONE);
+            Play.setVisibility(View.VISIBLE);
 
         }
 

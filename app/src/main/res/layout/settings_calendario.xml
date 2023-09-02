@@ -12,13 +12,13 @@
         android:layout_width="66dp"
         android:layout_height="41dp"
         android:layout_gravity="left"
-        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp"
         android:background="@color/blue"
         android:drawableBottom="@drawable/ic_personalizar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.436" />
+        app:layout_constraintVertical_bias="0.142" />
 
     <Button
         android:id="@+id/buttonCambiarCalendario"
@@ -31,52 +31,53 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.833" />
 
     <Button
         android:id="@+id/pdf"
         android:layout_width="69dp"
         android:layout_height="41dp"
+        android:layout_marginStart="36dp"
         android:background="@color/blue"
-        android:layout_marginLeft="35dp"
         android:text="PDF"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.501" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:text="VOLVER"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonCambiarCalendario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toEndOf="@+id/buttonCambiarCalendario"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/buttonCambiarCalendario" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:textSize="12dp"
         android:text="PERSONALIZAR CALENDARIO"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/personalizar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toEndOf="@+id/personalizar"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toTopOf="@+id/personalizar" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GUARDAR COMO PDF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pdf"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pdf" />
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toEndOf="@+id/pdf"
+        app:layout_constraintTop_toTopOf="@+id/pdf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
