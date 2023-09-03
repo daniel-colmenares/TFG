@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CalendarAppExample</string>
+    <string name="app_name">EasyCalendar</string>
     <string name="back" translatable="false"><![CDATA[<-]]></string>
     <string name="forward" translatable="false"><![CDATA[->]]></string>
     <string name="fecha_actual">Fecha actual</string>
